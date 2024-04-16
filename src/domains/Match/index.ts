@@ -7,6 +7,7 @@ export type GameDay = Brand<number, "game day">;
 
 export type Match = {
   id: MatchId;
+  isPlayoffMatch: boolean;
   hostId: CountryId;
   guestId: CountryId;
   startTime: TimeStamp;
