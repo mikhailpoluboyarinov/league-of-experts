@@ -9,7 +9,7 @@ export type Country = {
   flagUrl: string;
 };
 
-type CountryCode =
+export type CountryCode =
   | "AD"
   | "AE"
   | "AF"

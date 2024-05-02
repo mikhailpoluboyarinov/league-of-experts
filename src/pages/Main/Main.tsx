@@ -1,27 +1,16 @@
-import { useFetchMainData } from "./hooks/useFetchMainData";
+import { Routes, Route } from "react-router-dom";
 import { Typography } from "@mui/material";
-import { notReachable } from "../../utils/notReachable";
-import { ScoresTable } from "./ScoresTable";
+import { ScoresTableTotalPage } from "../ScoresTableTotalPage/ScoresTableTotalPage";
+import { ScoresTableGroupPage } from "../ScoresTableGroupPage/ScoresTableGroupPage";
+import { ScoresTablePlayoffPage } from "../ScoresTablePlayoffPage/ScoresTablePlayoffPage";
 
 export const Main = () => {
-  const data = useFetchMainData();
-
-  switch (data.type) {
-    case "loading":
-      return <Typography>Loading</Typography>;
-    case "loaded":
-      return (
-        <ScoresTable
-          countries={data.data.countries}
-          matches={data.data.matches}
-          predictions={data.data.predictions}
-          results={data.data.results}
-          users={data.data.users}
-        />
-      );
-    case "error":
-      return <Typography>Error</Typography>;
-    default:
-      return notReachable(data);
-  }
+  return (
+    <Routes>
+      <Route path="/" element={<ScoresTableTotalPage />} />
+      <Route path="/group" element={<ScoresTableGroupPage />} />
+      <Route path="/playoff" element={<ScoresTablePlayoffPage />} />
+      <Route path="*" element={<Typography>Not found</Typography>} />
+    </Routes>
+  );
 };
