@@ -43,6 +43,6 @@ export const useFetchMainData = (): Data => {
       .catch(() => {
         setData({ type: "error" });
       });
-  });
+  }, []);
   return data;
 };
