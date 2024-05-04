@@ -13,6 +13,7 @@ import {
   TableBody,
 } from "@mui/material";
 import { GAME_DAYS_PLAYOFF } from "../../domains/GameRules/constants/constants";
+import { useHighestScoresPerGameDay } from "../../pages/Main/hooks/useHighestScoresPerGameDay";
 
 type Props = {
   countries: Country[];
@@ -28,6 +29,10 @@ export const ScoresTablePlayoffStage = (props: Props) => {
     users: props.users,
     predictions: props.predictions,
   });
+
+  const highestScoresPerDayGroup = useHighestScoresPerGameDay(
+    usersWithScores.map((user) => user.scoresByPlayOffGameDays),
+  );
 
   return (
     <>

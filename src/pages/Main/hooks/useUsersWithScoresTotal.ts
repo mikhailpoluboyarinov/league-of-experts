@@ -16,7 +16,7 @@ type Params = {
   users: User[];
 };
 
-type UserWithScoresTotal = {
+export type UserWithScoresTotal = {
   id: UserId;
   name: string;
   totalScore: number;

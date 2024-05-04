@@ -13,6 +13,7 @@ import {
   TableBody,
 } from "@mui/material";
 import { GAME_DAYS_GROUP } from "../../domains/GameRules/constants/constants";
+import { useHighestScoresPerGameDay } from "../../pages/Main/hooks/useHighestScoresPerGameDay";
 
 type Props = {
   countries: Country[];
@@ -29,8 +30,11 @@ export const ScoresTableGroupStage = (props: Props) => {
     predictions: props.predictions,
   });
 
-  // Завести массив в котором лежит в индексе игровой день, а в значении UserId с максимальным кол-вом очков.
-  // В массиве, в значении должна быть строка или массив строк
+  //Создаем массив длинной равной длинне scoresByGroupGameDays
+
+  const highestScoresPerDayGroup = useHighestScoresPerGameDay(
+    usersWithScores.map((user) => user.scoresByGroupGameDays),
+  );
 
   return (
     <>
@@ -60,8 +64,22 @@ export const ScoresTableGroupStage = (props: Props) => {
                 >
                   {user.name}
                 </TableCell>
-                {user.scoresByGroupGameDays.map((score) => {
-                  return <TableCell align="center">{score}</TableCell>;
+                {user.scoresByGroupGameDays.map((score, index) => {
+                  const isUserWithHighestScorePerDay =
+                    highestScoresPerDayGroup[index] &&
+                    highestScoresPerDayGroup[index] === score;
+                  return (
+                    <TableCell
+                      align="center"
+                      style={{
+                        backgroundColor: isUserWithHighestScorePerDay
+                          ? "lightblue"
+                          : "inherit",
+                      }}
+                    >
+                      {score}
+                    </TableCell>
+                  );
                 })}
                 <TableCell align="center">{user.userGroupScore}</TableCell>
               </TableRow>
