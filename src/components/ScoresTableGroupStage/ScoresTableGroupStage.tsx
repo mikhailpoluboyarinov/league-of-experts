@@ -1,9 +1,9 @@
 import { Country } from "../../domains/Country";
-import { Match } from "../../domains/Match";
+import { GameDay, Match } from "../../domains/Match";
 import { Prediction } from "../../domains/Prediction";
 import { Result } from "../../domains/Result";
 import { User } from "../../domains/User";
-import { useUsersWithScoresTotal } from "../../pages/Main/hooks/useUsersWithScoresTotal";
+import { useUsersWithScoresTotal } from "../../hooks/useUsersWithScoresTotal";
 import {
   TableContainer,
   Table,
@@ -13,7 +13,12 @@ import {
   TableBody,
 } from "@mui/material";
 import { GAME_DAYS_GROUP } from "../../domains/GameRules/constants/constants";
-import { useHighestScoresPerGameDay } from "../../pages/Main/hooks/useHighestScoresPerGameDay";
+import { useHighestScoresPerGameDay } from "../../hooks/useHighestScoresPerGameDay";
+import { useUserWIthTotalScoreByGameDay } from "../../hooks/useUserWIthTotalScoreByGameDay";
+import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChangedPlace";
+import { TableCellNameAvatar } from "../TableCellNameAvatar/TableCellNameAvatar";
+import { customColors } from "../../styles/colors";
+import { sortUsersByGameRulesGroupStage } from "../../domains/GameRules/helpers/sortUsersByGameRulesGroupStage";
 
 type Props = {
   countries: Country[];
@@ -21,20 +26,32 @@ type Props = {
   predictions: Prediction[];
   results: Result[];
   users: User[];
+  currentGameDay: GameDay;
 };
 export const ScoresTableGroupStage = (props: Props) => {
-  const usersWithScores = useUsersWithScoresTotal({
+  const sortedUsersWithScores = useUsersWithScoresTotal({
     matches: props.matches,
     results: props.results,
     users: props.users,
     predictions: props.predictions,
+  }).sort(sortUsersByGameRulesGroupStage);
+
+  const usersWIthTotalScoreByPreviousGameDay = useUserWIthTotalScoreByGameDay({
+    usersWithScores: sortedUsersWithScores.map((userWithScore) => {
+      return {
+        userId: userWithScore.id,
+        scores: userWithScore.scoresByGroupGameDays,
+        exactScoresNumber: userWithScore.exactScoresNumber,
+      };
+    }),
+    gameDay: Math.min(props.currentGameDay - 1, GAME_DAYS_GROUP) as GameDay,
   });
 
-  //Создаем массив длинной равной длинне scoresByGroupGameDays
-
   const highestScoresPerDayGroup = useHighestScoresPerGameDay(
-    usersWithScores.map((user) => user.scoresByGroupGameDays),
+    sortedUsersWithScores.map((user) => user.scoresByGroupGameDays),
   );
+
+  console.log("sortedUsersWithScores", sortedUsersWithScores);
 
   return (
     <>
@@ -43,6 +60,7 @@ export const ScoresTableGroupStage = (props: Props) => {
           <TableHead>
             <TableRow>
               <TableCell align="center">Место</TableCell>
+              <TableCell align="center">Изменение места</TableCell>
               <TableCell align="center">Имя</TableCell>
               {Array(GAME_DAYS_GROUP)
                 .fill(0)
@@ -53,37 +71,45 @@ export const ScoresTableGroupStage = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {usersWithScores.map((user, index) => (
-              <TableRow>
-                <TableCell align="center">{index + 1}</TableCell>
-                <TableCell
-                  style={{
-                    backgroundColor: user.isWinner ? "lightblue" : "inherit",
-                  }}
-                  align="center"
-                >
-                  {user.name}
-                </TableCell>
-                {user.scoresByGroupGameDays.map((score, index) => {
-                  const isUserWithHighestScorePerDay =
-                    highestScoresPerDayGroup[index] &&
-                    highestScoresPerDayGroup[index] === score;
-                  return (
-                    <TableCell
-                      align="center"
-                      style={{
-                        backgroundColor: isUserWithHighestScorePerDay
-                          ? "lightblue"
-                          : "inherit",
-                      }}
-                    >
-                      {score}
-                    </TableCell>
-                  );
-                })}
-                <TableCell align="center">{user.userGroupScore}</TableCell>
-              </TableRow>
-            ))}
+            {sortedUsersWithScores.map((user, index) => {
+              const userPositionPreviousGameDay =
+                usersWIthTotalScoreByPreviousGameDay.findIndex(
+                  (item) => item.userId === user.id,
+                );
+
+              return (
+                <TableRow>
+                  <TableCell align="center">{index + 1}</TableCell>
+                  <TableCellChangedPlace
+                    userPositionPreviousGameDay={userPositionPreviousGameDay}
+                    index={index}
+                  />
+                  <TableCellNameAvatar
+                    name={user.name}
+                    isWinner={user.isWinner}
+                    avatar={user.avatar}
+                  />
+                  {user.scoresByGroupGameDays.map((score, index) => {
+                    const isUserWithHighestScorePerDay =
+                      highestScoresPerDayGroup[index] &&
+                      highestScoresPerDayGroup[index] === score;
+                    return (
+                      <TableCell
+                        align="center"
+                        style={{
+                          backgroundColor: isUserWithHighestScorePerDay
+                            ? customColors.green
+                            : "inherit",
+                        }}
+                      >
+                        {score}
+                      </TableCell>
+                    );
+                  })}
+                  <TableCell align="center">{user.userGroupScore}</TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
