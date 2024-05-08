@@ -1,4 +1,4 @@
-import { Prediction } from "../../index";
+import { Prediction, PredictionNoExtra } from "../../index";
 import { PredictionId } from "../../index";
 import { UserId } from "../../../User";
 import { MatchId } from "../../../Match";
@@ -33,8 +33,8 @@ export const predictions: Prediction[] = [
     userId: "user001" as UserId,
     matchId: "match101" as MatchId,
     type: "group",
-    hostScore: 3,
-    guestScore: 2,
+    hostScore: 2,
+    guestScore: 3,
   },
   {
     id: "predictionId1" as PredictionId,
@@ -42,14 +42,14 @@ export const predictions: Prediction[] = [
     matchId: "match101" as MatchId,
     type: "group",
     hostScore: 1,
-    guestScore: 2,
+    guestScore: 3,
   },
   {
     id: "predictionId1" as PredictionId,
     userId: "user003" as UserId,
     matchId: "match101" as MatchId,
     type: "group",
-    hostScore: 4,
+    hostScore: 2,
     guestScore: 4,
   },
   {
@@ -75,5 +75,83 @@ export const predictions: Prediction[] = [
     type: "group",
     hostScore: 1,
     guestScore: 4,
+  },
+  {
+    id: "predictionId1" as PredictionId,
+    userId: "user001" as UserId,
+    matchId: "match103" as MatchId,
+    type: "play_off",
+    hostScore: 1,
+    guestScore: 1,
+    extra: {
+      type: "extra_time",
+      hostScoreExtra: 3,
+      guestScoreExtra: 1,
+    },
+  },
+  {
+    id: "predictionId1" as PredictionId,
+    userId: "user002" as UserId,
+    matchId: "match103" as MatchId,
+    type: "play_off",
+    hostScore: 6,
+    guestScore: 6,
+    extra: {
+      type: "extra_time",
+      hostScoreExtra: 2,
+      guestScoreExtra: 1,
+    },
+  },
+  {
+    id: "predictionId1" as PredictionId,
+    userId: "user003" as UserId,
+    matchId: "match103" as MatchId,
+    type: "play_off",
+    hostScore: 1,
+    guestScore: 4,
+    extra: {
+      type: "extra_time",
+      hostScoreExtra: 2,
+      guestScoreExtra: 1,
+    },
+  },
+  {
+    id: "predictionId1" as PredictionId,
+    userId: "user001" as UserId,
+    matchId: "match104" as MatchId,
+    type: "play_off",
+    hostScore: 5,
+    guestScore: 5,
+    extra: {
+      type: "extra_time",
+      hostScoreExtra: 2,
+      guestScoreExtra: 1,
+    },
+  },
+  {
+    id: "predictionId1" as PredictionId,
+    userId: "user002" as UserId,
+    matchId: "match104" as MatchId,
+    type: "play_off",
+    hostScore: 1,
+    guestScore: 6,
+    extra: {
+      type: "extra_time",
+      hostScoreExtra: 2,
+      guestScoreExtra: 1,
+    },
+  },
+  {
+    id: "predictionId1" as PredictionId,
+    userId: "user003" as UserId,
+    matchId: "match104" as MatchId,
+    type: "play_off",
+    hostScore: 1,
+    guestScore: 4,
+    extra: {
+      type: "extra_time",
+      hostScoreExtra: 2,
+      guestScoreExtra: 1,
+    },
   },
 ];

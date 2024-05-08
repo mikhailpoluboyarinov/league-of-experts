@@ -33,6 +33,14 @@ export const matches: Match[] = [
     hostId: "AU" as CountryId,
     guestId: "JP" as CountryId,
     startTime: 1673788800000 as TimeStamp,
-    gameDay: 1 as GameDay,
+    gameDay: 15 as GameDay,
+  },
+  {
+    id: "match104" as MatchId,
+    type: "play_off",
+    hostId: "AU" as CountryId,
+    guestId: "JP" as CountryId,
+    startTime: 1673788800000 as TimeStamp,
+    gameDay: 16 as GameDay,
   },
 ];

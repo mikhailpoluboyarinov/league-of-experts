@@ -1,4 +1,4 @@
-import { useFetchMainData } from "../Main/hooks/useFetchMainData";
+import { useFetchMainData } from "../../hooks/useFetchMainData";
 import { notReachable } from "../../utils/notReachable";
 import { ScoresTableGroupStage } from "../../components/ScoresTableGroupStage/ScoresTableGroupStage";
 import { Typography, Stack, Skeleton } from "@mui/material";
@@ -23,6 +23,7 @@ export const ScoresTableGroupPage = () => {
           predictions={data.data.predictions}
           results={data.data.results}
           users={data.data.users}
+          currentGameDay={data.data.currentGameDay}
         />
       );
     case "error":

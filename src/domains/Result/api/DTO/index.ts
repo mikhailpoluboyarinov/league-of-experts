@@ -36,4 +36,14 @@ export const results: Result[] = [
       guestScoreExtra: 1,
     },
   },
+  {
+    id: "result005" as ResultId,
+    matchId: "match104" as MatchId,
+    type: "play_off",
+    hostScore: 1,
+    guestScore: 2,
+    extra: {
+      type: "no_extra",
+    },
+  },
 ];

@@ -1,13 +1,14 @@
-import { Match } from "../../../domains/Match";
-import { Prediction } from "../../../domains/Prediction";
-import { Result } from "../../../domains/Result";
-import { User, UserId } from "../../../domains/User";
+import { Match } from "../domains/Match";
+import { Prediction } from "../domains/Prediction";
+import { Result } from "../domains/Result";
+import { User, UserId } from "../domains/User";
 import {
   GAME_DAYS_GROUP,
   GAME_DAYS_PLAYOFF,
-} from "../../../domains/GameRules/constants/constants";
-import { calculatePredictionResult } from "../../../domains/GameRules/helpers/calculatePredictionResult";
-import { calculatePredictionResultScore } from "../../../domains/GameRules/helpers/calculatePredictionResultScore";
+} from "../domains/GameRules/constants/constants";
+import { calculatePredictionResult } from "../domains/GameRules/helpers/calculatePredictionResult";
+import { calculatePredictionResultScore } from "../domains/GameRules/helpers/calculatePredictionResultScore";
+import { sortUsersByGameRules } from "../domains/GameRules/helpers/sortUsersByGameRules";
 
 type Params = {
   matches: Match[];
@@ -19,13 +20,17 @@ type Params = {
 export type UserWithScoresTotal = {
   id: UserId;
   name: string;
+  avatar: string;
   totalScore: number;
   isWinner: boolean;
   winnerPrediction: string;
   exactScoresNumber: number;
+  exactScoresNumberGroupStage: number;
+  exactScoresNumberPlayoffStage: number;
   scoresByGroupGameDays: number[];
   scoresByPlayOffGameDays: number[];
   userGroupScore: number;
+  userPlayoffScore: number;
 };
 
 export const useUsersWithScoresTotal = ({
@@ -40,8 +45,14 @@ export const useUsersWithScoresTotal = ({
     let userTotalScore: number = 0;
     // Кол-во точно угаданных результатов
     let exactScoresNumber: number = 0;
+    // Кол-во точно угаданных групповых результатов
+    let exactScoresNumberGroupStage: number = 0;
+    // Кол-во точно угаданных плейофф результатов
+    let exactScoresNumberPlayoffStage: number = 0;
     // Итоговое кол-во очков за групповой этап
     let userGroupScore: number = 0;
+    // Итоговое кол-во очков за плейофф этап
+    let userPlayoffScore: number = 0;
     // Массив со значениями очков за игровые дни плейоффа, index - игровой день, значение - кол-во очков за игровой день
     const scoresByPlayOffGameDays = Array(GAME_DAYS_PLAYOFF).fill(0);
     // Массив со значениями очков за игровые дни группового этапа, index - игровой день, значение - кол-во очков за игровой день
@@ -88,6 +99,22 @@ export const useUsersWithScoresTotal = ({
         exactScoresNumber += 1;
       }
 
+      // Если пользователь угадал точный счет в грпповом этапе, обновляем кол-во точно угаданных групповых результатов
+      if (
+        userPredictionResult.type === "group" &&
+        userPredictionResult.matchState.type === "exact_score"
+      ) {
+        exactScoresNumberGroupStage += 1;
+      }
+
+      // Если пользователь угадал точный счет в плейофф этапе, обновляем кол-во точно угаданных плейофф результатов
+      if (
+        userPredictionResult.type === "play_off" &&
+        userPredictionResult.matchState.type === "exact_score"
+      ) {
+        exactScoresNumberPlayoffStage += 1;
+      }
+
       // записываем кол-во очков за этот день (либо в плейофф, либо в групповом этапе)
       if (match.gameDay > GAME_DAYS_GROUP) {
         scoresByPlayOffGameDays[match.gameDay - 1 - GAME_DAYS_GROUP] += score;
@@ -100,6 +127,11 @@ export const useUsersWithScoresTotal = ({
         userGroupScore += score;
       }
 
+      // Если матч плейофф, то записываем результат в переменную с итоговым кол-вом очков за плейофф этап
+      if (match.type === "play_off") {
+        userPlayoffScore += score;
+      }
+
       // Обновляем итоговое кол-во очков за турнир
       userTotalScore += score;
     });
@@ -107,17 +139,19 @@ export const useUsersWithScoresTotal = ({
     return {
       id: user.id,
       name: user.name,
+      avatar: user.photoUrl,
       totalScore: userTotalScore,
       isWinner: user.lastWinner,
       winnerPrediction: user.winnerPrediction,
       exactScoresNumber,
+      exactScoresNumberGroupStage,
+      exactScoresNumberPlayoffStage,
       userGroupScore,
+      userPlayoffScore,
       scoresByGroupGameDays,
       scoresByPlayOffGameDays,
     };
   });
-
-  usersWithScores.sort((a, b) => b.totalScore - a.totalScore);
 
   return usersWithScores;
 };

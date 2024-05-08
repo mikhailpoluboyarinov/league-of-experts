@@ -4,7 +4,7 @@ import { UserId } from "../../index";
 export const users: User[] = [
   {
     id: "user001" as UserId,
-    name: "John",
+    name: "John12333123",
     photoUrl:
       "https://w.forfun.com/fetch/6c/6c4096cd8e8553f3d03818513c7024ee.jpeg",
     lastWinner: true,
