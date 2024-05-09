@@ -2,6 +2,9 @@ import { useFetchMainData } from "../../hooks/useFetchMainData";
 import { notReachable } from "../../utils/notReachable";
 import { ScoresTableGroupStage } from "../../components/ScoresTableGroupStage/ScoresTableGroupStage";
 import { Typography, Stack, Skeleton } from "@mui/material";
+import { Header } from "../../components/Header/Header";
+import { Footer } from "../../components/Footer/Footer";
+import { Layout } from "../../components/Layout/Layout";
 
 export const ScoresTableGroupPage = () => {
   const data = useFetchMainData();
@@ -17,14 +20,22 @@ export const ScoresTableGroupPage = () => {
       );
     case "loaded":
       return (
-        <ScoresTableGroupStage
-          countries={data.data.countries}
-          matches={data.data.matches}
-          predictions={data.data.predictions}
-          results={data.data.results}
-          users={data.data.users}
-          currentGameDay={data.data.currentGameDay}
-        />
+        <>
+          <Header />
+
+          <Layout>
+            <ScoresTableGroupStage
+              countries={data.data.countries}
+              matches={data.data.matches}
+              predictions={data.data.predictions}
+              results={data.data.results}
+              users={data.data.users}
+              currentGameDay={data.data.currentGameDay}
+            />
+          </Layout>
+
+          <Footer />
+        </>
       );
     case "error":
       return <Typography>Error</Typography>;
