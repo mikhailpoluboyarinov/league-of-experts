@@ -11,11 +11,12 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Paper,
 } from "@mui/material";
 import { GAME_DAYS_PLAYOFF } from "../../domains/GameRules/constants/constants";
 import { useHighestScoresPerGameDay } from "../../hooks/useHighestScoresPerGameDay";
 import { TableCellNameAvatar } from "../TableCellNameAvatar/TableCellNameAvatar";
-import { customColors } from "../../styles/colors";
+import { CUSTOM_COLORS } from "../../styles/colors";
 import { sortUsersByGameRules } from "../../domains/GameRules/helpers/sortUsersByGameRules";
 import { useUserWIthTotalScoreByGameDay } from "../../hooks/useUserWIthTotalScoreByGameDay";
 import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChangedPlace";
@@ -53,22 +54,60 @@ export const ScoresTableTotal = (props: Props) => {
 
   return (
     <>
-      <TableContainer>
+      <TableContainer component={Paper}>
         <Table size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">Место</TableCell>
-              <TableCell align="center">Изменение места</TableCell>
-              <TableCell align="center">Имя</TableCell>
-              <TableCell align="center">Прогноз на победителя</TableCell>
-              <TableCell align="center">Точный результаты</TableCell>
-              <TableCell align="center">Групповой этап</TableCell>
+              <TableCell
+                align="center"
+                style={{ paddingLeft: "4px", paddingRight: "4px" }}
+              >
+                Место
+              </TableCell>
+              <TableCell
+                align="center"
+                style={{ paddingLeft: "4px", paddingRight: "4px" }}
+              >
+                Изменение
+                <br /> места
+              </TableCell>
+              <TableCell
+                align="center"
+                style={{ paddingLeft: "4px", paddingRight: "4px" }}
+              >
+                Имя
+              </TableCell>
+              <TableCell
+                align="center"
+                style={{ paddingLeft: "4px", paddingRight: "4px" }}
+              >
+                Прогноз на
+                <br /> победителя
+              </TableCell>
+              <TableCell
+                align="center"
+                style={{ paddingLeft: "4px", paddingRight: "4px" }}
+              >
+                Точный
+                <br /> результаты
+              </TableCell>
+              <TableCell
+                align="center"
+                style={{ paddingLeft: "4px", paddingRight: "4px" }}
+              >
+                Групповой
+                <br /> этап
+              </TableCell>
               {Array(GAME_DAYS_PLAYOFF)
                 .fill(0)
                 .map((item, index) => {
                   return (
-                    <TableCell align="center">
-                      Плейофф {index + 1} день
+                    <TableCell
+                      align="center"
+                      style={{ paddingLeft: "4px", paddingRight: "4px" }}
+                    >
+                      Плейофф <br />
+                      {index + 1} день
                     </TableCell>
                   );
                 })}
@@ -113,7 +152,7 @@ export const ScoresTableTotal = (props: Props) => {
                         align="center"
                         style={{
                           backgroundColor: isUserWithHighestScorePerDay
-                            ? customColors.green
+                            ? CUSTOM_COLORS.green
                             : "inherit",
                         }}
                       >

@@ -17,7 +17,7 @@ import { useHighestScoresPerGameDay } from "../../hooks/useHighestScoresPerGameD
 import { useUserWIthTotalScoreByGameDay } from "../../hooks/useUserWIthTotalScoreByGameDay";
 import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChangedPlace";
 import { TableCellNameAvatar } from "../TableCellNameAvatar/TableCellNameAvatar";
-import { customColors } from "../../styles/colors";
+import { CUSTOM_COLORS } from "../../styles/colors";
 import { sortUsersByGameRulesGroupStage } from "../../domains/GameRules/helpers/sortUsersByGameRulesGroupStage";
 
 type Props = {
@@ -98,7 +98,7 @@ export const ScoresTableGroupStage = (props: Props) => {
                         align="center"
                         style={{
                           backgroundColor: isUserWithHighestScorePerDay
-                            ? customColors.green
+                            ? CUSTOM_COLORS.green
                             : "inherit",
                         }}
                       >

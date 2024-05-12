@@ -1,4 +1,4 @@
-import { customColors } from "../../styles/colors";
+import { CUSTOM_COLORS } from "../../styles/colors";
 import { ReactNode } from "react";
 
 interface LayoutProps {
@@ -10,7 +10,7 @@ export const Layout = ({ children }: LayoutProps) => {
     <>
       <div
         style={{
-          background: customColors.grey,
+          background: CUSTOM_COLORS.grey,
           width: "100%",
           height: "calc(100vh - 128px)",
         }}

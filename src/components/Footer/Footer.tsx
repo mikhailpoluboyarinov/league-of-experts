@@ -1,5 +1,5 @@
 import { AppBar, Box, Link, Toolbar, Typography } from "@mui/material";
-import { customColors } from "../../styles/colors";
+import { CUSTOM_COLORS } from "../../styles/colors";
 import { Telegram } from "@mui/icons-material";
 
 export const Footer = () => {
@@ -9,7 +9,7 @@ export const Footer = () => {
       style={{
         top: "auto",
         bottom: 0,
-        backgroundColor: customColors.headerFooter,
+        backgroundColor: CUSTOM_COLORS.headerFooter,
       }}
     >
       <Toolbar style={{ minHeight: "64px" }}>

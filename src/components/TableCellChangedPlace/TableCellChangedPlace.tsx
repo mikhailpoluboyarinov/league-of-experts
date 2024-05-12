@@ -2,7 +2,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { SvgIcon, TableCell } from "@mui/material";
 import { FC } from "react";
-import { customColors } from "../../styles/colors";
+import { CUSTOM_COLORS } from "../../styles/colors";
 
 interface TableCellChangedPlaceProps {
   userPositionPreviousGameDay: number;
@@ -19,7 +19,7 @@ export const TableCellChangedPlace: FC<TableCellChangedPlaceProps> = ({
 
   if (userPositionDifferent !== 0) {
     backgroundColor =
-      userPositionDifferent > 0 ? customColors.green : customColors.red;
+      userPositionDifferent > 0 ? CUSTOM_COLORS.green : CUSTOM_COLORS.red;
     icon =
       userPositionDifferent > 0 ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />;
   }
