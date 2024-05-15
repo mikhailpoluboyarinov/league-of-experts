@@ -12,6 +12,9 @@ import {
   TableCell,
   TableBody,
   Paper,
+  useMediaQuery,
+  Typography,
+  Hidden,
 } from "@mui/material";
 import { GAME_DAYS_PLAYOFF } from "../../domains/GameRules/constants/constants";
 import { useHighestScoresPerGameDay } from "../../hooks/useHighestScoresPerGameDay";
@@ -20,6 +23,8 @@ import { CUSTOM_COLORS } from "../../styles/colors";
 import { sortUsersByGameRules } from "../../domains/GameRules/helpers/sortUsersByGameRules";
 import { useUserWIthTotalScoreByGameDay } from "../../hooks/useUserWIthTotalScoreByGameDay";
 import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChangedPlace";
+import { Collapse } from '@mui/material';
+import { TEXT_SHADOW } from "../../styles/shadows";
 
 type Props = {
   countries: Country[];
@@ -30,12 +35,14 @@ type Props = {
   currentGameDay: GameDay;
 };
 export const ScoresTableTotal = (props: Props) => {
-  const sortedUsersWithScores = useUsersWithScoresTotal({
+  const usersWithScores = useUsersWithScoresTotal({
     matches: props.matches,
     results: props.results,
     users: props.users,
     predictions: props.predictions,
   }).sort(sortUsersByGameRules);
+
+  const sortedUsersWithScores = usersWithScores.sort(sortUsersByGameRules);
 
   const highestScoresPerDayPlayoff = useHighestScoresPerGameDay(
     sortedUsersWithScores.map((user) => user.scoresByPlayOffGameDays),
@@ -52,66 +59,79 @@ export const ScoresTableTotal = (props: Props) => {
     gameDay: Math.min(props.currentGameDay - 1, GAME_DAYS_PLAYOFF) as GameDay,
   });
 
+  const TABLE_CELL_STYLE = {
+    padding: "3px",
+    color: CUSTOM_COLORS.headerFooter,
+    fontSize: "0.775rem",
+    fontWeight: "bold",
+  };
+
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
+  const isMediumScreen = useMediaQuery("(max-width: 1050px)");
+
   return (
     <>
       <TableContainer component={Paper}>
         <Table size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell
-                align="center"
-                style={{ paddingLeft: "4px", paddingRight: "4px" }}
-              >
-                Место
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? "М" : "Место"}
               </TableCell>
-              <TableCell
-                align="center"
-                style={{ paddingLeft: "4px", paddingRight: "4px" }}
-              >
-                Изменение
-                <br /> места
+              <TableCell align="center" style={TABLE_CELL_STYLE}></TableCell>
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? "И" : "Имя"}
               </TableCell>
-              <TableCell
-                align="center"
-                style={{ paddingLeft: "4px", paddingRight: "4px" }}
-              >
-                Имя
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? (
+                  "ПП"
+                ) : (
+                  <>
+                    Прогноз
+                    <br />
+                    на победителя
+                  </>
+                )}
               </TableCell>
-              <TableCell
-                align="center"
-                style={{ paddingLeft: "4px", paddingRight: "4px" }}
-              >
-                Прогноз на
-                <br /> победителя
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? (
+                  "ТР"
+                ) : (
+                  <>
+                    Точные
+                    <br /> результаты
+                  </>
+                )}
               </TableCell>
-              <TableCell
-                align="center"
-                style={{ paddingLeft: "4px", paddingRight: "4px" }}
-              >
-                Точный
-                <br /> результаты
-              </TableCell>
-              <TableCell
-                align="center"
-                style={{ paddingLeft: "4px", paddingRight: "4px" }}
-              >
-                Групповой
-                <br /> этап
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? (
+                  "ГЭ"
+                ) : (
+                  <>
+                    Групповой
+                    <br /> этап
+                  </>
+                )}
               </TableCell>
               {Array(GAME_DAYS_PLAYOFF)
                 .fill(0)
                 .map((item, index) => {
                   return (
-                    <TableCell
-                      align="center"
-                      style={{ paddingLeft: "4px", paddingRight: "4px" }}
-                    >
-                      Плейофф <br />
-                      {index + 1} день
+                    <TableCell align="center" style={TABLE_CELL_STYLE}>
+                      {isMediumScreen ? (
+                        index + 1
+                      ) : (
+                        <>
+                          День <br />
+                          {index + 1}
+                        </>
+                      )}
                     </TableCell>
                   );
                 })}
-              <TableCell align="center">Очки</TableCell>
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? "О" : "Очки"}
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -167,6 +187,33 @@ export const ScoresTableTotal = (props: Props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      {isMediumScreen ? (
+        <Typography
+          align="left"
+          gutterBottom
+          style={{
+            paddingTop: "10px",
+            fontSize: "11px",
+          }}
+        >
+          <b>М</b>
+          &nbsp;–&nbsp;матчи,
+          <b>И</b>
+          &nbsp;–&nbsp;имя,
+          <b>ПП</b>
+          &nbsp;–&nbsp;прогноз на победителя,
+          <b>ТР</b>
+          &nbsp;–&nbsp;точно угаданные результаты,
+          <b>ГЭ</b>
+          &nbsp;–&nbsp;очки за групповой этап,
+          <b>[1, ... ]</b>
+          &nbsp;–&nbsp;день плейоффа,
+          <b>О</b>
+          &nbsp;–&nbsp;очки
+        </Typography>
+      ) : (
+        ""
+      )}
     </>
   );
 };
