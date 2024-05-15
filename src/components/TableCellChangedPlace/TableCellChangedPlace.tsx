@@ -33,12 +33,10 @@ export const TableCellChangedPlace: FC<TableCellChangedPlaceProps> = ({
           justifyContent: "center",
         }}
       >
-        <span style={{ marginRight: "4px" }}>
-          {Math.abs(userPositionPreviousGameDay - index)}
-        </span>
         {icon && (
           <SvgIcon component={icon.type} style={{ fontSize: "large" }} />
         )}
+        <span>{Math.abs(userPositionPreviousGameDay - index) !== 0 ? Math.abs(userPositionPreviousGameDay - index) : ''}</span>
       </div>
     </TableCell>
   );
