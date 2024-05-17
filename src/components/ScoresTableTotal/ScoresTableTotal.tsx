@@ -14,7 +14,6 @@ import {
   Paper,
   useMediaQuery,
   Typography,
-  Hidden,
 } from "@mui/material";
 import { GAME_DAYS_PLAYOFF } from "../../domains/GameRules/constants/constants";
 import { useHighestScoresPerGameDay } from "../../hooks/useHighestScoresPerGameDay";
@@ -23,8 +22,6 @@ import { CUSTOM_COLORS } from "../../styles/colors";
 import { sortUsersByGameRules } from "../../domains/GameRules/helpers/sortUsersByGameRules";
 import { useUserWIthTotalScoreByGameDay } from "../../hooks/useUserWIthTotalScoreByGameDay";
 import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChangedPlace";
-import { Collapse } from "@mui/material";
-import { TEXT_SHADOW } from "../../styles/shadows";
 
 type Props = {
   countries: Country[];
@@ -40,7 +37,7 @@ export const ScoresTableTotal = (props: Props) => {
     results: props.results,
     users: props.users,
     predictions: props.predictions,
-  }).sort(sortUsersByGameRules);
+  });
 
   const sortedUsersWithScores = usersWithScores.sort(sortUsersByGameRules);
 

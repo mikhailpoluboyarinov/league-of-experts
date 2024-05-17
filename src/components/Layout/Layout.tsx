@@ -12,7 +12,7 @@ export const Layout = ({ children }: LayoutProps) => {
         style={{
           background: CUSTOM_COLORS.grey,
           width: "100%",
-          height: "calc(100vh - 128px)",
+          minHeight: "calc(100vh - 128px)",
         }}
       >
         <div style={{ padding: "0 5%" }}>{children}</div>

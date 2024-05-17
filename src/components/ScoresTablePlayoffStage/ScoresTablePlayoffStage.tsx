@@ -29,14 +29,16 @@ type Props = {
   currentGameDay: GameDay;
 };
 export const ScoresTablePlayoffStage = (props: Props) => {
-  const sortedUsersWithScores = useUsersWithScoresTotal({
+  const usersWithScores = useUsersWithScoresTotal({
     matches: props.matches,
     results: props.results,
     users: props.users,
     predictions: props.predictions,
-  }).sort(sortUsersByGameRulesPlayoffStage);
+  });
 
-  console.log("sortedUsersWithScores", sortedUsersWithScores);
+  const sortedUsersWithScores = usersWithScores.sort(
+    sortUsersByGameRulesPlayoffStage,
+  );
 
   const usersWIthTotalScoreByPreviousGameDay = useUserWIthTotalScoreByGameDay({
     usersWithScores: sortedUsersWithScores.map((userWithScore) => {

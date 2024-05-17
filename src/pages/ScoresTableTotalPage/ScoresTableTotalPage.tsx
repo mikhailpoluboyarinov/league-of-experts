@@ -5,7 +5,6 @@ import { Typography } from "@mui/material";
 import { Header } from "../../components/Header/Header";
 import { Footer } from "../../components/Footer/Footer";
 import { Layout } from "../../components/Layout/Layout";
-import { TEXT_SHADOW } from "../../styles/shadows";
 
 export const ScoresTableTotalPage = () => {
   const data = useFetchMainData();
