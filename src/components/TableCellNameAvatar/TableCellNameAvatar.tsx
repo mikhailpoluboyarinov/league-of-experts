@@ -21,7 +21,7 @@ export const TableCellNameAvatar: FC<TableCellNameAvatarProps> = ({
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "left",
           }}
         >
           <Avatar alt={name} src={avatar} style={{ marginRight: "8px" }} />

@@ -25,7 +25,6 @@ export const ScoresTableTotalPage = () => {
               gutterBottom
               style={{
                 paddingTop: "40px",
-                textShadow: TEXT_SHADOW.purple,
               }}
             >
               Таблица чемпионата

@@ -23,7 +23,7 @@ import { CUSTOM_COLORS } from "../../styles/colors";
 import { sortUsersByGameRules } from "../../domains/GameRules/helpers/sortUsersByGameRules";
 import { useUserWIthTotalScoreByGameDay } from "../../hooks/useUserWIthTotalScoreByGameDay";
 import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChangedPlace";
-import { Collapse } from '@mui/material';
+import { Collapse } from "@mui/material";
 import { TEXT_SHADOW } from "../../styles/shadows";
 
 type Props = {
@@ -95,7 +95,7 @@ export const ScoresTableTotal = (props: Props) => {
               </TableCell>
               <TableCell align="center" style={TABLE_CELL_STYLE}>
                 {isMediumScreen ? (
-                  "ТР"
+                  "Р"
                 ) : (
                   <>
                     Точные
@@ -105,7 +105,7 @@ export const ScoresTableTotal = (props: Props) => {
               </TableCell>
               <TableCell align="center" style={TABLE_CELL_STYLE}>
                 {isMediumScreen ? (
-                  "ГЭ"
+                  "ГР"
                 ) : (
                   <>
                     Групповой
@@ -197,19 +197,19 @@ export const ScoresTableTotal = (props: Props) => {
           }}
         >
           <b>М</b>
-          &nbsp;–&nbsp;матчи,
+          &nbsp;–&nbsp;матчи,&nbsp;
           <b>И</b>
-          &nbsp;–&nbsp;имя,
+          &nbsp;–&nbsp;имя,&nbsp;
           <b>ПП</b>
-          &nbsp;–&nbsp;прогноз на победителя,
-          <b>ТР</b>
-          &nbsp;–&nbsp;точно угаданные результаты,
-          <b>ГЭ</b>
-          &nbsp;–&nbsp;очки за групповой этап,
+          &nbsp;–&nbsp;прогноз на победителя,&nbsp;
+          <b>Р</b>
+          &nbsp;–&nbsp;точно угаданные результаты,&nbsp;
+          <b>ГР</b>
+          &nbsp;–&nbsp;очки за групповой этап,&nbsp;
           <b>[1, ... ]</b>
-          &nbsp;–&nbsp;день плейоффа,
+          &nbsp;–&nbsp;день плейоффа,&nbsp;
           <b>О</b>
-          &nbsp;–&nbsp;очки
+          &nbsp;–&nbsp;очки&nbsp;
         </Typography>
       ) : (
         ""
