@@ -5,6 +5,7 @@ import { Typography, Stack, Skeleton } from "@mui/material";
 import { Header } from "../../components/Header/Header";
 import { Footer } from "../../components/Footer/Footer";
 import { Layout } from "../../components/Layout/Layout";
+import { Title } from "../../components/Title/Title";
 
 export const ScoresTableGroupPage = () => {
   const data = useFetchMainData();
@@ -24,6 +25,7 @@ export const ScoresTableGroupPage = () => {
           <Header />
 
           <Layout>
+            <Title title="Таблица группового этапа" />
             <ScoresTableGroupStage
               countries={data.data.countries}
               matches={data.data.matches}

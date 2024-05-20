@@ -25,7 +25,10 @@ export const TableCellChangedPlace: FC<TableCellChangedPlaceProps> = ({
   }
 
   return (
-    <TableCell align="center" style={{ backgroundColor: backgroundColor }}>
+    <TableCell
+      align="center"
+      style={{ backgroundColor: backgroundColor, padding: "4px" }}
+    >
       <div
         style={{
           display: "flex",
@@ -36,7 +39,11 @@ export const TableCellChangedPlace: FC<TableCellChangedPlaceProps> = ({
         {icon && (
           <SvgIcon component={icon.type} style={{ fontSize: "large" }} />
         )}
-        <span>{Math.abs(userPositionPreviousGameDay - index) !== 0 ? Math.abs(userPositionPreviousGameDay - index) : ''}</span>
+        <span>
+          {Math.abs(userPositionPreviousGameDay - index) !== 0
+            ? Math.abs(userPositionPreviousGameDay - index)
+            : ""}
+        </span>
       </div>
     </TableCell>
   );

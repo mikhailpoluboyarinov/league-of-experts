@@ -11,6 +11,9 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  useMediaQuery,
+  Paper,
+  Typography,
 } from "@mui/material";
 import { GAME_DAYS_GROUP } from "../../domains/GameRules/constants/constants";
 import { useHighestScoresPerGameDay } from "../../hooks/useHighestScoresPerGameDay";
@@ -19,6 +22,8 @@ import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChanged
 import { TableCellNameAvatar } from "../TableCellNameAvatar/TableCellNameAvatar";
 import { CUSTOM_COLORS } from "../../styles/colors";
 import { sortUsersByGameRulesGroupStage } from "../../domains/GameRules/helpers/sortUsersByGameRulesGroupStage";
+import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
+import React from "react";
 
 type Props = {
   countries: Country[];
@@ -55,23 +60,51 @@ export const ScoresTableGroupStage = (props: Props) => {
     sortedUsersWithScores.map((user) => user.scoresByGroupGameDays),
   );
 
-  console.log("sortedUsersWithScores", sortedUsersWithScores);
+  const isSmallScreen = useMediaQuery("(max-width: 650px)");
+  const isMediumScreen = useMediaQuery(
+    "(min-width: 651px) and (max-width: 1050px)",
+  );
+  const isNotSmallScreen = useMediaQuery("(min-width: 651px)");
 
   return (
     <>
-      <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <TableContainer component={Paper}>
+        <Table size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">Место</TableCell>
-              <TableCell align="center">Изменение места</TableCell>
-              <TableCell align="center">Имя</TableCell>
-              {Array(GAME_DAYS_GROUP)
-                .fill(0)
-                .map((item, index) => {
-                  return <TableCell align="center">День {index + 1}</TableCell>;
-                })}
-              <TableCell align="center">Очки группового этапа</TableCell>
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? "М" : "Место"}
+              </TableCell>
+              <TableCell align="center" style={TABLE_CELL_STYLE}></TableCell>
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? "И" : "Имя"}
+              </TableCell>
+
+              {isNotSmallScreen &&
+                Array(GAME_DAYS_GROUP)
+                  .fill(0)
+                  .map((item, index) => {
+                    return (
+                      <TableCell
+                        key={index}
+                        align="center"
+                        style={TABLE_CELL_STYLE}
+                      >
+                        {isNotSmallScreen ? (
+                          index + 1
+                        ) : (
+                          <>
+                            День <br />
+                            {index + 1}
+                          </>
+                        )}
+                      </TableCell>
+                    );
+                  })}
+
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? "О" : "Очки"}
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -93,23 +126,24 @@ export const ScoresTableGroupStage = (props: Props) => {
                     isWinner={user.isWinner}
                     avatar={user.avatar}
                   />
-                  {user.scoresByGroupGameDays.map((score, index) => {
-                    const isUserWithHighestScorePerDay =
-                      highestScoresPerDayGroup[index] &&
-                      highestScoresPerDayGroup[index] === score;
-                    return (
-                      <TableCell
-                        align="center"
-                        style={{
-                          backgroundColor: isUserWithHighestScorePerDay
-                            ? CUSTOM_COLORS.green
-                            : "inherit",
-                        }}
-                      >
-                        {score}
-                      </TableCell>
-                    );
-                  })}
+                  {isNotSmallScreen &&
+                    user.scoresByGroupGameDays.map((score, index) => {
+                      const isUserWithHighestScorePerDay =
+                        highestScoresPerDayGroup[index] &&
+                        highestScoresPerDayGroup[index] === score;
+                      return (
+                        <TableCell
+                          align="center"
+                          style={{
+                            backgroundColor: isUserWithHighestScorePerDay
+                              ? CUSTOM_COLORS.green
+                              : "inherit",
+                          }}
+                        >
+                          {score}
+                        </TableCell>
+                      );
+                    })}
                   <TableCell align="center">{user.userGroupScore}</TableCell>
                 </TableRow>
               );
@@ -117,6 +151,48 @@ export const ScoresTableGroupStage = (props: Props) => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {isSmallScreen ? (
+        <Typography
+          align="left"
+          gutterBottom
+          style={{
+            paddingTop: "10px",
+            fontSize: "11px",
+          }}
+        >
+          <b>М</b>
+          &nbsp;–&nbsp;матчи,&nbsp;
+          <b>И</b>
+          &nbsp;–&nbsp;имя,&nbsp;
+          <b>О</b>
+          &nbsp;–&nbsp;очки&nbsp;
+        </Typography>
+      ) : (
+        ""
+      )}
+
+      {isMediumScreen ? (
+        <Typography
+          align="left"
+          gutterBottom
+          style={{
+            paddingTop: "10px",
+            fontSize: "11px",
+          }}
+        >
+          <b>М</b>
+          &nbsp;–&nbsp;матчи,&nbsp;
+          <b>И</b>
+          &nbsp;–&nbsp;имя,&nbsp;
+          <b>[1, ... ]</b>
+          &nbsp;–&nbsp;день плейоффа,&nbsp;
+          <b>О</b>
+          &nbsp;–&nbsp;очки&nbsp;
+        </Typography>
+      ) : (
+        ""
+      )}
     </>
   );
 };

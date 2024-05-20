@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 import { Header } from "../../components/Header/Header";
 import { Footer } from "../../components/Footer/Footer";
 import { Layout } from "../../components/Layout/Layout";
+import { Title } from "../../components/Title/Title";
 
 export const ScoresTableTotalPage = () => {
   const data = useFetchMainData();
@@ -18,16 +19,7 @@ export const ScoresTableTotalPage = () => {
           <Header />
 
           <Layout>
-            <Typography
-              variant="h3"
-              align="center"
-              gutterBottom
-              style={{
-                paddingTop: "40px",
-              }}
-            >
-              Таблица чемпионата
-            </Typography>
+            <Title title="Таблица чемпионата" />
             <ScoresTableTotal
               countries={data.data.countries}
               matches={data.data.matches}
