@@ -1,6 +1,9 @@
 import { Country } from "../index";
-import { countries } from "./DTO";
+import axios from "axios";
+import { API_HOST } from "../../../constants";
 
-export const fetchCountries = (): Promise<Country[]> => {
-  return Promise.resolve(countries);
+export const fetchCountries = async (): Promise<Country[]> => {
+  const countriesDto = await axios.get(API_HOST + "api/countries");
+
+  return Promise.resolve(countriesDto.data);
 };

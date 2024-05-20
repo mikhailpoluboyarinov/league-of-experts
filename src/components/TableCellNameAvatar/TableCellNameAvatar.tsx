@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Avatar, TableCell } from "@mui/material";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import { customColors } from "../../styles/colors";
+import { CUSTOM_COLORS } from "../../styles/colors";
 
 interface TableCellNameAvatarProps {
   name: string;
@@ -21,14 +21,14 @@ export const TableCellNameAvatar: FC<TableCellNameAvatarProps> = ({
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "left",
           }}
         >
           <Avatar alt={name} src={avatar} style={{ marginRight: "8px" }} />
           <p style={{ marginRight: "4px" }}>{name}</p>
           {isWinner ? (
             <EmojiEventsIcon
-              style={{ color: customColors.gold, fontSize: "large" }}
+              style={{ color: CUSTOM_COLORS.gold, fontSize: "large" }}
             />
           ) : (
             ""

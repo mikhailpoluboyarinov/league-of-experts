@@ -2,7 +2,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { SvgIcon, TableCell } from "@mui/material";
 import { FC } from "react";
-import { customColors } from "../../styles/colors";
+import { CUSTOM_COLORS } from "../../styles/colors";
 
 interface TableCellChangedPlaceProps {
   userPositionPreviousGameDay: number;
@@ -19,13 +19,16 @@ export const TableCellChangedPlace: FC<TableCellChangedPlaceProps> = ({
 
   if (userPositionDifferent !== 0) {
     backgroundColor =
-      userPositionDifferent > 0 ? customColors.green : customColors.red;
+      userPositionDifferent > 0 ? CUSTOM_COLORS.green : CUSTOM_COLORS.red;
     icon =
       userPositionDifferent > 0 ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />;
   }
 
   return (
-    <TableCell align="center" style={{ backgroundColor: backgroundColor }}>
+    <TableCell
+      align="center"
+      style={{ backgroundColor: backgroundColor, padding: "4px" }}
+    >
       <div
         style={{
           display: "flex",
@@ -33,12 +36,14 @@ export const TableCellChangedPlace: FC<TableCellChangedPlaceProps> = ({
           justifyContent: "center",
         }}
       >
-        <span style={{ marginRight: "4px" }}>
-          {Math.abs(userPositionPreviousGameDay - index)}
-        </span>
         {icon && (
           <SvgIcon component={icon.type} style={{ fontSize: "large" }} />
         )}
+        <span>
+          {Math.abs(userPositionPreviousGameDay - index) !== 0
+            ? Math.abs(userPositionPreviousGameDay - index)
+            : ""}
+        </span>
       </div>
     </TableCell>
   );
