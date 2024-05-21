@@ -6,6 +6,7 @@ import { Prediction } from "../../domains/Prediction";
 import { Result } from "../../domains/Result";
 import { User } from "../../domains/User";
 import { UpcomingMatchCard } from "../UpcomingMatchCard/UpcomingMatchCard";
+import { UsersResultsPerDayCard } from "../UsersResultsPerDayCard/UsersResultsPerDayCard";
 
 type Props = {
   countries: Country[];
@@ -90,6 +91,16 @@ export const MatchCardsContainer = (props: Props) => {
             />
           </Grid>
         </Grid>
+      </Grid>
+      <Grid item xs={12} sm={6} md={6}>
+        <Typography variant="h5" style={{ paddingBottom: "10px" }}>
+          Результаты игроков за день
+        </Typography>
+        <UsersResultsPerDayCard
+          hostTeam={currentMatchCard.hostTeam}
+          guestTeam={currentMatchCard.guestTeam}
+          userPredictionsCurrentMatch={userPredictionsCurrentMatch}
+        />
       </Grid>
     </Grid>
   );
