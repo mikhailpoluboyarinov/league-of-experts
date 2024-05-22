@@ -1,9 +1,7 @@
 import {
-  Avatar,
   Card,
   CardActionArea,
   CardContent,
-  Grid,
   Paper,
   Table,
   TableBody,
@@ -11,14 +9,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
 import { FC } from "react";
-import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
 
 interface UsersResultsPerDayCard {
-  hostTeam: string;
-  guestTeam: string;
+  hostTeam: any;
+  guestTeam: any;
   userPredictionsCurrentMatch: any;
 }
 

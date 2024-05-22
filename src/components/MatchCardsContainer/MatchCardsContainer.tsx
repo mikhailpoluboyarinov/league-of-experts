@@ -17,8 +17,6 @@ type Props = {
   currentGameDay: GameDay;
 };
 export const MatchCardsContainer = (props: Props) => {
-  console.log(props.matches);
-
   const currentMatch = props.matches.find((match) => match.gameDay === 1);
   const upcomingMatch = props.matches.find((match) => match.gameDay === 3);
 
@@ -28,8 +26,7 @@ export const MatchCardsContainer = (props: Props) => {
       (prediction) => prediction.matchId === currentMatch.id,
     );
   }
-
-  console.log("userPredictionsCurrentMatch", userPredictionsCurrentMatch);
+  console.log("currentMatch", currentMatch);
 
   const currentMatchCard = currentMatch
     ? {

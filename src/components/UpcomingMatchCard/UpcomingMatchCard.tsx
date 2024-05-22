@@ -9,8 +9,8 @@ import {
 import { FC } from "react";
 
 interface UpcomingMatchCard {
-  hostTeam: string;
-  guestTeam: string;
+  hostTeam: any;
+  guestTeam: any;
 }
 
 export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
@@ -34,7 +34,7 @@ export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
           >
             <Grid item container direction="column" alignItems="center" xs>
               <Avatar
-                alt={hostTeam}
+                alt={hostTeam.toString()}
                 src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${hostTeam}.svg`}
                 style={{ marginBottom: "8px" }}
               />
@@ -57,7 +57,7 @@ export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
             </Typography>
             <Grid item container direction="column" alignItems="center" xs>
               <Avatar
-                alt={guestTeam}
+                alt={guestTeam.toString()}
                 src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${guestTeam}.svg`}
                 style={{ marginBottom: "8px" }}
               />

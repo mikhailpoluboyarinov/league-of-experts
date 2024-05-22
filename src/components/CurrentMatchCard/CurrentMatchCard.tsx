@@ -15,8 +15,8 @@ import {
 import { FC } from "react";
 
 interface CurrentMatchCard {
-  hostTeam: string;
-  guestTeam: string;
+  hostTeam: any;
+  guestTeam: any;
   userPredictionsCurrentMatch: any;
 }
 

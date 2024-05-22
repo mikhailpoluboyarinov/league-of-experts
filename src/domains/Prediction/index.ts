@@ -2,7 +2,7 @@ import { Brand } from "ts-brand";
 import { UserId } from "../User";
 import { MatchId } from "../Match";
 
-export type PredictionId = Brand<string, "prediction Id">;
+export type PredictionId = Brand<number, "prediction Id">;
 
 export type Prediction = PredictionGroupMatch | PredictionPlayOffMatch;
 

@@ -1,27 +1,36 @@
-import { User } from "../../index";
+import { User, UserWinnerCount } from "../../index";
 import { UserId } from "../../index";
 
 export const users: User[] = [
   {
-    id: "user001" as UserId,
+    id: 1 as UserId,
+    chatId: "001",
     name: "John12333123",
+    lastName: "Canon",
     photoUrl:
       "https://w.forfun.com/fetch/6c/6c4096cd8e8553f3d03818513c7024ee.jpeg",
+    winnerCount: 1 as UserWinnerCount,
     lastWinner: true,
     winnerPrediction: "RU",
   },
   {
-    id: "user002" as UserId,
+    id: 2 as UserId,
+    chatId: "002",
     name: "Jane",
+    lastName: "Capron",
     photoUrl:
       "https://pushinka.top/uploads/posts/2023-03/1679863379_pushinka-top-p-avatarka-sobaki-pinterest-46.jpg",
+    winnerCount: 2 as UserWinnerCount,
     lastWinner: false,
     winnerPrediction: "BR",
   },
   {
-    id: "user003" as UserId,
+    id: 3 as UserId,
+    chatId: "003",
     name: "Alice",
+    lastName: "Bolduin",
     photoUrl: "https://pix.avax.news/avaxnews/e6/c4/0002c4e6.jpeg",
+    winnerCount: 0 as UserWinnerCount,
     lastWinner: false,
     winnerPrediction: "FR",
   },
