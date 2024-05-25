@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { Typography } from "@mui/material";
 import { ScoresTableTotalPage } from "../ScoresTableTotalPage/ScoresTableTotalPage";
 import { ScoresTableGroupPage } from "../ScoresTableGroupPage/ScoresTableGroupPage";
 import { ScoresTablePlayoffPage } from "../ScoresTablePlayoffPage/ScoresTablePlayoffPage";

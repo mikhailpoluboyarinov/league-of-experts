@@ -1,12 +1,13 @@
 import { Brand } from "ts-brand";
 
-export type CountryId = Brand<string, "country Id">;
+export type CountryId = Brand<number, "country Id">;
 
 export type Country = {
   id: CountryId;
   name: string;
   code: CountryCode;
-  flagUrl: string;
+  nameRus: string;
+  group: string;
 };
 
 export type CountryCode =

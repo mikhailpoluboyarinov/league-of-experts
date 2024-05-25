@@ -6,6 +6,7 @@ import { Header } from "../../components/Header/Header";
 import { Footer } from "../../components/Footer/Footer";
 import { Layout } from "../../components/Layout/Layout";
 import { Title } from "../../components/Title/Title";
+import { MatchCardsContainer } from "../../components/MatchCardsContainer/MatchCardsContainer";
 
 export const ScoresTableTotalPage = () => {
   const data = useFetchMainData();
@@ -21,6 +22,15 @@ export const ScoresTableTotalPage = () => {
           <Layout>
             <Title title="Таблица чемпионата" />
             <ScoresTableTotal
+              countries={data.data.countries}
+              matches={data.data.matches}
+              predictions={data.data.predictions}
+              results={data.data.results}
+              users={data.data.users}
+              currentGameDay={data.data.currentGameDay}
+            />
+
+            <MatchCardsContainer
               countries={data.data.countries}
               matches={data.data.matches}
               predictions={data.data.predictions}

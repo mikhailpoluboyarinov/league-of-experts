@@ -2,7 +2,7 @@ import { Brand } from "ts-brand";
 import { CountryId } from "../Country";
 import { TimeStamp } from "../Date";
 
-export type MatchId = Brand<string, "match Id">;
+export type MatchId = Brand<number, "match Id">;
 export type GameDay = Brand<number, "game day">;
 
 export type Match = MatchGroup | MatchPlayOff;
@@ -14,6 +14,8 @@ export type MatchGroup = {
   guestId: CountryId;
   startTime: TimeStamp;
   gameDay: GameDay;
+  isCloseForPrediction: boolean;
+  description: string;
 };
 
 export type MatchPlayOff = {
@@ -23,4 +25,6 @@ export type MatchPlayOff = {
   guestId: CountryId;
   startTime: TimeStamp;
   gameDay: GameDay;
+  isCloseForPrediction: boolean;
+  description: string;
 };

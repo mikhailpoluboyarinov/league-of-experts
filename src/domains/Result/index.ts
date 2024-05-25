@@ -1,7 +1,7 @@
 import { Brand } from "ts-brand";
 import { MatchId } from "../Match";
 
-export type ResultId = Brand<string, "result Id">;
+export type ResultId = Brand<number, "result Id">;
 
 export type Result = ResultGroupMatch | ResultPlayOffMatch;
 
