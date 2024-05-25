@@ -53,7 +53,7 @@ export const useFetchMainData = (): Data => {
           },
         });
       })
-      .catch(() => {
+      .catch((e) => {
         setData({ type: "error" });
       });
   }, []);
