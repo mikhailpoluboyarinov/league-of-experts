@@ -1,4 +1,4 @@
-import { Country } from "../../domains/Country";
+import { Country, CountryId } from "../../domains/Country";
 import { GameDay, Match } from "../../domains/Match";
 import { Prediction } from "../../domains/Prediction";
 import { Result } from "../../domains/Result";
@@ -61,6 +61,16 @@ export const ScoresTableTotal = (props: Props) => {
     }),
     gameDay: Math.min(props.currentGameDay - 1, GAME_DAYS_PLAYOFF) as GameDay,
   });
+
+  const getCountryFlagUrl = (id: CountryId) => {
+    const country = props.countries.find((country) => country.id === id);
+
+    if (!country) {
+      return;
+    }
+
+    return `https://purecatamphetamine.github.io/country-flag-icons/3x2/${country.code}.svg`;
+  };
 
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isMediumScreen = useMediaQuery(
@@ -132,7 +142,7 @@ export const ScoresTableTotal = (props: Props) => {
                     width={30}
                     height={30}
                     alt="United States"
-                    src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${user.user.winnerPrediction}.svg`}
+                    src={getCountryFlagUrl(user.user.winnerPrediction)}
                   />
                 </Typography>
               </Box>
@@ -242,7 +252,7 @@ export const ScoresTableTotal = (props: Props) => {
                   );
 
                 return (
-                  <TableRow>
+                  <TableRow key={user.id}>
                     <TableCell align="center">{index + 1}</TableCell>
                     <TableCellChangedPlace
                       userPositionPreviousGameDay={userPositionPreviousGameDay}
@@ -258,7 +268,7 @@ export const ScoresTableTotal = (props: Props) => {
                         width={30}
                         height={30}
                         alt="United States"
-                        src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${user.winnerPrediction}.svg`}
+                        src={getCountryFlagUrl(user.winnerPrediction)}
                       />
                     </TableCell>
                     <TableCell align="center">
@@ -271,6 +281,7 @@ export const ScoresTableTotal = (props: Props) => {
                         highestScoresPerDayPlayoff[index] === score;
                       return (
                         <TableCell
+                          key={index}
                           align="center"
                           style={{
                             backgroundColor: isUserWithHighestScorePerDay
