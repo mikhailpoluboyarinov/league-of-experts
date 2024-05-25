@@ -1,6 +1,6 @@
 import { Misc } from "../index";
 import { miscs } from "./DTO";
 
-export const fetchPredictions = (): Promise<Misc[]> => {
+export const fetchMisc = (): Promise<Misc[]> => {
   return Promise.resolve(miscs);
 };

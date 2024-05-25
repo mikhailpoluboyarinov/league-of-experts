@@ -8,7 +8,7 @@ import {
 } from "../domains/GameRules/constants/constants";
 import { calculatePredictionResult } from "../domains/GameRules/helpers/calculatePredictionResult";
 import { calculatePredictionResultScore } from "../domains/GameRules/helpers/calculatePredictionResultScore";
-import { sortUsersByGameRules } from "../domains/GameRules/helpers/sortUsersByGameRules";
+import { CountryId } from "../domains/Country";
 
 type Params = {
   matches: Match[];
@@ -23,7 +23,7 @@ export type UserWithScoresTotal = {
   avatar: string;
   totalScore: number;
   isWinner: boolean;
-  winnerPrediction: string;
+  winnerPrediction: CountryId;
   exactScoresNumber: number;
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;

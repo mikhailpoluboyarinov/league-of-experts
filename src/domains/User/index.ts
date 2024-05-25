@@ -1,5 +1,5 @@
 import { Brand } from "ts-brand";
-import { CountryCode } from "../Country";
+import { CountryId } from "../Country";
 
 export type UserId = Brand<number, "user Id">;
 export type UserWinnerCount = Brand<number, "winner count">;
@@ -12,5 +12,5 @@ export type User = {
   photoUrl: string;
   winnerCount: UserWinnerCount;
   lastWinner: boolean;
-  winnerPrediction: CountryCode;
+  winnerPrediction: CountryId;
 };

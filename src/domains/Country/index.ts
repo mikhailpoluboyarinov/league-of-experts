@@ -7,7 +7,6 @@ export type Country = {
   name: string;
   code: CountryCode;
   nameRus: string;
-  flagUrl: string;
   group: string;
 };
 

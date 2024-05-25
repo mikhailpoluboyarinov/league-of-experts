@@ -5,6 +5,13 @@ import { ScoresTablePlayoffPage } from "../ScoresTablePlayoffPage/ScoresTablePla
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { GameRulesPage } from "../GameRulesPage/GameRulesPage";
 import { LoginAdmin } from "../../components/LoginAdmin/LoginAdmin";
+import { MatchesPage } from "../MatchesPage/MatchesPage";
+import { CountriesPage } from "../CountriesPage/CountriesPage";
+import { PredictionsPage } from "../PredictionsPage/PredictionsPage";
+import { MiscPage } from "../MiscPage/MiscPage";
+import { AdminLayoutPage } from "../AdminLayoutPage/AdminLayoutPage";
+import { ResultsPage } from "../ResultsPage/ResultsPage";
+import { UsersPage } from "../UsersPage/UsersPage";
 
 export const Main = () => {
   const handleLogin = ({
@@ -28,6 +35,14 @@ export const Main = () => {
         path="/login/admin"
         element={<LoginAdmin onLogin={handleLogin} />}
       />
+      <Route path="/admin" element={<AdminLayoutPage />}>
+        <Route path="countries" element={<CountriesPage />} />
+        <Route path="matches" element={<MatchesPage />} />
+        <Route path="misc" element={<MiscPage />} />
+        <Route path="predictions" element={<PredictionsPage />} />
+        <Route path="results" element={<ResultsPage />} />
+        <Route path="users" element={<UsersPage />} />
+      </Route>
     </Routes>
   );
 };

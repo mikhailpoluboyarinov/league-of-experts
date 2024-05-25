@@ -15,6 +15,7 @@ export type MatchGroup = {
   startTime: TimeStamp;
   gameDay: GameDay;
   isCloseForPrediction: boolean;
+  description: string;
 };
 
 export type MatchPlayOff = {
@@ -25,4 +26,5 @@ export type MatchPlayOff = {
   startTime: TimeStamp;
   gameDay: GameDay;
   isCloseForPrediction: boolean;
+  description: string;
 };

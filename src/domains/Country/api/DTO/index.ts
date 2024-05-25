@@ -6,7 +6,6 @@ export const countries: Country[] = [
     name: "United States",
     code: "US",
     nameRus: "США",
-    flagUrl: "https://www.countryflags.io/US/flat/64.png",
     group: "F",
   },
   {
@@ -14,7 +13,6 @@ export const countries: Country[] = [
     name: "United Kingdom",
     code: "GB",
     nameRus: "Англия",
-    flagUrl: "https://www.countryflags.io/GB/flat/64.png",
     group: "A",
   },
   {
@@ -22,7 +20,6 @@ export const countries: Country[] = [
     name: "Canada",
     code: "CA",
     nameRus: "Канада",
-    flagUrl: "https://www.countryflags.io/CA/flat/64.png",
     group: "B",
   },
   {
@@ -30,7 +27,6 @@ export const countries: Country[] = [
     name: "Germany",
     code: "DE",
     nameRus: "Германия",
-    flagUrl: "https://www.countryflags.io/DE/flat/64.png",
     group: "A",
   },
   {
@@ -38,7 +34,6 @@ export const countries: Country[] = [
     name: "France",
     code: "FR",
     nameRus: "Франция",
-    flagUrl: "https://www.countryflags.io/FR/flat/64.png",
     group: "F",
   },
   {
@@ -46,7 +41,6 @@ export const countries: Country[] = [
     name: "Australia",
     code: "AU",
     nameRus: "Австралия",
-    flagUrl: "https://www.countryflags.io/AU/flat/64.png",
     group: "B",
   },
   {
@@ -54,7 +48,6 @@ export const countries: Country[] = [
     name: "Japan",
     code: "JP",
     nameRus: "Япония",
-    flagUrl: "https://www.countryflags.io/JP/flat/64.png",
     group: "C",
   },
   {
@@ -62,7 +55,6 @@ export const countries: Country[] = [
     name: "China",
     code: "CN",
     nameRus: "Китай",
-    flagUrl: "https://www.countryflags.io/CN/flat/64.png",
     group: "A",
   },
   {
@@ -70,7 +62,6 @@ export const countries: Country[] = [
     name: "Brazil",
     code: "BR",
     nameRus: "Бразилия",
-    flagUrl: "https://www.countryflags.io/BR/flat/64.png",
     group: "F",
   },
   {
@@ -78,7 +69,6 @@ export const countries: Country[] = [
     name: "India",
     code: "IN",
     nameRus: "Индия",
-    flagUrl: "https://www.countryflags.io/IN/flat/64.png",
     group: "C",
   },
 ];

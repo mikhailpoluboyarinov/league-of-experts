@@ -9,6 +9,8 @@ import { GameDay, Match } from "../domains/Match";
 import { Prediction } from "../domains/Prediction";
 import { Result } from "../domains/Result";
 import { User } from "../domains/User";
+import { fetchMisc } from "../domains/Misc/api/fetchMisc";
+import { Misc } from "../domains/Misc";
 
 type Data =
   | { type: "loading" }
@@ -20,6 +22,7 @@ type Data =
         predictions: Prediction[];
         results: Result[];
         users: User[];
+        misc: Misc[];
         currentGameDay: GameDay;
       };
     }
@@ -34,8 +37,9 @@ export const useFetchMainData = (): Data => {
       fetchPredictions(),
       fetchResults(),
       fetchUsers(),
+      fetchMisc(),
     ])
-      .then(([countries, matches, predictions, results, users]) => {
+      .then(([countries, matches, predictions, results, users, misc]) => {
         setData({
           type: "loaded",
           data: {
@@ -44,6 +48,7 @@ export const useFetchMainData = (): Data => {
             predictions,
             results,
             users,
+            misc,
             currentGameDay: 3 as GameDay,
           },
         });

@@ -11,6 +11,7 @@ export const matches: Match[] = [
     startTime: 1673616000000 as TimeStamp,
     gameDay: 3 as GameDay,
     isCloseForPrediction: true,
+    description: "",
   },
   {
     id: 2 as MatchId,
@@ -20,6 +21,7 @@ export const matches: Match[] = [
     startTime: 1673702400000 as TimeStamp,
     gameDay: 1 as GameDay,
     isCloseForPrediction: true,
+    description: "",
   },
   {
     id: 3 as MatchId,
@@ -29,6 +31,7 @@ export const matches: Match[] = [
     startTime: 1673788800000 as TimeStamp,
     gameDay: 1 as GameDay,
     isCloseForPrediction: true,
+    description: "",
   },
   {
     id: 4 as MatchId,
@@ -38,6 +41,7 @@ export const matches: Match[] = [
     startTime: 1673788800000 as TimeStamp,
     gameDay: 15 as GameDay,
     isCloseForPrediction: true,
+    description: "",
   },
   {
     id: 5 as MatchId,
@@ -47,5 +51,6 @@ export const matches: Match[] = [
     startTime: 1673788800000 as TimeStamp,
     gameDay: 16 as GameDay,
     isCloseForPrediction: true,
+    description: "",
   },
 ];
