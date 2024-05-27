@@ -5,7 +5,6 @@ import { GameDay, Match } from "../../domains/Match";
 import { Prediction } from "../../domains/Prediction";
 import { Result } from "../../domains/Result";
 import { User } from "../../domains/User";
-import { UpcomingMatchCard } from "../UpcomingMatchCard/UpcomingMatchCard";
 import { UsersResultsPerDayCard } from "../UsersResultsPerDayCard/UsersResultsPerDayCard";
 import { useUpcomingMatchesAfterClosedForPrediction } from "../../hooks/useUpcomingMatchesAfterClosedForPrediction";
 
@@ -67,9 +66,10 @@ export const MatchCardsContainer = (props: Props) => {
           Текущий матч
         </Typography>
         <CurrentMatchCard
-          hostTeam={currentMatchCard.hostTeam}
-          guestTeam={currentMatchCard.guestTeam}
-          userPredictionsCurrentMatch={userPredictionsCurrentMatch}
+          matches={props.matches}
+          countries={props.countries}
+          predictions={props.predictions}
+          users={props.users}
         />
       </Grid>
       <Grid item xs={12} sm={6} md={6}>
