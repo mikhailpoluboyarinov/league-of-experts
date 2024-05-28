@@ -7,6 +7,7 @@ import { Result } from "../../domains/Result";
 import { User } from "../../domains/User";
 import { UpcomingMatchCard } from "../UpcomingMatchCard/UpcomingMatchCard";
 import { UsersResultsPerDayCard } from "../UsersResultsPerDayCard/UsersResultsPerDayCard";
+import { useUpcomingMatchesAfterClosedForPrediction } from "../../hooks/useUpcomingMatchesAfterClosedForPrediction";
 
 type Props = {
   countries: Country[];
@@ -26,7 +27,6 @@ export const MatchCardsContainer = (props: Props) => {
       (prediction) => prediction.matchId === currentMatch.id,
     );
   }
-  console.log("currentMatch", currentMatch);
 
   const currentMatchCard = currentMatch
     ? {
@@ -47,6 +47,14 @@ export const MatchCardsContainer = (props: Props) => {
         hostTeam: "",
         guestTeam: "",
       };
+
+  // Записываем отфильтрованные матчи по закрытому предсказыванию в константу
+  const filteredUpcomingMatches = useUpcomingMatchesAfterClosedForPrediction(
+    props.matches,
+  );
+
+  // Получение первых двух матчей из отфильтрованного списка для отрисовки
+  const twoMatchesToRender = filteredUpcomingMatches.slice(0, 2);
 
   return (
     <Grid
@@ -69,24 +77,16 @@ export const MatchCardsContainer = (props: Props) => {
           Ближайшие матчи
         </Typography>
         <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <UpcomingMatchCard
-              hostTeam={upcomingMatchCard.hostTeam}
-              guestTeam={upcomingMatchCard.guestTeam}
-            />
-          </Grid>
-          <Grid item>
-            <UpcomingMatchCard
-              hostTeam={upcomingMatchCard.hostTeam}
-              guestTeam={upcomingMatchCard.guestTeam}
-            />
-          </Grid>
-          <Grid item>
-            <UpcomingMatchCard
-              hostTeam={upcomingMatchCard.hostTeam}
-              guestTeam={upcomingMatchCard.guestTeam}
-            />
-          </Grid>
+          {twoMatchesToRender.map((match) => (
+            <Grid item>
+              <UpcomingMatchCard
+                hostTeam={match.hostId}
+                guestTeam={match.guestId}
+                description={match.description}
+                isDoublePoints={match.isDoublePoints}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Grid>
       <Grid item xs={12} sm={6} md={6}>

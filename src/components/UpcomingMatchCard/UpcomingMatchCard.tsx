@@ -6,17 +6,13 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { FC } from "react";
 
-interface UpcomingMatchCard {
-  hostTeam: any;
-  guestTeam: any;
-}
-
-export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
+export const UpcomingMatchCard = ({
   hostTeam,
   guestTeam,
-}) => {
+  description,
+  isDoublePoints,
+}: any) => {
   return (
     <Card
       style={{
@@ -44,7 +40,7 @@ export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
                 component="div"
                 style={{ fontWeight: "bold" }}
               >
-                США
+                {hostTeam}
               </Typography>
             </Grid>
             <Typography
@@ -67,7 +63,7 @@ export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
                 component="div"
                 style={{ fontWeight: "bold" }}
               >
-                Великобритания
+                {guestTeam}
               </Typography>
             </Grid>
           </Grid>
@@ -82,16 +78,7 @@ export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
               minHeight: "180px",
             }}
           >
-            Здравствуйте, уважаемые любители футбола! В матче второго тура
-            группового этапа Чемпионата мира-2022 в группе B сборная Англии
-            встретится с командой США. Англичане в первом матче на турнире
-            разгромили сборную Ирана со счетом 6:2. А американцы сыграли вничью
-            с Уэльсом. Последний раз друг с другом команды встречались в
-            товарищеском матче в 2018 году и тогда сборная Англии победила со
-            счетом 3:0. На групповом этапе на Чемпионате мира-2010 года в ЮАР
-            так же играли друг с другом и тогда сыграли вничью 1:1 и тогда обе
-            команды пробились в плей-офф. Новая встреча команд состоится 25
-            ноября в 22:00 по московскому времени.
+            {description || "Здесь скоро появится анонс матча."}
           </Typography>
         </CardContent>
       </CardActionArea>

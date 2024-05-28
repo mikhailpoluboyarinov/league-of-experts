@@ -14,7 +14,8 @@ export type MatchGroup = {
   guestId: CountryId;
   startTime: TimeStamp;
   gameDay: GameDay;
-  isCloseForPrediction: boolean;
+  isClosedForPrediction: boolean;
+  isDoublePoints: boolean;
   description: string;
 };
 
@@ -25,6 +26,7 @@ export type MatchPlayOff = {
   guestId: CountryId;
   startTime: TimeStamp;
   gameDay: GameDay;
-  isCloseForPrediction: boolean;
+  isClosedForPrediction: boolean;
+  isDoublePoints: boolean;
   description: string;
 };

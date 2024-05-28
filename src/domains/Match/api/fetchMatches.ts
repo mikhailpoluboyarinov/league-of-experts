@@ -20,7 +20,8 @@ export const fetchMatches = async (): Promise<Match[]> => {
         guestId: match.guestId,
         startTime: match.startTime,
         gameDay: match.gameDay,
-        isCloseForPrediction: match.isCloseForPrediction,
+        isClosedForPrediction: match.isClosedForPrediction,
+        isDoublePoints: match.isDoublePoints,
         description: match.description,
       };
     });
