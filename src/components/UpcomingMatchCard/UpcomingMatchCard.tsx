@@ -1,11 +1,14 @@
 import {
   Avatar,
+  Box,
   Card,
   CardActionArea,
   CardContent,
   Grid,
   Typography,
 } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import { keyframes } from "@mui/system";
 
 export const UpcomingMatchCard = ({
   hostTeam,
@@ -13,6 +16,24 @@ export const UpcomingMatchCard = ({
   description,
   isDoublePoints,
 }: any) => {
+  const shimmer = keyframes`
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  `;
+
+  const gradientText = keyframes`
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  `;
+
   return (
     <Card
       style={{
@@ -22,6 +43,19 @@ export const UpcomingMatchCard = ({
     >
       <CardActionArea>
         <CardContent>
+          {!isDoublePoints && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                color: "gold",
+                animation: `${shimmer} 1.5s infinite`,
+              }}
+            >
+              <StarIcon />
+            </Box>
+          )}
           <Grid
             container
             alignItems="center"
@@ -38,7 +72,18 @@ export const UpcomingMatchCard = ({
                 gutterBottom
                 variant="h5"
                 component="div"
-                style={{ fontWeight: "bold" }}
+                style={{
+                  fontWeight: "bold",
+                  ...(!isDoublePoints && {
+                    background:
+                      "linear-gradient(270deg, #34e89e, #0f3443, #f7971e, #ff512f)",
+                    backgroundSize: "200% 200%",
+                    animation: `${gradientText} 8s ease infinite`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    display: "inline-block",
+                  }),
+                }}
               >
                 {hostTeam}
               </Typography>
@@ -61,7 +106,18 @@ export const UpcomingMatchCard = ({
                 gutterBottom
                 variant="h5"
                 component="div"
-                style={{ fontWeight: "bold" }}
+                style={{
+                  fontWeight: "bold",
+                  ...(!isDoublePoints && {
+                    background:
+                      "linear-gradient(270deg, #34e89e, #0f3443, #f7971e, #ff512f)",
+                    backgroundSize: "200% 200%",
+                    animation: `${gradientText} 8s ease infinite`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    display: "inline-block",
+                  }),
+                }}
               >
                 {guestTeam}
               </Typography>
