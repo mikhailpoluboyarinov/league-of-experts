@@ -1,22 +1,39 @@
 import {
   Avatar,
+  Box,
   Card,
   CardActionArea,
   CardContent,
   Grid,
   Typography,
 } from "@mui/material";
-import { FC } from "react";
+import StarIcon from "@mui/icons-material/Star";
+import { keyframes } from "@mui/system";
 
-interface UpcomingMatchCard {
-  hostTeam: any;
-  guestTeam: any;
-}
-
-export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
+export const UpcomingMatchCard = ({
   hostTeam,
   guestTeam,
-}) => {
+  description,
+  isDoublePoints,
+}: any) => {
+  const shimmer = keyframes`
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  `;
+
+  const gradientText = keyframes`
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  `;
+
   return (
     <Card
       style={{
@@ -26,6 +43,19 @@ export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
     >
       <CardActionArea>
         <CardContent>
+          {!isDoublePoints && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                color: "gold",
+                animation: `${shimmer} 1.5s infinite`,
+              }}
+            >
+              <StarIcon />
+            </Box>
+          )}
           <Grid
             container
             alignItems="center"
@@ -42,9 +72,20 @@ export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
                 gutterBottom
                 variant="h5"
                 component="div"
-                style={{ fontWeight: "bold" }}
+                style={{
+                  fontWeight: "bold",
+                  ...(!isDoublePoints && {
+                    background:
+                      "linear-gradient(270deg, #34e89e, #0f3443, #f7971e, #ff512f)",
+                    backgroundSize: "200% 200%",
+                    animation: `${gradientText} 8s ease infinite`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    display: "inline-block",
+                  }),
+                }}
               >
-                США
+                {hostTeam}
               </Typography>
             </Grid>
             <Typography
@@ -65,9 +106,20 @@ export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
                 gutterBottom
                 variant="h5"
                 component="div"
-                style={{ fontWeight: "bold" }}
+                style={{
+                  fontWeight: "bold",
+                  ...(!isDoublePoints && {
+                    background:
+                      "linear-gradient(270deg, #34e89e, #0f3443, #f7971e, #ff512f)",
+                    backgroundSize: "200% 200%",
+                    animation: `${gradientText} 8s ease infinite`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    display: "inline-block",
+                  }),
+                }}
               >
-                Великобритания
+                {guestTeam}
               </Typography>
             </Grid>
           </Grid>
@@ -82,16 +134,7 @@ export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
               minHeight: "180px",
             }}
           >
-            Здравствуйте, уважаемые любители футбола! В матче второго тура
-            группового этапа Чемпионата мира-2022 в группе B сборная Англии
-            встретится с командой США. Англичане в первом матче на турнире
-            разгромили сборную Ирана со счетом 6:2. А американцы сыграли вничью
-            с Уэльсом. Последний раз друг с другом команды встречались в
-            товарищеском матче в 2018 году и тогда сборная Англии победила со
-            счетом 3:0. На групповом этапе на Чемпионате мира-2010 года в ЮАР
-            так же играли друг с другом и тогда сыграли вничью 1:1 и тогда обе
-            команды пробились в плей-офф. Новая встреча команд состоится 25
-            ноября в 22:00 по московскому времени.
+            {description || "Здесь скоро появится анонс матча."}
           </Typography>
         </CardContent>
       </CardActionArea>
