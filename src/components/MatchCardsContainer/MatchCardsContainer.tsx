@@ -77,6 +77,7 @@ export const MatchCardsContainer = (props: Props) => {
           Ближайшие матчи
         </Typography>
         <Grid container direction="column" spacing={2}>
+<<<<<<< HEAD
           {twoMatchesToRender.map((match) => (
             <Grid item>
               <UpcomingMatchCard
@@ -87,6 +88,24 @@ export const MatchCardsContainer = (props: Props) => {
               />
             </Grid>
           ))}
+=======
+          <Grid item>
+            <UpcomingMatchCard
+              matches={props.matches}
+              countries={props.countries}
+              predictions={props.predictions}
+              users={props.users}
+            />
+          </Grid>
+          <Grid item>
+            <UpcomingMatchCard
+              matches={props.matches}
+              countries={props.countries}
+              predictions={props.predictions}
+              users={props.users}
+            />
+          </Grid>
+>>>>>>> 841c706 (add logic for currentMatchCard)
         </Grid>
       </Grid>
       <Grid item xs={12} sm={6} md={6}>

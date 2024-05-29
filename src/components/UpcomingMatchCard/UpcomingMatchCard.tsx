@@ -7,6 +7,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+<<<<<<< HEAD
 import StarIcon from "@mui/icons-material/Star";
 import { keyframes } from "@mui/system";
 
@@ -34,6 +35,21 @@ export const UpcomingMatchCard = ({
     }
   `;
 
+=======
+import { Match } from "../../domains/Match";
+import { Country } from "../../domains/Country";
+import { Prediction } from "../../domains/Prediction";
+import { User } from "../../domains/User";
+
+type Props = {
+  matches: Match[];
+  countries: Country[];
+  predictions: Prediction[];
+  users: User[];
+};
+
+export const UpcomingMatchCard = ( props: Props ) => {
+>>>>>>> 841c706 (add logic for currentMatchCard)
   return (
     <Card
       style={{
@@ -63,11 +79,7 @@ export const UpcomingMatchCard = ({
             style={{ margin: "16px 0" }}
           >
             <Grid item container direction="column" alignItems="center" xs>
-              <Avatar
-                alt={hostTeam.toString()}
-                src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${hostTeam}.svg`}
-                style={{ marginBottom: "8px" }}
-              />
+              <Avatar alt="123" src=# style={{ marginBottom: "8px" }} />
               <Typography
                 gutterBottom
                 variant="h5"
@@ -97,11 +109,7 @@ export const UpcomingMatchCard = ({
               &mdash;
             </Typography>
             <Grid item container direction="column" alignItems="center" xs>
-              <Avatar
-                alt={guestTeam.toString()}
-                src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${guestTeam}.svg`}
-                style={{ marginBottom: "8px" }}
-              />
+              <Avatar alt={} src={} style={{ marginBottom: "8px" }} />
               <Typography
                 gutterBottom
                 variant="h5"

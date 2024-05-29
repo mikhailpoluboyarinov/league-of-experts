@@ -259,4 +259,7 @@ export type CountryCode =
   | "YT"
   | "ZA"
   | "ZM"
-  | "ZW";
+  | "ZW"
+  | "SCOTLAND"
+  | "ENGLAND"
+  | "WALES";

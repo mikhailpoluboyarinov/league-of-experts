@@ -16,6 +16,7 @@ import { Country } from "../../domains/Country";
 import { Match } from "../../domains/Match";
 import { Prediction } from "../../domains/Prediction";
 import { User } from "../../domains/User";
+import { getCountryFlagUrl } from "../../domains/Country/helpers/getCountryFlagUrl";
 
 type Props = {
   matches: Match[];
@@ -28,12 +29,11 @@ export const CurrentMatchCard = (props: Props) => {
   const filteredMatchesByClosedPredictions = props.matches.filter(
     (match) => match.isClosedForPrediction,
   );
+
   const currentMatch =
     filteredMatchesByClosedPredictions[
       filteredMatchesByClosedPredictions.length - 1
     ];
-
-  console.log("countries", props.countries);
 
   const hostTeam = props.countries.find(
     (country) => country.id === currentMatch.hostId,
@@ -69,7 +69,7 @@ export const CurrentMatchCard = (props: Props) => {
             <Grid item container direction="column" alignItems="center" xs>
               <Avatar
                 alt={hostTeam.nameRus}
-                src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${hostTeam.code}.svg`}
+                src={getCountryFlagUrl(hostTeam.code)}
                 style={{ marginBottom: "8px" }}
               />
               <Typography
@@ -92,7 +92,7 @@ export const CurrentMatchCard = (props: Props) => {
             <Grid item container direction="column" alignItems="center" xs>
               <Avatar
                 alt={guestTeam.nameRus}
-                src={`https://purecatamphetamine.github.io/country-flag-icons-other/3x2/${`GB-sct`}.svg`}
+                src={getCountryFlagUrl(guestTeam.code)}
                 style={{ marginBottom: "8px" }}
               />
               <Typography
