@@ -38,6 +38,7 @@ export const CurrentMatchCard = (props: Props) => {
   const hostTeam = props.countries.find(
     (country) => country.id === currentMatch.hostId,
   );
+
   const guestTeam = props.countries.find(
     (country) => country.id === currentMatch.guestId,
   );
