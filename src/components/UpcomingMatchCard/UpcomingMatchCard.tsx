@@ -10,24 +10,23 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import { keyframes } from "@mui/system";
 import { getCountryFlagUrl } from "../../domains/Country/helpers/getCountryFlagUrl";
-import { FC } from "react";
 import { Country, CountryId } from "../../domains/Country";
 
-interface UpcomingMatchCard {
+type UpcomingMatchCardProps = {
   hostTeamId: CountryId;
   guestTeamId: CountryId;
   description: string;
   isDoublePoints: boolean;
   countries: Country[];
-}
+};
 
-export const UpcomingMatchCard: FC<UpcomingMatchCard> = ({
+export const UpcomingMatchCard = ({
   hostTeamId,
   guestTeamId,
   description,
   isDoublePoints,
   countries,
-}) => {
+}: UpcomingMatchCardProps) => {
   const shimmer = keyframes`
     0% { transform: scale(1); }
     50% { transform: scale(1.2); }
