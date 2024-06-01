@@ -33,7 +33,7 @@ export const ScoresTableResultsPerDay = (props: Props) => {
   );
 
   const filteredMatchesByGameDay = props.matches.filter(
-    (match) => match.gameDay === 4,
+    (match) => match.gameDay === props.currentGameDay,
   );
 
   const matchesData = filteredMatchesByGameDay.map((match) => {

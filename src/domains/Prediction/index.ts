@@ -6,21 +6,22 @@ export type PredictionId = Brand<number, "prediction Id">;
 
 export type Prediction = PredictionGroupMatch | PredictionPlayOffMatch;
 
-export type PredictionNoExtra = { type: "no_extra" };
+export type PredictionExtraTime =
+  | PredictionNoExtra
+  | PredictionExtraHostTeamExtraTime
+  | PredictionExtraGuestTeamExtraTime
+  | PredictionExtraHostTeamExtraPenalty
+  | PredictionExtraGuestTeamExtraPenalty;
 
-export type PredictionExtraTime = {
-  type: "extra_time";
-  hostScoreExtra: number;
-  guestScoreExtra: number;
-};
+export type PredictionNoExtra = "no_extra";
 
-export type PredictionExtraPenalty = {
-  type: "extra_penalty";
-  hostScoreExtra: number;
-  guestScoreExtra: number;
-  hostScorePenalty: number;
-  guestScorePenalty: number;
-};
+export type PredictionExtraHostTeamExtraTime = "host_extra";
+
+export type PredictionExtraGuestTeamExtraTime = "guest_extra";
+
+export type PredictionExtraHostTeamExtraPenalty = "host_penalty";
+
+export type PredictionExtraGuestTeamExtraPenalty = "guest_penalty";
 
 export type PredictionGroupMatch = {
   type: "group";
@@ -38,5 +39,5 @@ export type PredictionPlayOffMatch = {
   matchId: MatchId;
   hostScore: number;
   guestScore: number;
-  extra: PredictionNoExtra | PredictionExtraTime | PredictionExtraPenalty;
+  extra: PredictionExtraTime;
 };

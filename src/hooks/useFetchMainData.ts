@@ -5,7 +5,7 @@ import { fetchPredictions } from "../domains/Prediction/api/fetchPredictions";
 import { fetchResults } from "../domains/Result/api/fetchResults";
 import { fetchUsers } from "../domains/User/api/fetchUsers";
 import { Country } from "../domains/Country";
-import { GameDay, Match } from "../domains/Match";
+import { Match } from "../domains/Match";
 import { Prediction } from "../domains/Prediction";
 import { Result } from "../domains/Result";
 import { User } from "../domains/User";
@@ -22,8 +22,7 @@ type Data =
         predictions: Prediction[];
         results: Result[];
         users: User[];
-        misc: Misc[];
-        currentGameDay: GameDay;
+        misc: Misc;
       };
     }
   | { type: "error" };
@@ -49,7 +48,6 @@ export const useFetchMainData = (): Data => {
             results,
             users,
             misc,
-            currentGameDay: 3 as GameDay,
           },
         });
       })

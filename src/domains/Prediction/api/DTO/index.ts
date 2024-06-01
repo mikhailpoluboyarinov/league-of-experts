@@ -83,11 +83,7 @@ export const predictions: Prediction[] = [
     type: "play_off",
     hostScore: 1,
     guestScore: 1,
-    extra: {
-      type: "extra_time",
-      hostScoreExtra: 3,
-      guestScoreExtra: 1,
-    },
+    extra: "host_extra",
   },
   {
     id: 11 as PredictionId,
@@ -96,11 +92,7 @@ export const predictions: Prediction[] = [
     type: "play_off",
     hostScore: 6,
     guestScore: 6,
-    extra: {
-      type: "extra_time",
-      hostScoreExtra: 2,
-      guestScoreExtra: 1,
-    },
+    extra: "host_extra",
   },
   {
     id: 12 as PredictionId,
@@ -109,11 +101,7 @@ export const predictions: Prediction[] = [
     type: "play_off",
     hostScore: 1,
     guestScore: 4,
-    extra: {
-      type: "extra_time",
-      hostScoreExtra: 2,
-      guestScoreExtra: 1,
-    },
+    extra: "host_extra",
   },
   {
     id: 13 as PredictionId,
@@ -122,11 +110,7 @@ export const predictions: Prediction[] = [
     type: "play_off",
     hostScore: 5,
     guestScore: 5,
-    extra: {
-      type: "extra_time",
-      hostScoreExtra: 2,
-      guestScoreExtra: 1,
-    },
+    extra: "host_extra",
   },
   {
     id: 14 as PredictionId,
@@ -135,11 +119,7 @@ export const predictions: Prediction[] = [
     type: "play_off",
     hostScore: 1,
     guestScore: 6,
-    extra: {
-      type: "extra_time",
-      hostScoreExtra: 2,
-      guestScoreExtra: 1,
-    },
+    extra: "host_extra",
   },
   {
     id: 15 as PredictionId,
@@ -148,10 +128,6 @@ export const predictions: Prediction[] = [
     type: "play_off",
     hostScore: 1,
     guestScore: 4,
-    extra: {
-      type: "extra_time",
-      hostScoreExtra: 2,
-      guestScoreExtra: 1,
-    },
+    extra: "host_extra",
   },
 ];

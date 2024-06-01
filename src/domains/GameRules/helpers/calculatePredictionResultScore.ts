@@ -1,8 +1,10 @@
 import {
+  Fail,
   PredictionResult,
   PredictionResultGroupMatch,
   PredictionResultPlayOffMatch,
   PredictionResultState,
+  SuccessExtra,
 } from "../index";
 import { notReachable } from "../../../utils/notReachable";
 
@@ -49,10 +51,7 @@ const calculatePredictionResultPlayOffMatchTotalScore = (
   const extraScore = calculatePredictionResultPlayOffMatchExtraScore(
     predictionResult.extraState,
   );
-  const penaltyScore = calculatePredictionResultPlayOffMatchPenaltyScore(
-    predictionResult.penaltyState,
-  );
-  return matchScore + extraScore + penaltyScore;
+  return matchScore + extraScore;
 };
 
 const calculatePredictionResultPlayOffMatchScore = (
@@ -73,7 +72,7 @@ const calculatePredictionResultPlayOffMatchScore = (
 };
 
 const calculatePredictionResultPlayOffMatchExtraScore = (
-  state: PredictionResultState | null,
+  state: Fail | SuccessExtra | null,
 ): number => {
   if (state === null) {
     return 0;
@@ -82,33 +81,8 @@ const calculatePredictionResultPlayOffMatchExtraScore = (
   switch (state.type) {
     case "fail":
       return 0;
-    case "exact_score":
-      return 5;
-    case "exact_difference":
-      return 3;
-    case "match_outcome":
-      return 2;
-    default:
-      return notReachable(state);
-  }
-};
-
-const calculatePredictionResultPlayOffMatchPenaltyScore = (
-  state: PredictionResultState | null,
-): number => {
-  if (state === null) {
-    return 0;
-  }
-
-  switch (state.type) {
-    case "fail":
-      return 0;
-    case "exact_score":
-      return 5;
-    case "exact_difference":
-      return 3;
-    case "match_outcome":
-      return 2;
+    case "success_extra":
+      return 4;
     default:
       return notReachable(state);
   }
