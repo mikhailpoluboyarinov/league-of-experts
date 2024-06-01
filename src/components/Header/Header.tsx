@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Link } from "@mui/material";
+import { AppBar, Toolbar, Typography, Link, Button, Box } from "@mui/material";
 import { CUSTOM_COLORS } from "../../styles/colors";
 
 export const Header = () => {
@@ -14,6 +14,23 @@ export const Header = () => {
             League of Experts
           </Link>
         </Typography>
+        <Box sx={{ ml: "auto" }}>
+          <Button color="inherit" component={Link} href="/group">
+            Групповой этап
+          </Button>
+          <Button color="inherit" component={Link} href="/playoff">
+            Плейофф этап
+          </Button>
+          <Button color="inherit" component={Link} href="/matches">
+            Матчи
+          </Button>
+          <Button color="inherit" component={Link} href="/results-per-day">
+            Результаты за игровой день
+          </Button>
+          <Button color="inherit" component={Link} href="/faq">
+            FAQ
+          </Button>
+        </Box>
       </Toolbar>
     </AppBar>
   );

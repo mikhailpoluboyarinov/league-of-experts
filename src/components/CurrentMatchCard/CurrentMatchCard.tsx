@@ -12,19 +12,45 @@ import {
   Paper,
   TableBody,
 } from "@mui/material";
-import { FC } from "react";
+import { Country } from "../../domains/Country";
+import { Match } from "../../domains/Match";
+import { Prediction } from "../../domains/Prediction";
+import { User } from "../../domains/User";
+import { getCountryFlagUrl } from "../../domains/Country/helpers/getCountryFlagUrl";
 
-interface CurrentMatchCard {
-  hostTeam: any;
-  guestTeam: any;
-  userPredictionsCurrentMatch: any;
-}
+type Props = {
+  matches: Match[];
+  countries: Country[];
+  predictions: Prediction[];
+  users: User[];
+};
 
-export const CurrentMatchCard: FC<CurrentMatchCard> = ({
-  hostTeam,
-  guestTeam,
-  userPredictionsCurrentMatch,
-}) => {
+export const CurrentMatchCard = (props: Props) => {
+  const filteredMatchesByClosedPredictions = props.matches.filter(
+    (match) => match.isClosedForPrediction,
+  );
+
+  const currentMatch =
+    filteredMatchesByClosedPredictions[
+      filteredMatchesByClosedPredictions.length - 1
+    ];
+
+  const hostTeam = props.countries.find(
+    (country) => country.id === currentMatch.hostId,
+  );
+
+  const guestTeam = props.countries.find(
+    (country) => country.id === currentMatch.guestId,
+  );
+
+  const currentMatchPredictions = props.predictions.filter(
+    (prediction) => prediction.matchId === currentMatch.id,
+  );
+
+  if (!hostTeam || !guestTeam) {
+    return null;
+  }
+
   return (
     <Card
       style={{
@@ -43,8 +69,8 @@ export const CurrentMatchCard: FC<CurrentMatchCard> = ({
           >
             <Grid item container direction="column" alignItems="center" xs>
               <Avatar
-                alt={hostTeam}
-                src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${hostTeam}.svg`}
+                alt={hostTeam.nameRus}
+                src={getCountryFlagUrl(hostTeam.code)}
                 style={{ marginBottom: "8px" }}
               />
               <Typography
@@ -53,7 +79,7 @@ export const CurrentMatchCard: FC<CurrentMatchCard> = ({
                 component="div"
                 style={{ fontWeight: "bold" }}
               >
-                Германия
+                {hostTeam.nameRus}
               </Typography>
             </Grid>
             <Typography
@@ -66,8 +92,8 @@ export const CurrentMatchCard: FC<CurrentMatchCard> = ({
             </Typography>
             <Grid item container direction="column" alignItems="center" xs>
               <Avatar
-                alt={guestTeam}
-                src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${guestTeam}.svg`}
+                alt={guestTeam.nameRus}
+                src={getCountryFlagUrl(guestTeam.code)}
                 style={{ marginBottom: "8px" }}
               />
               <Typography
@@ -76,7 +102,7 @@ export const CurrentMatchCard: FC<CurrentMatchCard> = ({
                 component="div"
                 style={{ fontWeight: "bold" }}
               >
-                Франция
+                {guestTeam.nameRus}
               </Typography>
             </Grid>
           </Grid>
@@ -88,136 +114,26 @@ export const CurrentMatchCard: FC<CurrentMatchCard> = ({
           >
             <Table size="small" aria-label="simple table">
               <TableBody>
-                {userPredictionsCurrentMatch.map((user: any) => {
+                {currentMatchPredictions.map((prediction) => {
+                  const user = props.users.find(
+                    (user) => user.id === prediction.userId,
+                  );
+
+                  if (!user) {
+                    return null;
+                  }
+
                   return (
                     <TableRow>
                       <TableCell style={{ width: "30%", textAlign: "center" }}>
-                        {user.userId}
+                        {user.name + " " + user.lastName}
                       </TableCell>
                       <TableCell style={{ width: "70%", textAlign: "center" }}>
-                        {"Германия "}
-                        {user.hostScore} : {user.guestScore} {"Франция"}
+                        {prediction.hostScore} : {prediction.guestScore}
                       </TableCell>
                     </TableRow>
                   );
                 })}
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell style={{ width: "30%", textAlign: "center" }}>
-                    {"123123123"}
-                  </TableCell>
-                  <TableCell style={{ width: "70%", textAlign: "center" }}>
-                    {"Германия "}
-                    {"2"} : {"3"} {"Франция"}
-                  </TableCell>
-                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
