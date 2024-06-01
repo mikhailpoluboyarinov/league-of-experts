@@ -24,6 +24,7 @@ import { CUSTOM_COLORS } from "../../styles/colors";
 import { sortUsersByGameRulesGroupStage } from "../../domains/GameRules/helpers/sortUsersByGameRulesGroupStage";
 import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
 import React from "react";
+import StarIcon from "@mui/icons-material/Star";
 
 type Props = {
   countries: Country[];
@@ -79,6 +80,9 @@ export const ScoresTableGroupStage = (props: Props) => {
               <TableCell align="center" style={TABLE_CELL_STYLE}>
                 {isMediumScreen ? "И" : "Имя"}
               </TableCell>
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? "ДО" : "Двойные очки"}
+              </TableCell>
 
               {isNotSmallScreen &&
                 Array(GAME_DAYS_GROUP)
@@ -126,6 +130,7 @@ export const ScoresTableGroupStage = (props: Props) => {
                     isWinner={user.isWinner}
                     avatar={user.avatar}
                   />
+                  <TableCell align="center">{user.doublePointsScore}</TableCell>
                   {isNotSmallScreen &&
                     user.scoresByGroupGameDays.map((score, index) => {
                       const isUserWithHighestScorePerDay =
@@ -165,6 +170,8 @@ export const ScoresTableGroupStage = (props: Props) => {
           &nbsp;–&nbsp;матчи,&nbsp;
           <b>И</b>
           &nbsp;–&nbsp;имя,&nbsp;
+          <b>ДО</b>
+          &nbsp;–&nbsp;двойные очки,&nbsp;
           <b>О</b>
           &nbsp;–&nbsp;очки&nbsp;
         </Typography>
@@ -185,8 +192,10 @@ export const ScoresTableGroupStage = (props: Props) => {
           &nbsp;–&nbsp;матчи,&nbsp;
           <b>И</b>
           &nbsp;–&nbsp;имя,&nbsp;
+          <b>ДО</b>
+          &nbsp;–&nbsp;двойные очки,&nbsp;
           <b>[1, ... ]</b>
-          &nbsp;–&nbsp;день плейоффа,&nbsp;
+          &nbsp;–&nbsp;день группового этапа,&nbsp;
           <b>О</b>
           &nbsp;–&nbsp;очки&nbsp;
         </Typography>

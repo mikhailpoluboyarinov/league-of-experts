@@ -24,6 +24,7 @@ export type UserWithScoresTotal = {
   totalScore: number;
   isWinner: boolean;
   winnerPrediction: CountryId;
+  doublePointsScore: number;
   exactScoresNumber: number;
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;
@@ -43,6 +44,8 @@ export const useUsersWithScoresTotal = ({
   const usersWithScores = users.map((user) => {
     // Итоговое кол-во очков за турнир
     let userTotalScore: number = 0;
+    // Кол-во очков полученных за матчи с двойными очками (групповой этап)
+    let doublePointsScore: number = 0;
     // Кол-во точно угаданных результатов
     let exactScoresNumber: number = 0;
     // Кол-во точно угаданных групповых результатов
@@ -94,6 +97,10 @@ export const useUsersWithScoresTotal = ({
         predictionResult: userPredictionResult,
       });
 
+      if (match.isDoublePoints) {
+        doublePointsScore += score;
+      }
+
       // Если пользователь угадал точный счет, обновляем кол-во точно угаданных результатов
       if (userPredictionResult.matchState.type === "exact_score") {
         exactScoresNumber += 1;
@@ -136,17 +143,20 @@ export const useUsersWithScoresTotal = ({
       userTotalScore += score;
     });
 
+    console.log("doublePointsScore", doublePointsScore);
+
     return {
       id: user.id,
       name: user.name,
       avatar: user.photoUrl,
-      totalScore: userTotalScore,
+      totalScore: userTotalScore + doublePointsScore,
       isWinner: user.lastWinner,
       winnerPrediction: user.winnerPrediction,
+      doublePointsScore,
       exactScoresNumber,
       exactScoresNumberGroupStage,
       exactScoresNumberPlayoffStage,
-      userGroupScore,
+      userGroupScore: userGroupScore + doublePointsScore,
       userPlayoffScore,
       scoresByGroupGameDays,
       scoresByPlayOffGameDays,
