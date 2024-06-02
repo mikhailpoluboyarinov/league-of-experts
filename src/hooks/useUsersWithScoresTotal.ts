@@ -143,8 +143,6 @@ export const useUsersWithScoresTotal = ({
       userTotalScore += score;
     });
 
-    console.log("doublePointsScore", doublePointsScore);
-
     return {
       id: user.id,
       name: user.name,

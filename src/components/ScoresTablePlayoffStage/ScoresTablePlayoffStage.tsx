@@ -15,7 +15,10 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { GAME_DAYS_PLAYOFF } from "../../domains/GameRules/constants/constants";
+import {
+  GAME_DAYS_GROUP,
+  GAME_DAYS_PLAYOFF,
+} from "../../domains/GameRules/constants/constants";
 import { useHighestScoresPerGameDay } from "../../hooks/useHighestScoresPerGameDay";
 import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChangedPlace";
 import { useUserWIthTotalScoreByGameDay } from "../../hooks/useUserWIthTotalScoreByGameDay";
@@ -53,7 +56,10 @@ export const ScoresTablePlayoffStage = (props: Props) => {
         exactScoresNumber: userWithScore.exactScoresNumber,
       };
     }),
-    gameDay: Math.min(props.currentGameDay - 1, GAME_DAYS_PLAYOFF) as GameDay,
+    gameDay: Math.min(
+      props.currentGameDay - GAME_DAYS_GROUP - 1,
+      GAME_DAYS_PLAYOFF,
+    ) as GameDay,
   });
 
   const highestScoresPerDayPlayoff = useHighestScoresPerGameDay(
@@ -134,7 +140,7 @@ export const ScoresTablePlayoffStage = (props: Props) => {
                           align="center"
                           style={{
                             backgroundColor: isUserWithHighestScorePerDay
-                              ? CUSTOM_COLORS.green
+                              ? CUSTOM_COLORS.lightGreen
                               : "inherit",
                           }}
                         >

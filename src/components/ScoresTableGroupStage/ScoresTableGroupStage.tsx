@@ -141,7 +141,7 @@ export const ScoresTableGroupStage = (props: Props) => {
                           align="center"
                           style={{
                             backgroundColor: isUserWithHighestScorePerDay
-                              ? CUSTOM_COLORS.green
+                              ? CUSTOM_COLORS.lightGreen
                               : "inherit",
                           }}
                         >
