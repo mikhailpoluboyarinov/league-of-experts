@@ -32,7 +32,7 @@ export const fetchPredictions = async (): Promise<Prediction[]> => {
             matchId: prediction.matchId,
             hostScore: prediction.hostScore,
             guestScore: prediction.guestScore,
-            extra: { type: "no_extra" },
+            extra: prediction.extra,
           };
         default:
           return notReachable(prediction as never);

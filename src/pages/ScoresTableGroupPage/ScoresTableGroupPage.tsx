@@ -32,7 +32,7 @@ export const ScoresTableGroupPage = () => {
               predictions={data.data.predictions}
               results={data.data.results}
               users={data.data.users}
-              currentGameDay={data.data.currentGameDay}
+              currentGameDay={data.data.misc.currentGameDay}
             />
           </Layout>
 

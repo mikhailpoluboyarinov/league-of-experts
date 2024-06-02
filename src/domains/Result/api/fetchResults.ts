@@ -30,7 +30,7 @@ export const fetchResults = async (): Promise<Result[]> => {
             matchId: result.matchId,
             hostScore: result.hostScore,
             guestScore: result.guestScore,
-            extra: { type: "no_extra" },
+            extra: result.extra,
           };
         default:
           return notReachable(result as never);

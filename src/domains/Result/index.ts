@@ -5,21 +5,22 @@ export type ResultId = Brand<number, "result Id">;
 
 export type Result = ResultGroupMatch | ResultPlayOffMatch;
 
-export type ResultNoExtra = { type: "no_extra" };
+export type ResultExtraTime =
+  | ResultNoExtra
+  | ResultExtraHostTeamExtraTime
+  | ResultExtraGuestTeamExtraTime
+  | ResultExtraHostTeamExtraPenalty
+  | ResultExtraGuestTeamExtraPenalty;
 
-export type ResultExtraTime = {
-  type: "extra_time";
-  hostScoreExtra: number;
-  guestScoreExtra: number;
-};
+export type ResultNoExtra = "no_extra";
 
-export type ResultExtraPenalty = {
-  type: "extra_penalty";
-  hostScoreExtra: number;
-  guestScoreExtra: number;
-  hostScorePenalty: number;
-  guestScorePenalty: number;
-};
+export type ResultExtraHostTeamExtraTime = "host_extra";
+
+export type ResultExtraGuestTeamExtraTime = "guest_extra";
+
+export type ResultExtraHostTeamExtraPenalty = "host_penalty";
+
+export type ResultExtraGuestTeamExtraPenalty = "guest_penalty";
 
 export type ResultGroupMatch = {
   type: "group";
@@ -35,5 +36,5 @@ export type ResultPlayOffMatch = {
   matchId: MatchId;
   hostScore: number;
   guestScore: number;
-  extra: ResultNoExtra | ResultExtraTime | ResultExtraPenalty;
+  extra: ResultExtraTime;
 };

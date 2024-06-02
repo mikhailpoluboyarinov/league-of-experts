@@ -8,6 +8,7 @@ export type Fail = { type: "fail" };
 export type SuccessScore = { type: "exact_score" };
 export type SuccessDifference = { type: "exact_difference" };
 export type SuccessOutcome = { type: "match_outcome" };
+export type SuccessExtra = { type: "success_extra" };
 
 export type PredictionResult =
   | PredictionResultGroupMatch
@@ -21,6 +22,5 @@ export type PredictionResultGroupMatch = {
 export type PredictionResultPlayOffMatch = {
   type: "play_off";
   matchState: PredictionResultState;
-  extraState: PredictionResultState | null;
-  penaltyState: PredictionResultState | null;
+  extraState: Fail | SuccessExtra | null;
 };
