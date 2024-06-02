@@ -19,7 +19,7 @@ export const TableCellChangedPlace: FC<TableCellChangedPlaceProps> = ({
 
   if (userPositionDifferent !== 0) {
     backgroundColor =
-      userPositionDifferent > 0 ? CUSTOM_COLORS.green : CUSTOM_COLORS.red;
+      userPositionDifferent > 0 ? CUSTOM_COLORS.lightGreen : CUSTOM_COLORS.red;
     icon =
       userPositionDifferent > 0 ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />;
   }

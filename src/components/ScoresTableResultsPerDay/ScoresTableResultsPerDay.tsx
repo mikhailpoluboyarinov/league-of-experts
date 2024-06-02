@@ -17,6 +17,7 @@ import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
 import { calculatePredictionResult } from "../../domains/GameRules/helpers/calculatePredictionResult";
 import { PredictionResult } from "../../domains/GameRules";
 import { notReachable } from "../../utils/notReachable";
+import { CUSTOM_COLORS } from "../../styles/colors";
 
 type Props = {
   countries: Country[];
@@ -98,33 +99,31 @@ export const ScoresTableResultsPerDay = (props: Props) => {
       case "group":
         switch (predictionResult.matchState.type) {
           case "fail":
-            return "Red";
+            return CUSTOM_COLORS.red;
           case "exact_score":
-            return "Green";
+            return CUSTOM_COLORS.purple;
           case "exact_difference":
-            return "Blue";
+            return CUSTOM_COLORS.green;
           case "match_outcome":
-            return "Purple";
+            return CUSTOM_COLORS.lightGreen;
           default:
             return notReachable(predictionResult.matchState);
         }
       case "play_off":
         switch (predictionResult.matchState.type) {
           case "fail":
-            return "Red";
+            return CUSTOM_COLORS.red;
           case "exact_score":
-            return "Green";
+            return CUSTOM_COLORS.purple;
           case "exact_difference":
-            return "light-green";
+            return CUSTOM_COLORS.green;
           case "match_outcome":
-            return "Purple";
+            return CUSTOM_COLORS.lightGreen;
           default:
             return notReachable(predictionResult.matchState);
         }
     }
   };
-
-  console.log("Day2", matchesData);
 
   return (
     <>
@@ -142,7 +141,7 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                       <TableCell align="center" style={TABLE_CELL_STYLE}>
                         {item.hostTeam.nameRus} - {item.guestTeam.nameRus}
                         {item.matchResult
-                          ? `(${item.matchResult.hostScore}:${item.matchResult.guestScore})`
+                          ? ` (${item.matchResult.hostScore}:${item.matchResult.guestScore})`
                           : null}
                       </TableCell>
                     );
