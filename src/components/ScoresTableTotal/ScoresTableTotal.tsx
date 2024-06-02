@@ -18,7 +18,10 @@ import {
   Collapse,
   Box,
 } from "@mui/material";
-import { GAME_DAYS_PLAYOFF } from "../../domains/GameRules/constants/constants";
+import {
+  GAME_DAYS_GROUP,
+  GAME_DAYS_PLAYOFF,
+} from "../../domains/GameRules/constants/constants";
 import { useHighestScoresPerGameDay } from "../../hooks/useHighestScoresPerGameDay";
 import { TableCellNameAvatar } from "../TableCellNameAvatar/TableCellNameAvatar";
 import { CUSTOM_COLORS } from "../../styles/colors";
@@ -59,7 +62,10 @@ export const ScoresTableTotal = (props: Props) => {
         exactScoresNumber: userWithScore.exactScoresNumber,
       };
     }),
-    gameDay: Math.min(props.currentGameDay - 1, GAME_DAYS_PLAYOFF) as GameDay,
+    gameDay: Math.min(
+      props.currentGameDay - GAME_DAYS_GROUP - 1,
+      GAME_DAYS_PLAYOFF,
+    ) as GameDay,
   });
 
   const getCountryFlagUrl = (id: CountryId) => {
@@ -285,7 +291,7 @@ export const ScoresTableTotal = (props: Props) => {
                           align="center"
                           style={{
                             backgroundColor: isUserWithHighestScorePerDay
-                              ? CUSTOM_COLORS.green
+                              ? CUSTOM_COLORS.lightGreen
                               : "inherit",
                           }}
                         >
