@@ -1,4 +1,4 @@
-import { Match } from "../domains/Match";
+import { Match, MatchId } from "../domains/Match";
 import { Prediction } from "../domains/Prediction";
 import { Result } from "../domains/Result";
 import { User, UserId } from "../domains/User";
@@ -9,6 +9,7 @@ import {
 import { calculatePredictionResult } from "../domains/GameRules/helpers/calculatePredictionResult";
 import { calculatePredictionResultScore } from "../domains/GameRules/helpers/calculatePredictionResultScore";
 import { CountryId } from "../domains/Country";
+import { calculatePariScore } from "../domains/GameRules/helpers/calculatePariScore";
 
 type Params = {
   matches: Match[];
@@ -25,6 +26,7 @@ export type UserWithScoresTotal = {
   isWinner: boolean;
   winnerPrediction: CountryId;
   doublePointsScore: number;
+  pariPointsScore: number;
   exactScoresNumber: number;
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;
@@ -46,6 +48,8 @@ export const useUsersWithScoresTotal = ({
     let userTotalScore: number = 0;
     // Кол-во очков полученных за матчи с двойными очками (групповой этап)
     let doublePointsScore: number = 0;
+    // Кол-во очков полученных за pari
+    let pariPointsScore: number = 0;
     // Кол-во точно угаданных результатов
     let exactScoresNumber: number = 0;
     // Кол-во точно угаданных групповых результатов
@@ -65,6 +69,35 @@ export const useUsersWithScoresTotal = ({
     const userPredictions = predictions.filter((prediction) => {
       return prediction.userId === user.id;
     });
+
+    const aiPredictions = predictions.filter((prediction) => {
+      return prediction.isAIPrediction;
+    });
+
+    const aiScores = aiPredictions.reduce(
+      (scores, prediction) => {
+        const result = results.find((result) => {
+          return result.matchId === prediction.matchId;
+        });
+
+        if (!result) {
+          throw new Error("Не найден результат матча");
+        }
+
+        const predictionResult = calculatePredictionResult({
+          prediction,
+          result,
+        });
+
+        const predictionResultScore = calculatePredictionResultScore({
+          predictionResult,
+        });
+
+        scores[prediction.matchId] = predictionResultScore;
+        return scores;
+      },
+      {} as Record<MatchId, number>,
+    );
 
     // Перебираем в цикле полученные шагом ранее прогнозы конкретного пользователя
     userPredictions.forEach((userPrediction) => {
@@ -99,6 +132,13 @@ export const useUsersWithScoresTotal = ({
 
       if (match.isDoublePoints) {
         doublePointsScore += score;
+      }
+
+      if (userPrediction.isPari) {
+        pariPointsScore += calculatePariScore({
+          userScore: score,
+          aiScore: aiScores[match.id],
+        });
       }
 
       // Если пользователь угадал точный счет, обновляем кол-во точно угаданных результатов
@@ -147,15 +187,16 @@ export const useUsersWithScoresTotal = ({
       id: user.id,
       name: user.name,
       avatar: user.photoUrl,
-      totalScore: userTotalScore + doublePointsScore,
       isWinner: user.lastWinner,
       winnerPrediction: user.winnerPrediction,
       doublePointsScore,
+      pariPointsScore,
       exactScoresNumber,
       exactScoresNumberGroupStage,
       exactScoresNumberPlayoffStage,
-      userGroupScore: userGroupScore + doublePointsScore,
-      userPlayoffScore,
+      userGroupScore: userGroupScore + doublePointsScore + pariPointsScore,
+      userPlayoffScore: userPlayoffScore + pariPointsScore,
+      totalScore: userTotalScore + doublePointsScore + pariPointsScore,
       scoresByGroupGameDays,
       scoresByPlayOffGameDays,
     };
