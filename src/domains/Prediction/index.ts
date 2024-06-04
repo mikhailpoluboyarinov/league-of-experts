@@ -30,6 +30,8 @@ export type PredictionGroupMatch = {
   matchId: MatchId;
   hostScore: number;
   guestScore: number;
+  isPari: boolean;
+  isAIPrediction: boolean;
 };
 
 export type PredictionPlayOffMatch = {
@@ -39,5 +41,7 @@ export type PredictionPlayOffMatch = {
   matchId: MatchId;
   hostScore: number;
   guestScore: number;
+  isPari: boolean;
+  isAIPrediction: boolean;
   extra: PredictionExtraTime;
 };

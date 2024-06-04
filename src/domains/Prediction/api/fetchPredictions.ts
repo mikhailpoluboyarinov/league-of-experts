@@ -23,6 +23,8 @@ export const fetchPredictions = async (): Promise<Prediction[]> => {
             matchId: prediction.matchId,
             hostScore: prediction.hostScore,
             guestScore: prediction.guestScore,
+            isPari: prediction.isPari,
+            isAIPrediction: prediction.isAIPrediction,
           };
         case "play_off":
           return {
@@ -33,6 +35,8 @@ export const fetchPredictions = async (): Promise<Prediction[]> => {
             hostScore: prediction.hostScore,
             guestScore: prediction.guestScore,
             extra: prediction.extra,
+            isPari: prediction.isPari,
+            isAIPrediction: prediction.isAIPrediction,
           };
         default:
           return notReachable(prediction as never);

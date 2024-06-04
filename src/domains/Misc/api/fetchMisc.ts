@@ -17,6 +17,7 @@ export const fetchMisc = async (): Promise<Misc> => {
         id: misc.id,
         currentGameDay: misc.currentGameDay,
         isRegistrationOpen: misc.isRegistrationOpen,
+        winnerCountry: misc.winnerCountry,
       };
     })[0];
   } catch (e) {
