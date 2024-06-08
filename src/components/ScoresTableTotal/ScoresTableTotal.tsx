@@ -31,6 +31,7 @@ import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChanged
 import React, { useState } from "react";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
+import { useAiWithScoresTotal } from "../../hooks/useAiWithScoresTotal";
 
 type Props = {
   countries: Country[];
@@ -41,21 +42,22 @@ type Props = {
   currentGameDay: GameDay;
 };
 export const ScoresTableTotal = (props: Props) => {
-  const usersWithScores = useUsersWithScoresTotal({
+  const usersWithScoresWithoutAi = useUsersWithScoresTotal({
     matches: props.matches,
     results: props.results,
     users: props.users,
     predictions: props.predictions,
   });
 
-  const filteredUsersWithScoreWithoutAi = usersWithScores.filter(
-    (users) => !users.isAI,
-  );
-
-  const aiWithScore = usersWithScores.filter((users) => users.isAI);
+  const aiWithScore = useAiWithScoresTotal({
+    matches: props.matches,
+    results: props.results,
+    users: props.users,
+    predictions: props.predictions,
+  });
 
   const sortedUsersWithScores =
-    filteredUsersWithScoreWithoutAi.sort(sortUsersByGameRules);
+    usersWithScoresWithoutAi.sort(sortUsersByGameRules);
 
   const highestScoresPerDayPlayoff = useHighestScoresPerGameDay(
     sortedUsersWithScores.map((user) => user.scoresByPlayOffGameDays),
