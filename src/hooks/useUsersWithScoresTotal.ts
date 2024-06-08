@@ -22,9 +22,12 @@ export type UserWithScoresTotal = {
   id: UserId;
   name: string;
   avatar: string;
+  isAI: boolean;
   totalScore: number;
   isWinner: boolean;
+  winnerCount: number;
   winnerPrediction: CountryId;
+  pariCount: number;
   doublePointsScore: number;
   pariPointsScore: number;
   exactScoresNumber: number;
@@ -187,8 +190,11 @@ export const useUsersWithScoresTotal = ({
       id: user.id,
       name: user.name,
       avatar: user.photoUrl,
+      isAI: user.isAI,
       isWinner: user.lastWinner,
+      winnerCount: user.winnerCount,
       winnerPrediction: user.winnerPrediction,
+      pariCount: user.pariCount,
       doublePointsScore,
       pariPointsScore,
       exactScoresNumber,

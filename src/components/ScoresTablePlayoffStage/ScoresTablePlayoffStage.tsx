@@ -74,7 +74,10 @@ export const ScoresTablePlayoffStage = (props: Props) => {
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+      >
         <Table size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -129,6 +132,7 @@ export const ScoresTablePlayoffStage = (props: Props) => {
                     name={user.name}
                     isWinner={user.isWinner}
                     avatar={user.avatar}
+                    winnerCount={user.winnerCount}
                   />
                   {isNotSmallScreen &&
                     user.scoresByPlayOffGameDays.map((score, index) => {
