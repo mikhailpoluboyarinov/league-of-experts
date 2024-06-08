@@ -24,7 +24,6 @@ import { CUSTOM_COLORS } from "../../styles/colors";
 import { sortUsersByGameRulesGroupStage } from "../../domains/GameRules/helpers/sortUsersByGameRulesGroupStage";
 import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
 import React from "react";
-import StarIcon from "@mui/icons-material/Star";
 
 type Props = {
   countries: Country[];
@@ -69,7 +68,10 @@ export const ScoresTableGroupStage = (props: Props) => {
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+      >
         <Table size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -129,6 +131,7 @@ export const ScoresTableGroupStage = (props: Props) => {
                     name={user.name}
                     isWinner={user.isWinner}
                     avatar={user.avatar}
+                    winnerCount={user.winnerCount}
                   />
                   <TableCell align="center">{user.doublePointsScore}</TableCell>
                   {isNotSmallScreen &&

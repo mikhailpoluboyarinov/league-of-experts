@@ -27,7 +27,7 @@ export const TableCellChangedPlace: FC<TableCellChangedPlaceProps> = ({
   return (
     <TableCell
       align="center"
-      style={{ backgroundColor: backgroundColor, padding: "4px" }}
+      style={{ backgroundColor: backgroundColor, padding: "4px", width: "5%" }}
     >
       <div
         style={{

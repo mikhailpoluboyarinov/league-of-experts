@@ -128,7 +128,10 @@ export const ScoresTableResultsPerDay = (props: Props) => {
   return (
     <>
       <div>
-        <TableContainer component={Paper}>
+        <TableContainer
+          component={Paper}
+          style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }}
+        >
           <Table size="small" aria-label="simple table">
             <TableHead>
               <TableRow>
