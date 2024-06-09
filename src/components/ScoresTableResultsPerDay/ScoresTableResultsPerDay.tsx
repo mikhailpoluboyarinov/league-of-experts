@@ -18,6 +18,7 @@ import { calculatePredictionResult } from "../../domains/GameRules/helpers/calcu
 import { PredictionResult } from "../../domains/GameRules";
 import { notReachable } from "../../utils/notReachable";
 import { CUSTOM_COLORS } from "../../styles/colors";
+import {getColorByPredictionResult} from "../../domains/GameRules/helpers/getColorByPredictionResult";
 
 type Props = {
   countries: Country[];
@@ -89,41 +90,10 @@ export const ScoresTableResultsPerDay = (props: Props) => {
       };
     });
     return {
-      userName: user.name,
+      userName: `${user.name} ${user.lastName}`,
       predictions: userPredictions,
     };
   });
-
-  const getBgColorByPredictionResult = (predictionResult: PredictionResult) => {
-    switch (predictionResult.type) {
-      case "group":
-        switch (predictionResult.matchState.type) {
-          case "fail":
-            return CUSTOM_COLORS.red;
-          case "exact_score":
-            return CUSTOM_COLORS.purple;
-          case "exact_difference":
-            return CUSTOM_COLORS.green;
-          case "match_outcome":
-            return CUSTOM_COLORS.lightGreen;
-          default:
-            return notReachable(predictionResult.matchState);
-        }
-      case "play_off":
-        switch (predictionResult.matchState.type) {
-          case "fail":
-            return CUSTOM_COLORS.red;
-          case "exact_score":
-            return CUSTOM_COLORS.purple;
-          case "exact_difference":
-            return CUSTOM_COLORS.green;
-          case "match_outcome":
-            return CUSTOM_COLORS.lightGreen;
-          default:
-            return notReachable(predictionResult.matchState);
-        }
-    }
-  };
 
   return (
     <>
@@ -162,7 +132,7 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                         align="center"
                         style={{
                           backgroundColor: predictionData.predictionResult
-                            ? getBgColorByPredictionResult(
+                            ? getColorByPredictionResult(
                                 predictionData.predictionResult,
                               )
                             : "white",

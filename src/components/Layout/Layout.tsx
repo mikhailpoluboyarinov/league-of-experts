@@ -12,7 +12,6 @@ export const Layout = ({ children }: LayoutProps) => {
       <div
         style={{
           background: CUSTOM_COLORS.grey,
-          backgroundImage: `url(${BG})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",

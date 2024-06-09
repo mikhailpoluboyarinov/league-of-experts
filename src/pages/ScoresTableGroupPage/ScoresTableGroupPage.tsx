@@ -25,7 +25,7 @@ export const ScoresTableGroupPage = () => {
           <Header />
 
           <Layout>
-            <Title title="Таблица группового этапа" />
+            <Title title="Зачет группового этапа" />
             <ScoresTableGroupStage
               countries={data.data.countries}
               matches={data.data.matches}

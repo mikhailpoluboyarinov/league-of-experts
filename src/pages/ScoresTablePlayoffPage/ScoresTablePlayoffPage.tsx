@@ -19,7 +19,7 @@ export const ScoresTablePlayoffPage = () => {
           <Header />
 
           <Layout>
-            <Title title="Таблица плей-офф" />
+            <Title title="Зачет плей-офф" />
             <ScoresTablePlayoffStage
               countries={data.data.countries}
               matches={data.data.matches}

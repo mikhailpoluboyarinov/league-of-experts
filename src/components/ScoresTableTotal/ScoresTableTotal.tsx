@@ -31,6 +31,11 @@ import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChanged
 import React, { useState } from "react";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
+import { useAiWithScoresTotal } from "../../hooks/useAiWithScoresTotal";
+import {getColorByPlace} from "../../domains/GameRules/helpers/getColorByPlace";
+import {getCountryFlagUrlById} from "../../domains/Country/helpers/getCountryFlagUrlById";
+import {AiRowPlayoffStage} from "../ScoresTablePlayoffStage/AiRowPlayoffStage";
+import {AiRowTotal} from "./AiRowTotal";
 
 type Props = {
   countries: Country[];
@@ -40,22 +45,16 @@ type Props = {
   users: User[];
   currentGameDay: GameDay;
 };
-export const ScoresTableTotal = (props: Props) => {
-  const usersWithScores = useUsersWithScoresTotal({
-    matches: props.matches,
-    results: props.results,
-    users: props.users,
-    predictions: props.predictions,
+export const ScoresTableTotal = ({ countries, matches, results, users, predictions, currentGameDay }: Props) => {
+  const usersWithScoresWithoutAi = useUsersWithScoresTotal({
+    matches,
+    results,
+    users,
+    predictions,
   });
 
-  const filteredUsersWithScoreWithoutAi = usersWithScores.filter(
-    (users) => !users.isAI,
-  );
-
-  const aiWithScore = usersWithScores.filter((users) => users.isAI);
-
   const sortedUsersWithScores =
-    filteredUsersWithScoreWithoutAi.sort(sortUsersByGameRules);
+    usersWithScoresWithoutAi.sort(sortUsersByGameRules);
 
   const highestScoresPerDayPlayoff = useHighestScoresPerGameDay(
     sortedUsersWithScores.map((user) => user.scoresByPlayOffGameDays),
@@ -70,20 +69,10 @@ export const ScoresTableTotal = (props: Props) => {
       };
     }),
     gameDay: Math.min(
-      props.currentGameDay - GAME_DAYS_GROUP - 1,
+      currentGameDay - GAME_DAYS_GROUP - 1,
       GAME_DAYS_PLAYOFF,
     ) as GameDay,
   });
-
-  const getCountryFlagUrl = (id: CountryId) => {
-    const country = props.countries.find((country) => country.id === id);
-
-    if (!country) {
-      return;
-    }
-
-    return `https://purecatamphetamine.github.io/country-flag-icons/3x2/${country.code}.svg`;
-  };
 
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isMediumScreen = useMediaQuery(
@@ -138,13 +127,7 @@ export const ScoresTableTotal = (props: Props) => {
                   </span>
                 </Typography>
                 <Typography variant="subtitle2" gutterBottom component="div">
-                  Кол-во оставшихся пари:
-                  <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                    {user.user.pariCount}
-                  </span>
-                </Typography>
-                <Typography variant="subtitle2" gutterBottom component="div">
-                  Очки за Пари:
+                  Пари:
                   <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
                     {user.user.pariPointsScore}
                   </span>
@@ -170,7 +153,7 @@ export const ScoresTableTotal = (props: Props) => {
                     width={30}
                     height={30}
                     alt="United States"
-                    src={getCountryFlagUrl(user.user.winnerPrediction)}
+                    src={getCountryFlagUrlById(countries, user.user.winnerPrediction)}
                   />
                 </Typography>
               </Box>
@@ -180,92 +163,13 @@ export const ScoresTableTotal = (props: Props) => {
       </>
     );
   };
-
-  /*Отрисовка таблицы для бота*/
-  const RowAi = (user: any) => {
-    const [open, setOpen] = useState(false);
-
-    return (
-      <>
-        <TableRow>
-          <TableCell align="center" style={{ padding: "4px", width: "5%" }}>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-            </IconButton>
-          </TableCell>
-          <TableCell align="center" style={{ padding: "4px", width: "5%" }}>
-            -
-          </TableCell>
-          <TableCell align="center" style={{ padding: "4px", width: "10%" }} />
-          <TableCellNameAvatar
-            name={"Ai"}
-            isWinner={user.user.isWinner}
-            avatar={user.user.avatar}
-            winnerCount={user.user.winnerCount}
-          />
-          <TableCell align="center" style={{ padding: "4px", width: "25%" }}>
-            {user.user.totalScore}
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box margin={1}>
-                <Typography variant="subtitle2" gutterBottom component="div">
-                  Очки за групповой этап:
-                  <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                    {user.user.userGroupScore}
-                  </span>
-                </Typography>
-                <Typography variant="subtitle2" gutterBottom component="div">
-                  Очки за Пари:
-                  <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                    {user.user.pariPointsScore}
-                  </span>
-                </Typography>
-                <Typography variant="subtitle2" gutterBottom component="div">
-                  Точно угаданных результатов:
-                  <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                    {user.user.exactScoresNumber}
-                  </span>
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  gutterBottom
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "left",
-                  }}
-                >
-                  Прогноз на победителя:{" "}
-                  <img
-                    style={{ marginLeft: "15px" }}
-                    width={30}
-                    height={30}
-                    alt="United States"
-                    src={getCountryFlagUrl(user.user.winnerPrediction)}
-                  />
-                </Typography>
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </>
-    );
-  };
-  /*Закончилась отрисовка таблицы для бота*/
 
   return (
     <>
       {isSmallScreen ? (
         <TableContainer
           component={Paper}
-          style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+          style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
         >
           <Table aria-label="collapsible table">
             <TableHead>
@@ -293,7 +197,7 @@ export const ScoresTableTotal = (props: Props) => {
       ) : (
         <TableContainer
           component={Paper}
-          style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+          style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
         >
           <Table size="small" aria-label="simple table">
             <TableHead>
@@ -318,54 +222,19 @@ export const ScoresTableTotal = (props: Props) => {
                   align="center"
                   style={{ ...TABLE_CELL_STYLE, width: "8%" }}
                 >
-                  {isMediumScreen ? (
-                    "ПП"
-                  ) : (
-                    <>
-                      Прогноз
-                      <br />
-                      победителя
-                    </>
-                  )}
+                  {isMediumScreen ? "ПП" : "Прогноз победителя"}
                 </TableCell>
                 <TableCell
                   align="center"
                   style={{ ...TABLE_CELL_STYLE, width: "8%" }}
                 >
-                  {isMediumScreen ? (
-                    "Р"
-                  ) : (
-                    <>
-                      Точные
-                      <br /> результаты
-                    </>
-                  )}
+                  {isMediumScreen ? "Р" : "Точные результаты"}
                 </TableCell>
                 <TableCell
                   align="center"
                   style={{ ...TABLE_CELL_STYLE, width: "8%" }}
                 >
-                  {isMediumScreen ? (
-                    "П"
-                  ) : (
-                    <>
-                      Осталось
-                      <br /> Пари
-                    </>
-                  )}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ ...TABLE_CELL_STYLE, width: "8%" }}
-                >
-                  {isMediumScreen ? (
-                    "ГР"
-                  ) : (
-                    <>
-                      Групповой
-                      <br /> этап
-                    </>
-                  )}
+                  {isMediumScreen ? "ГР" : "Групповой этап"}
                 </TableCell>
                 {Array(GAME_DAYS_PLAYOFF)
                   .fill(0)
@@ -375,36 +244,21 @@ export const ScoresTableTotal = (props: Props) => {
                         align="center"
                         style={{ ...TABLE_CELL_STYLE, width: "4%" }}
                       >
-                        {isMediumScreen ? (
-                          index + 1
-                        ) : (
-                          <>
-                            День <br />
-                            {index + 1}
-                          </>
-                        )}
+                        {isMediumScreen ? index + 1 : `День ${index + 1}`}
                       </TableCell>
                     );
                   })}
                 <TableCell
                   align="center"
-                  style={{ ...TABLE_CELL_STYLE, width: "5%" }}
+                  style={{...TABLE_CELL_STYLE, color: CUSTOM_COLORS.orange, width: "5%" }}
                 >
-                  {isMediumScreen ? (
-                    "ОП"
-                  ) : (
-                    <>
-                      Очки
-                      <br />
-                      пари
-                    </>
-                  )}
+                  {isMediumScreen ? "П" : "Пари"}
                 </TableCell>
                 <TableCell
                   align="center"
                   style={{ ...TABLE_CELL_STYLE, width: "7%" }}
                 >
-                  {isMediumScreen ? "О" : "Очки"}
+                  {isMediumScreen ? "И" : "Итого"}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -417,7 +271,7 @@ export const ScoresTableTotal = (props: Props) => {
 
                 return (
                   <TableRow key={user.id}>
-                    <TableCell align="center" style={{ width: "5%" }}>
+                    <TableCell align="center" style={{width: "5%", backgroundColor: getColorByPlace(sortedUsersWithScores.length, index + 1) }}>
                       {index + 1}
                     </TableCell>
                     <TableCellChangedPlace
@@ -435,14 +289,11 @@ export const ScoresTableTotal = (props: Props) => {
                         width={30}
                         height={30}
                         alt="United States"
-                        src={getCountryFlagUrl(user.winnerPrediction)}
+                        src={getCountryFlagUrlById(countries, user.winnerPrediction)}
                       />
                     </TableCell>
                     <TableCell align="center" style={{ width: "8%" }}>
                       {user.exactScoresNumber}
-                    </TableCell>
-                    <TableCell align="center" style={{ width: "8%" }}>
-                      {user.pariCount}
                     </TableCell>
                     <TableCell align="center" style={{ width: "8%" }}>
                       {user.userGroupScore}
@@ -466,7 +317,7 @@ export const ScoresTableTotal = (props: Props) => {
                         </TableCell>
                       );
                     })}
-                    <TableCell align="center" style={{ width: "5%" }}>
+                    <TableCell align="center" style={{color: CUSTOM_COLORS.orange, width: "5%" }}>
                       {user.pariPointsScore}
                     </TableCell>
                     <TableCell align="center" style={{ width: "7%" }}>
@@ -475,99 +326,15 @@ export const ScoresTableTotal = (props: Props) => {
                   </TableRow>
                 );
               })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
-
-      {/*Таблица для AI бота*/}
-      {isSmallScreen ? (
-        <TableContainer
-          component={Paper}
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.3)",
-            marginTop: "10px",
-          }}
-        >
-          <Table aria-label="collapsible table">
-            <TableBody>
-              {aiWithScore.map((user, index) => (
-                <RowAi user={user} index={index} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      ) : (
-        <TableContainer
-          component={Paper}
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.3)",
-            marginTop: "10px",
-          }}
-        >
-          <Table size="small" aria-label="simple table">
-            <TableBody>
-              {aiWithScore.map((user, index) => {
-                return (
-                  <TableRow key={user.id}>
-                    <TableCell
-                      align="center"
-                      style={{ padding: "4px", width: "5%" }}
-                    >
-                      -
-                    </TableCell>
-                    <TableCell style={{ width: "5%" }} />
-                    <TableCellNameAvatar
-                      name={"Ai"}
-                      isWinner={user.isWinner}
-                      avatar={user.avatar}
-                      winnerCount={user.winnerCount}
-                    />
-                    <TableCell align="center" style={{ width: "8%" }}>
-                      <img
-                        width={30}
-                        height={30}
-                        alt="United States"
-                        src={getCountryFlagUrl(user.winnerPrediction)}
-                      />
-                    </TableCell>
-                    <TableCell align="center" style={{ width: "8%" }}>
-                      {user.exactScoresNumber}
-                    </TableCell>
-                    <TableCell align="center" style={{ width: "8%" }}>
-                      -
-                    </TableCell>
-                    <TableCell align="center" style={{ width: "8%" }}>
-                      {user.userGroupScore}
-                    </TableCell>
-                    {user.scoresByPlayOffGameDays.map((score, index) => {
-                      const isUserWithHighestScorePerDay =
-                        highestScoresPerDayPlayoff[index] &&
-                        highestScoresPerDayPlayoff[index] === score;
-                      return (
-                        <TableCell
-                          key={index}
-                          align="center"
-                          style={{
-                            width: "4%",
-                            backgroundColor: isUserWithHighestScorePerDay
-                              ? CUSTOM_COLORS.lightGreen
-                              : "inherit",
-                          }}
-                        >
-                          {score}
-                        </TableCell>
-                      );
-                    })}
-                    <TableCell align="center" style={{ width: "5%" }}>
-                      {user.pariPointsScore}
-                    </TableCell>
-                    <TableCell align="center" style={{ width: "7%" }}>
-                      {user.totalScore}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {/*Строка таблицы для AI бота*/}
+              <AiRowTotal
+                  countries={countries}
+                  results={results}
+                  users={users}
+                  currentGameDay={currentGameDay}
+                  matches={matches}
+                  predictions={predictions}
+              />
             </TableBody>
           </Table>
         </TableContainer>
@@ -617,10 +384,10 @@ export const ScoresTableTotal = (props: Props) => {
           &nbsp;–&nbsp;очки за групповой этап,&nbsp;
           <b>[1, ... ]</b>
           &nbsp;–&nbsp;день плейоффа,&nbsp;
-          <b>ОП</b>
-          &nbsp;–&nbsp;очки за Пари&nbsp;
-          <b>О</b>
-          &nbsp;–&nbsp;очки&nbsp;
+          <b>П</b>
+          &nbsp;–&nbsp;пари&nbsp;
+          <b>И</b>
+          &nbsp;–&nbsp;итого&nbsp;
         </Typography>
       ) : (
         ""

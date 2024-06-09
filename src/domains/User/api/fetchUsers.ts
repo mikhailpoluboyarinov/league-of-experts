@@ -23,7 +23,6 @@ export const fetchUsers = async (): Promise<User[]> => {
         lastWinner: user.lastWinner,
         winnerPrediction: user.winnerPrediction,
         isAI: user.isAI,
-        pariCount: user.pariCount,
       };
     });
   } catch (e) {

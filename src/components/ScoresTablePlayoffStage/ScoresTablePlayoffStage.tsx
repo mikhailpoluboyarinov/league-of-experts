@@ -27,6 +27,9 @@ import { CUSTOM_COLORS } from "../../styles/colors";
 import { sortUsersByGameRulesPlayoffStage } from "../../domains/GameRules/helpers/sortUsersByGameRulesPlayoffStage";
 import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
 import React from "react";
+import {getColorByPlace} from "../../domains/GameRules/helpers/getColorByPlace";
+import {AiRowGroupStage} from "../ScoresTableGroupStage/AiRowGroupStage";
+import {AiRowPlayoffStage} from "./AiRowPlayoffStage";
 
 type Props = {
   countries: Country[];
@@ -36,12 +39,12 @@ type Props = {
   users: User[];
   currentGameDay: GameDay;
 };
-export const ScoresTablePlayoffStage = (props: Props) => {
+export const ScoresTablePlayoffStage = ({ countries, matches, results, users, predictions, currentGameDay }: Props) => {
   const usersWithScores = useUsersWithScoresTotal({
-    matches: props.matches,
-    results: props.results,
-    users: props.users,
-    predictions: props.predictions,
+    matches,
+    results,
+    users,
+    predictions,
   });
 
   const sortedUsersWithScores = usersWithScores.sort(
@@ -57,7 +60,7 @@ export const ScoresTablePlayoffStage = (props: Props) => {
       };
     }),
     gameDay: Math.min(
-      props.currentGameDay - GAME_DAYS_GROUP - 1,
+      currentGameDay - GAME_DAYS_GROUP - 1,
       GAME_DAYS_PLAYOFF,
     ) as GameDay,
   });
@@ -76,7 +79,7 @@ export const ScoresTablePlayoffStage = (props: Props) => {
     <>
       <TableContainer
         component={Paper}
-        style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
       >
         <Table size="small" aria-label="simple table">
           <TableHead>
@@ -85,10 +88,12 @@ export const ScoresTablePlayoffStage = (props: Props) => {
                 {isMediumScreen ? "М" : "Место"}
               </TableCell>
               <TableCell align="center" style={TABLE_CELL_STYLE}></TableCell>
-              <TableCell align="center" style={TABLE_CELL_STYLE}>
-                {isMediumScreen ? "И" : "Имя"}
+              <TableCell style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? "" : "Эксперт"}
               </TableCell>
-
+              <TableCell align="center" style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? "T" : "Точные счета"}
+              </TableCell>
               {isNotSmallScreen &&
                 Array(GAME_DAYS_PLAYOFF)
                   .fill(0)
@@ -98,19 +103,14 @@ export const ScoresTablePlayoffStage = (props: Props) => {
                       align="center"
                       style={TABLE_CELL_STYLE}
                     >
-                      {isNotSmallScreen ? (
-                        index + 1
-                      ) : (
-                        <>
-                          День <br />
-                          {index + 1}
-                        </>
-                      )}
+                      {isMediumScreen ? index + 1 : `День ${index + 1}`}
                     </TableCell>
                   ))}
-
+              <TableCell align="center" style={{...TABLE_CELL_STYLE, color: CUSTOM_COLORS.orange }}>
+                {isMediumScreen ? "П" : "Пари"}
+              </TableCell>
               <TableCell align="center" style={TABLE_CELL_STYLE}>
-                {isMediumScreen ? "О" : "Очки"}
+                {isMediumScreen ? "О" : "Итого"}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -123,7 +123,7 @@ export const ScoresTablePlayoffStage = (props: Props) => {
 
               return (
                 <TableRow>
-                  <TableCell align="center">{index + 1}</TableCell>
+                  <TableCell align="center" style={{backgroundColor: getColorByPlace(sortedUsersWithScores.length, index + 1) }}>{index + 1}</TableCell>
                   <TableCellChangedPlace
                     userPositionPreviousGameDay={userPositionPreviousGameDay}
                     index={index}
@@ -134,6 +134,7 @@ export const ScoresTablePlayoffStage = (props: Props) => {
                     avatar={user.avatar}
                     winnerCount={user.winnerCount}
                   />
+                  <TableCell align="center">{user.exactScoresNumber}</TableCell>
                   {isNotSmallScreen &&
                     user.scoresByPlayOffGameDays.map((score, index) => {
                       const isUserWithHighestScorePerDay =
@@ -152,10 +153,21 @@ export const ScoresTablePlayoffStage = (props: Props) => {
                         </TableCell>
                       );
                     })}
+                  <TableCell align="center" style={{ fontWeight: "bold", color: CUSTOM_COLORS.orange }}>{user.pariPointsScore}</TableCell>
                   <TableCell align="center">{user.userPlayoffScore}</TableCell>
                 </TableRow>
               );
             })}
+
+            {/*Строка таблицы для AI бота*/}
+            <AiRowPlayoffStage
+                countries={countries}
+                results={results}
+                users={users}
+                currentGameDay={currentGameDay}
+                matches={matches}
+                predictions={predictions}
+            />
           </TableBody>
         </Table>
       </TableContainer>

@@ -25,7 +25,7 @@ export const ScoresTableResultsPerDayPage = () => {
           <Header />
 
           <Layout>
-            <Title title="Таблица матчей по дням" />
+            <Title title={`Игровой день ${data.data.misc.currentGameDay}`} />
             <ScoresTableResultsPerDay
               countries={data.data.countries}
               matches={data.data.matches}

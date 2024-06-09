@@ -8,7 +8,7 @@ export const Title: React.FC<TitleProps> = ({ title }) => {
   return (
     <>
       <Typography
-        variant="h4"
+        variant="h5"
         align="left"
         gutterBottom
         style={{

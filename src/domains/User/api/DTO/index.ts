@@ -1,4 +1,4 @@
-import { User, UserPariCount, UserWinnerCount } from "../../index";
+import { User, UserWinnerCount } from "../../index";
 import { UserId } from "../../index";
 import { CountryId } from "../../../Country";
 
@@ -14,7 +14,6 @@ export const users: User[] = [
     lastWinner: true,
     winnerPrediction: 11 as CountryId,
     isAI: false,
-    pariCount: 5 as UserPariCount,
   },
   {
     id: 2 as UserId,
@@ -27,7 +26,6 @@ export const users: User[] = [
     lastWinner: false,
     winnerPrediction: 12 as CountryId,
     isAI: false,
-    pariCount: 5 as UserPariCount,
   },
   {
     id: 3 as UserId,
@@ -39,6 +37,5 @@ export const users: User[] = [
     lastWinner: false,
     winnerPrediction: 13 as CountryId,
     isAI: false,
-    pariCount: 5 as UserPariCount,
   },
 ];

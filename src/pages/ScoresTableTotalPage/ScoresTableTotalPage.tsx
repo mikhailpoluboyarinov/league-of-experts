@@ -20,7 +20,7 @@ export const ScoresTableTotalPage = () => {
           <Header />
 
           <Layout>
-            <Title title="Таблица чемпионата" />
+            <Title title="Общий зачет" />
             <ScoresTableTotal
               countries={data.data.countries}
               matches={data.data.matches}
