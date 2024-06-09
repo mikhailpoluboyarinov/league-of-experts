@@ -71,12 +71,6 @@ export const TableRowTotalScore = ({
                 </span>
               </Typography>
               <Typography variant="subtitle2" gutterBottom component="div">
-                Кол-во оставшихся пари:
-                <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                  {user.user.pariCount}
-                </span>
-              </Typography>
-              <Typography variant="subtitle2" gutterBottom component="div">
                 Очки за Пари:
                 <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
                   {user.user.pariPointsScore}

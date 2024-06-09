@@ -10,6 +10,7 @@ import { calculatePredictionResult } from "../domains/GameRules/helpers/calculat
 import { calculatePredictionResultScore } from "../domains/GameRules/helpers/calculatePredictionResultScore";
 import { CountryId } from "../domains/Country";
 import { calculatePariScore } from "../domains/GameRules/helpers/calculatePariScore";
+import {useAiScores} from "./useAiScores";
 
 type Params = {
   matches: Match[];
@@ -26,7 +27,6 @@ export type UserWithScoresTotal = {
   isWinner: boolean;
   winnerCount: number;
   winnerPrediction: CountryId;
-  pariCount: number;
   doublePointsScore: number;
   pariPointsScore: number;
   exactScoresNumber: number;
@@ -44,7 +44,9 @@ export const useUsersWithScoresTotal = ({
   users,
   predictions,
 }: Params): UserWithScoresTotal[] => {
+  const aiScores = useAiScores({ predictions, results })
   const filteredUsers = users.filter((user) => !user.isAI);
+
   // Пробегаем по всем юзерам и возвращаем модель с посчитанными очками
   const usersWithScores = filteredUsers.map((user) => {
     // Итоговое кол-во очков за турнир
@@ -72,35 +74,6 @@ export const useUsersWithScoresTotal = ({
     const userPredictions = predictions.filter((prediction) => {
       return prediction.userId === user.id;
     });
-
-    const aiPredictions = predictions.filter((prediction) => {
-      return prediction.isAIPrediction;
-    });
-
-    const aiScores = aiPredictions.reduce(
-      (scores, prediction) => {
-        const result = results.find((result) => {
-          return result.matchId === prediction.matchId;
-        });
-
-        if (!result) {
-          return scores;
-        }
-
-        const predictionResult = calculatePredictionResult({
-          prediction,
-          result,
-        });
-
-        const predictionResultScore = calculatePredictionResultScore({
-          predictionResult,
-        });
-
-        scores[prediction.matchId] = predictionResultScore;
-        return scores;
-      },
-      {} as Record<MatchId, number>,
-    );
 
     // Перебираем в цикле полученные шагом ранее прогнозы конкретного пользователя
     userPredictions.forEach((userPrediction) => {
@@ -188,12 +161,11 @@ export const useUsersWithScoresTotal = ({
 
     return {
       id: user.id,
-      name: user.name,
+      name: `${user.name} ${user.lastName}`,
       avatar: user.photoUrl,
       isWinner: user.lastWinner,
       winnerCount: user.winnerCount,
       winnerPrediction: user.winnerPrediction,
-      pariCount: user.pariCount,
       doublePointsScore,
       pariPointsScore,
       exactScoresNumber,

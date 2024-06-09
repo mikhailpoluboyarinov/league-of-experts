@@ -35,7 +35,7 @@ export const TableCellNameAvatar: FC<TableCellNameAvatarProps> = ({
 
   return (
     <>
-      <TableCell align="center" style={{ width: "17%" }}>
+      <TableCell style={{ width: "17%", padding: '4px 8px' }}>
         <div
           style={{
             display: "flex",

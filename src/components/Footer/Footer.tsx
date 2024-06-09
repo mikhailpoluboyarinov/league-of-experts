@@ -15,14 +15,14 @@ export const Footer = () => {
       <Toolbar style={{ minHeight: "64px" }}>
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h6" style={{ marginRight: "20px" }}>
+          <Typography variant="caption" style={{ marginRight: "10px" }}>
             Наши соцсети:
           </Typography>
           <Link
             href="#"
             underline="none"
             color="white"
-            style={{ marginRight: "60px", marginTop: "10px" }}
+            style={{ marginRight: "60px"}}
           >
             <Telegram />
           </Link>

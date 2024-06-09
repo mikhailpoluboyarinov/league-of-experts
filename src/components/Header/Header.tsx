@@ -9,7 +9,7 @@ export const Header = () => {
       style={{ backgroundColor: CUSTOM_COLORS.headerFooter }}
     >
       <Toolbar style={{ minHeight: "64px" }}>
-        <Typography variant="h6" style={{ marginLeft: "20px" }}>
+        <Typography variant="h6" style={{ marginLeft: "20px", fontWeight: "bold" }}>
           <Link href="/" underline="none" color="white">
             League of Experts
           </Link>
@@ -18,15 +18,22 @@ export const Header = () => {
           <Button color="inherit" component={Link} href="/group">
             Групповой этап
           </Button>
+          •
           <Button color="inherit" component={Link} href="/playoff">
-            Плейофф этап
+            Плейофф
           </Button>
-          <Button color="inherit" component={Link} href="/matches">
-            Матчи
-          </Button>
+          •
+          {
+            /*
+            <Button color="inherit" component={Link} href="/matches">
+              Матчи
+            </Button>
+            •*/
+          }
           <Button color="inherit" component={Link} href="/results-per-day">
-            Результаты за игровой день
+            Результаты
           </Button>
+          •
           <Button color="inherit" component={Link} href="/faq">
             FAQ
           </Button>

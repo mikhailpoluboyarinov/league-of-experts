@@ -3,7 +3,6 @@ import { CountryId } from "../Country";
 
 export type UserId = Brand<number, "user Id">;
 export type UserWinnerCount = Brand<number, "winner count">;
-export type UserPariCount = Brand<number, "pari count">;
 
 export type User = {
   id: UserId;
@@ -15,5 +14,4 @@ export type User = {
   lastWinner: boolean;
   winnerPrediction: CountryId;
   isAI: boolean;
-  pariCount: UserPariCount;
 };

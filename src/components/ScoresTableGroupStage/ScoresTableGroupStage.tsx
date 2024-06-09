@@ -1,3 +1,5 @@
+import React, {useState} from "react";
+
 import { Country } from "../../domains/Country";
 import { GameDay, Match } from "../../domains/Match";
 import { Prediction } from "../../domains/Prediction";
@@ -11,8 +13,8 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  useMediaQuery,
   Paper,
+  useMediaQuery,
   Typography,
 } from "@mui/material";
 import { GAME_DAYS_GROUP } from "../../domains/GameRules/constants/constants";
@@ -23,7 +25,8 @@ import { TableCellNameAvatar } from "../TableCellNameAvatar/TableCellNameAvatar"
 import { CUSTOM_COLORS } from "../../styles/colors";
 import { sortUsersByGameRulesGroupStage } from "../../domains/GameRules/helpers/sortUsersByGameRulesGroupStage";
 import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
-import React from "react";
+import {getColorByPlace} from "../../domains/GameRules/helpers/getColorByPlace";
+import {AiRowGroupStage} from "./AiRowGroupStage";
 
 type Props = {
   countries: Country[];
@@ -33,12 +36,12 @@ type Props = {
   users: User[];
   currentGameDay: GameDay;
 };
-export const ScoresTableGroupStage = (props: Props) => {
+export const ScoresTableGroupStage = ({ countries, results, users, predictions, matches, currentGameDay }: Props) => {
   const usersWithScores = useUsersWithScoresTotal({
-    matches: props.matches,
-    results: props.results,
-    users: props.users,
-    predictions: props.predictions,
+    matches,
+    results,
+    users,
+    predictions,
   });
 
   const sortedUsersWithScores = usersWithScores.sort(
@@ -53,7 +56,7 @@ export const ScoresTableGroupStage = (props: Props) => {
         exactScoresNumber: userWithScore.exactScoresNumber,
       };
     }),
-    gameDay: Math.min(props.currentGameDay - 1, GAME_DAYS_GROUP) as GameDay,
+    gameDay: Math.min(currentGameDay - 1, GAME_DAYS_GROUP) as GameDay,
   });
 
   const highestScoresPerDayGroup = useHighestScoresPerGameDay(
@@ -70,7 +73,7 @@ export const ScoresTableGroupStage = (props: Props) => {
     <>
       <TableContainer
         component={Paper}
-        style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
       >
         <Table size="small" aria-label="simple table">
           <TableHead>
@@ -79,13 +82,12 @@ export const ScoresTableGroupStage = (props: Props) => {
                 {isMediumScreen ? "М" : "Место"}
               </TableCell>
               <TableCell align="center" style={TABLE_CELL_STYLE}></TableCell>
-              <TableCell align="center" style={TABLE_CELL_STYLE}>
-                {isMediumScreen ? "И" : "Имя"}
+              <TableCell style={TABLE_CELL_STYLE}>
+                {isMediumScreen ? "" : "Эксперт"}
               </TableCell>
               <TableCell align="center" style={TABLE_CELL_STYLE}>
-                {isMediumScreen ? "ДО" : "Двойные очки"}
+                {isMediumScreen ? "T" : "Точные счета"}
               </TableCell>
-
               {isNotSmallScreen &&
                 Array(GAME_DAYS_GROUP)
                   .fill(0)
@@ -96,20 +98,18 @@ export const ScoresTableGroupStage = (props: Props) => {
                         align="center"
                         style={TABLE_CELL_STYLE}
                       >
-                        {isNotSmallScreen ? (
-                          index + 1
-                        ) : (
-                          <>
-                            День <br />
-                            {index + 1}
-                          </>
-                        )}
+                        {isMediumScreen ? index + 1 : `День ${index + 1}`}
                       </TableCell>
                     );
                   })}
-
+              <TableCell align="center" style={{...TABLE_CELL_STYLE, color: CUSTOM_COLORS.orange }}>
+                {isMediumScreen ? "X2" : "Очки X2"}
+              </TableCell>
+              <TableCell align="center" style={{...TABLE_CELL_STYLE, color: CUSTOM_COLORS.orange }}>
+                {isMediumScreen ? "П" : "Пари"}
+              </TableCell>
               <TableCell align="center" style={TABLE_CELL_STYLE}>
-                {isMediumScreen ? "О" : "Очки"}
+                {isMediumScreen ? "О" : "Итого"}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -122,7 +122,7 @@ export const ScoresTableGroupStage = (props: Props) => {
 
               return (
                 <TableRow>
-                  <TableCell align="center">{index + 1}</TableCell>
+                  <TableCell align="center" style={{backgroundColor: getColorByPlace(sortedUsersWithScores.length, index + 1) }}>{index + 1}</TableCell>
                   <TableCellChangedPlace
                     userPositionPreviousGameDay={userPositionPreviousGameDay}
                     index={index}
@@ -133,7 +133,7 @@ export const ScoresTableGroupStage = (props: Props) => {
                     avatar={user.avatar}
                     winnerCount={user.winnerCount}
                   />
-                  <TableCell align="center">{user.doublePointsScore}</TableCell>
+                  <TableCell align="center">{user.exactScoresNumber}</TableCell>
                   {isNotSmallScreen &&
                     user.scoresByGroupGameDays.map((score, index) => {
                       const isUserWithHighestScorePerDay =
@@ -152,10 +152,22 @@ export const ScoresTableGroupStage = (props: Props) => {
                         </TableCell>
                       );
                     })}
+                  <TableCell align="center" style={{ fontWeight: "bold", color: CUSTOM_COLORS.orange }}>{user.doublePointsScore}</TableCell>
+                  <TableCell align="center" style={{ fontWeight: "bold", color: CUSTOM_COLORS.orange }}>{user.pariPointsScore}</TableCell>
                   <TableCell align="center">{user.userGroupScore}</TableCell>
                 </TableRow>
               );
             })}
+
+            {/*Строка таблицы для AI бота*/}
+            <AiRowGroupStage
+                countries={countries}
+                results={results}
+                users={users}
+                currentGameDay={currentGameDay}
+                matches={matches}
+                predictions={predictions}
+            />
           </TableBody>
         </Table>
       </TableContainer>
@@ -171,12 +183,10 @@ export const ScoresTableGroupStage = (props: Props) => {
         >
           <b>М</b>
           &nbsp;–&nbsp;матчи,&nbsp;
-          <b>И</b>
-          &nbsp;–&nbsp;имя,&nbsp;
-          <b>ДО</b>
+          <b>X2</b>
           &nbsp;–&nbsp;двойные очки,&nbsp;
-          <b>О</b>
-          &nbsp;–&nbsp;очки&nbsp;
+          <b>И</b>
+          &nbsp;–&nbsp;итого&nbsp;
         </Typography>
       ) : (
         ""
@@ -193,14 +203,14 @@ export const ScoresTableGroupStage = (props: Props) => {
         >
           <b>М</b>
           &nbsp;–&nbsp;матчи,&nbsp;
-          <b>И</b>
-          &nbsp;–&nbsp;имя,&nbsp;
-          <b>ДО</b>
+          <b>X2</b>
           &nbsp;–&nbsp;двойные очки,&nbsp;
           <b>[1, ... ]</b>
           &nbsp;–&nbsp;день группового этапа,&nbsp;
-          <b>О</b>
-          &nbsp;–&nbsp;очки&nbsp;
+          <b>П</b>
+          &nbsp;–&nbsp;очки за пари&nbsp;
+          <b>И</b>
+          &nbsp;–&nbsp;итого&nbsp;
         </Typography>
       ) : (
         ""
