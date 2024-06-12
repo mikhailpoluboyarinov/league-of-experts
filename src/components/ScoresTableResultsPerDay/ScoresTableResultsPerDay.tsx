@@ -4,7 +4,11 @@ import { Prediction } from "../../domains/Prediction";
 import { Result } from "../../domains/Result";
 import { User } from "../../domains/User";
 import {
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -15,10 +19,11 @@ import {
 } from "@mui/material";
 import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
 import { calculatePredictionResult } from "../../domains/GameRules/helpers/calculatePredictionResult";
-import { PredictionResult } from "../../domains/GameRules";
-import { notReachable } from "../../utils/notReachable";
+import { getColorByPredictionResult } from "../../domains/GameRules/helpers/getColorByPredictionResult";
+import { calculatePredictionResultScore } from "../../domains/GameRules/helpers/calculatePredictionResultScore";
+import { useState } from "react";
 import { CUSTOM_COLORS } from "../../styles/colors";
-import {getColorByPredictionResult} from "../../domains/GameRules/helpers/getColorByPredictionResult";
+import CasinoIcon from "@mui/icons-material/Casino";
 
 type Props = {
   countries: Country[];
@@ -30,12 +35,21 @@ type Props = {
 };
 
 export const ScoresTableResultsPerDay = (props: Props) => {
-  const isMediumScreen = useMediaQuery(
-    "(min-width: 651px) and (max-width: 1050px)",
+  const [selectedGameDay, setSelectedGameDay] = useState(props.currentGameDay);
+
+  const handleGameDayChange = (event: any) => {
+    setSelectedGameDay(event.target.value as GameDay);
+  };
+
+  const isSmallScreen = useMediaQuery("(max-width: 650px)");
+
+  // Записываем массив с gameDays без повторов
+  const gameDays = Array.from(
+    new Set(props.matches.map((match) => match.gameDay)),
   );
 
   const filteredMatchesByGameDay = props.matches.filter(
-    (match) => match.gameDay === props.currentGameDay,
+    (match) => match.gameDay === selectedGameDay,
   );
 
   const matchesData = filteredMatchesByGameDay.map((match) => {
@@ -79,34 +93,78 @@ export const ScoresTableResultsPerDay = (props: Props) => {
         return null;
       }
 
+      const predictionResult = matchData.matchResult
+        ? calculatePredictionResult({
+            prediction,
+            result: matchData.matchResult,
+          })
+        : null;
+
+      const score = predictionResult
+        ? calculatePredictionResultScore({ predictionResult })
+        : 0;
+
       return {
         prediction,
-        predictionResult: matchData.matchResult
-          ? calculatePredictionResult({
-              prediction,
-              result: matchData.matchResult,
-            })
-          : null,
+        predictionResult,
+        score,
       };
     });
     return {
       userName: `${user.name} ${user.lastName}`,
+      isAi: user.isAI,
       predictions: userPredictions,
     };
   });
 
+  // Сортируем, чтобы AI был в конце списка, чтобы его потом выделить цветом в таблице.
+  const sortedPredictionsByUsers = predictionsByUsers.sort(
+    (a, b) => Number(a.isAi) - Number(b.isAi),
+  );
+
   return (
     <>
+      <FormControl
+        variant="outlined"
+        style={{ minWidth: 200, marginBottom: 20 }}
+      >
+        <InputLabel id="game-day-select-label">
+          Выберите игровой день
+        </InputLabel>
+        <Select
+          labelId="game-day-select-label"
+          id="game-day-select"
+          value={selectedGameDay}
+          onChange={handleGameDayChange}
+          label="Выберите игровой день"
+        >
+          {gameDays.map((gameDay) => (
+            <MenuItem key={gameDay} value={gameDay}>
+              Игровой день {gameDay}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
       <div>
         <TableContainer
           component={Paper}
-          style={{ backgroundColor: "rgba(255, 255, 255, 0.5)" }}
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0.5)",
+          }}
         >
           <Table size="small" aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="center" style={TABLE_CELL_STYLE}>
-                  {isMediumScreen ? "И" : "Имя"}
+                <TableCell
+                  style={{
+                    paddingLeft: "15px",
+                    fontSize: "0.775rem",
+                    fontWeight: "bold",
+                    color: CUSTOM_COLORS.headerFooter,
+                  }}
+                >
+                  {isSmallScreen ? "" : "Эксперт"}
                 </TableCell>
                 {matchesData.map((item) => {
                   if (item !== null) {
@@ -120,33 +178,52 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                     );
                   }
                 })}
+                <TableCell align="center" style={TABLE_CELL_STYLE}>
+                  {isSmallScreen ? "О" : "Очки"}
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {predictionsByUsers.map((prediction) => (
-                <TableRow>
-                  <TableCell>{prediction.userName}</TableCell>
-                  {prediction.predictions.map((predictionData) =>
-                    predictionData ? (
-                      <TableCell
-                        align="center"
-                        style={{
-                          backgroundColor: predictionData.predictionResult
-                            ? getColorByPredictionResult(
-                                predictionData.predictionResult,
-                              )
-                            : "white",
-                        }}
-                      >
-                        {predictionData.prediction.hostScore}:
-                        {predictionData.prediction.guestScore}
-                      </TableCell>
-                    ) : (
-                      <TableCell align="center">-</TableCell>
-                    ),
-                  )}
-                </TableRow>
-              ))}
+              {sortedPredictionsByUsers.map((userPredictionsData, index) => {
+                let totalScore = 0;
+                const isLastRow = index === sortedPredictionsByUsers.length - 1;
+
+                return (
+                  <TableRow
+                    style={{
+                      backgroundColor: isLastRow
+                        ? CUSTOM_COLORS.grey
+                        : "inherit",
+                    }}
+                  >
+                    <TableCell>{userPredictionsData.userName}</TableCell>
+                    {userPredictionsData.predictions.map((predictionData) => {
+                      if (predictionData) {
+                        totalScore += predictionData.score;
+
+                        return (
+                          <TableCell
+                            align="center"
+                            style={{
+                              backgroundColor: predictionData.predictionResult
+                                ? getColorByPredictionResult(
+                                    predictionData.predictionResult,
+                                  )
+                                : "white",
+                            }}
+                          >
+                            {predictionData.prediction.hostScore}:
+                            {predictionData.prediction.guestScore}
+                          </TableCell>
+                        );
+                      }
+
+                      return <TableCell align="center">-</TableCell>;
+                    })}
+                    <TableCell align="center">{totalScore}</TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>

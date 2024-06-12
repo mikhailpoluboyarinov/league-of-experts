@@ -3,8 +3,10 @@ import { Avatar, TableCell } from "@mui/material";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { CUSTOM_COLORS } from "../../styles/colors";
 import StarIcon from "@mui/icons-material/Star";
+import { UserId } from "../../domains/User";
 
 interface TableCellNameAvatarProps {
+  id: UserId;
   name: string;
   isWinner: boolean;
   avatar: string;
@@ -12,6 +14,7 @@ interface TableCellNameAvatarProps {
 }
 
 export const TableCellNameAvatar: FC<TableCellNameAvatarProps> = ({
+  id,
   name,
   isWinner,
   avatar,
@@ -33,9 +36,17 @@ export const TableCellNameAvatar: FC<TableCellNameAvatarProps> = ({
       />
     ));
 
+  let photoUrl = "";
+
+  try {
+    photoUrl = require(`../../images/${id}.jpg`);
+  } catch (error) {
+    photoUrl = require(`../../images/unknownUser.jpg`);
+  }
+
   return (
     <>
-      <TableCell style={{ width: "17%", padding: '4px 8px' }}>
+      <TableCell style={{ width: "17%", padding: "4px 8px" }}>
         <div
           style={{
             display: "flex",
@@ -47,7 +58,7 @@ export const TableCellNameAvatar: FC<TableCellNameAvatarProps> = ({
             {stars}
             <Avatar
               alt={name}
-              src={avatar}
+              src={photoUrl || ""}
               style={{
                 marginRight: "8px",
                 boxShadow: isWinner

@@ -51,6 +51,7 @@ export const TableRowTotalScore = ({
           index={index}
         />
         <TableCellNameAvatar
+          id={user.user.id}
           name={user.user.name}
           isWinner={user.user.isWinner}
           avatar={user.user.avatar}

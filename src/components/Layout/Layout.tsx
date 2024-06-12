@@ -19,7 +19,7 @@ export const Layout = ({ children }: LayoutProps) => {
           minHeight: "calc(100vh - 128px)",
         }}
       >
-        <div style={{ padding: "0 5%" }}>{children}</div>
+        <div style={{ padding: "0 5% 30px" }}>{children}</div>
       </div>
     </>
   );

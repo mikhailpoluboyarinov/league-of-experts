@@ -1,4 +1,4 @@
-import { Country, CountryId } from "../../domains/Country";
+import { Country } from "../../domains/Country";
 import { GameDay, Match } from "../../domains/Match";
 import { Prediction } from "../../domains/Prediction";
 import { Result } from "../../domains/Result";
@@ -31,11 +31,9 @@ import { TableCellChangedPlace } from "../TableCellChangedPlace/TableCellChanged
 import React, { useState } from "react";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { TABLE_CELL_STYLE } from "../../styles/tableCellStyle";
-import { useAiWithScoresTotal } from "../../hooks/useAiWithScoresTotal";
-import {getColorByPlace} from "../../domains/GameRules/helpers/getColorByPlace";
-import {getCountryFlagUrlById} from "../../domains/Country/helpers/getCountryFlagUrlById";
-import {AiRowPlayoffStage} from "../ScoresTablePlayoffStage/AiRowPlayoffStage";
-import {AiRowTotal} from "./AiRowTotal";
+import { getColorByPlace } from "../../domains/GameRules/helpers/getColorByPlace";
+import { getCountryFlagUrlById } from "../../domains/Country/helpers/getCountryFlagUrlById";
+import { AiRowTotal } from "./AiRowTotal";
 
 type Props = {
   countries: Country[];
@@ -45,7 +43,14 @@ type Props = {
   users: User[];
   currentGameDay: GameDay;
 };
-export const ScoresTableTotal = ({ countries, matches, results, users, predictions, currentGameDay }: Props) => {
+export const ScoresTableTotal = ({
+  countries,
+  matches,
+  results,
+  users,
+  predictions,
+  currentGameDay,
+}: Props) => {
   const usersWithScoresWithoutAi = useUsersWithScoresTotal({
     matches,
     results,
@@ -99,7 +104,17 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
               {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
             </IconButton>
           </TableCell>
-          <TableCell align="center" style={{ padding: "4px", width: "10%" }}>
+          <TableCell
+            align="center"
+            style={{
+              padding: "4px",
+              width: "10%",
+              backgroundColor: getColorByPlace(
+                sortedUsersWithScores.length,
+                user.index + 1,
+              ),
+            }}
+          >
             {user.index + 1}
           </TableCell>
           <TableCellChangedPlace
@@ -107,6 +122,7 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
             index={user.index}
           />
           <TableCellNameAvatar
+            id={user.user.id}
             name={user.user.name}
             isWinner={user.user.isWinner}
             avatar={user.user.avatar}
@@ -152,8 +168,11 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
                     style={{ marginLeft: "15px" }}
                     width={30}
                     height={30}
-                    alt="United States"
-                    src={getCountryFlagUrlById(countries, user.user.winnerPrediction)}
+                    alt="flag"
+                    src={getCountryFlagUrlById(
+                      countries,
+                      user.user.winnerPrediction,
+                    )}
                   />
                 </Typography>
               </Box>
@@ -179,9 +198,7 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
                   М
                 </TableCell>
                 <TableCell align="center" style={TABLE_CELL_STYLE}></TableCell>
-                <TableCell align="center" style={TABLE_CELL_STYLE}>
-                  И
-                </TableCell>
+                <TableCell style={TABLE_CELL_STYLE}>Эксперт</TableCell>
                 <TableCell align="center" style={TABLE_CELL_STYLE}>
                   О
                 </TableCell>
@@ -191,17 +208,27 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
               {sortedUsersWithScores.map((user, index) => (
                 <Row user={user} index={index} />
               ))}
+              <AiRowTotal
+                countries={countries}
+                results={results}
+                users={users}
+                currentGameDay={currentGameDay}
+                matches={matches}
+                predictions={predictions}
+              />
             </TableBody>
           </Table>
         </TableContainer>
       ) : (
         <TableContainer
           component={Paper}
-          style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+          }}
         >
           <Table size="small" aria-label="simple table">
             <TableHead>
-              <TableRow>
+              <TableRow style={{ backgroundColor: CUSTOM_COLORS.lightGrey }}>
                 <TableCell
                   align="center"
                   style={{ ...TABLE_CELL_STYLE, width: "5%" }}
@@ -212,11 +239,8 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
                   align="center"
                   style={{ ...TABLE_CELL_STYLE, width: "5%" }}
                 ></TableCell>
-                <TableCell
-                  align="center"
-                  style={{ ...TABLE_CELL_STYLE, width: "17%" }}
-                >
-                  {isMediumScreen ? "И" : "Имя"}
+                <TableCell style={{ ...TABLE_CELL_STYLE, width: "17%" }}>
+                  {isMediumScreen ? "Э" : "Эксперт"}
                 </TableCell>
                 <TableCell
                   align="center"
@@ -250,7 +274,11 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
                   })}
                 <TableCell
                   align="center"
-                  style={{...TABLE_CELL_STYLE, color: CUSTOM_COLORS.orange, width: "5%" }}
+                  style={{
+                    ...TABLE_CELL_STYLE,
+                    color: CUSTOM_COLORS.orange,
+                    width: "5%",
+                  }}
                 >
                   {isMediumScreen ? "П" : "Пари"}
                 </TableCell>
@@ -258,7 +286,7 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
                   align="center"
                   style={{ ...TABLE_CELL_STYLE, width: "7%" }}
                 >
-                  {isMediumScreen ? "И" : "Итого"}
+                  {isMediumScreen ? "О" : "Очки"}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -270,8 +298,20 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
                   );
 
                 return (
-                  <TableRow key={user.id}>
-                    <TableCell align="center" style={{width: "5%", backgroundColor: getColorByPlace(sortedUsersWithScores.length, index + 1) }}>
+                  <TableRow
+                    key={user.id}
+                    style={{ backgroundColor: CUSTOM_COLORS.lightGrey }}
+                  >
+                    <TableCell
+                      align="center"
+                      style={{
+                        width: "5%",
+                        backgroundColor: getColorByPlace(
+                          sortedUsersWithScores.length,
+                          index + 1,
+                        ),
+                      }}
+                    >
                       {index + 1}
                     </TableCell>
                     <TableCellChangedPlace
@@ -279,6 +319,7 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
                       index={index}
                     />
                     <TableCellNameAvatar
+                      id={user.id}
                       name={user.name}
                       isWinner={user.isWinner}
                       avatar={user.avatar}
@@ -288,8 +329,11 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
                       <img
                         width={30}
                         height={30}
-                        alt="United States"
-                        src={getCountryFlagUrlById(countries, user.winnerPrediction)}
+                        alt="flag"
+                        src={getCountryFlagUrlById(
+                          countries,
+                          user.winnerPrediction,
+                        )}
                       />
                     </TableCell>
                     <TableCell align="center" style={{ width: "8%" }}>
@@ -317,7 +361,10 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
                         </TableCell>
                       );
                     })}
-                    <TableCell align="center" style={{color: CUSTOM_COLORS.orange, width: "5%" }}>
+                    <TableCell
+                      align="center"
+                      style={{ color: CUSTOM_COLORS.orange, width: "5%" }}
+                    >
                       {user.pariPointsScore}
                     </TableCell>
                     <TableCell align="center" style={{ width: "7%" }}>
@@ -328,12 +375,12 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
               })}
               {/*Строка таблицы для AI бота*/}
               <AiRowTotal
-                  countries={countries}
-                  results={results}
-                  users={users}
-                  currentGameDay={currentGameDay}
-                  matches={matches}
-                  predictions={predictions}
+                countries={countries}
+                results={results}
+                users={users}
+                currentGameDay={currentGameDay}
+                matches={matches}
+                predictions={predictions}
               />
             </TableBody>
           </Table>
@@ -351,9 +398,9 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
           }}
         >
           <b>М</b>
-          &nbsp;–&nbsp;матчи,&nbsp;
-          <b>И</b>
-          &nbsp;–&nbsp;имя,&nbsp;
+          &nbsp;–&nbsp;место,&nbsp;
+          <b>Э</b>
+          &nbsp;–&nbsp;эксперт,&nbsp;
           <b>О</b>
           &nbsp;–&nbsp;очки&nbsp;
         </Typography>
@@ -371,23 +418,21 @@ export const ScoresTableTotal = ({ countries, matches, results, users, predictio
           }}
         >
           <b>М</b>
-          &nbsp;–&nbsp;матчи,&nbsp;
-          <b>И</b>
-          &nbsp;–&nbsp;имя,&nbsp;
+          &nbsp;–&nbsp;место,&nbsp;
+          <b>Э</b>
+          &nbsp;–&nbsp;эксперт,&nbsp;
           <b>ПП</b>
           &nbsp;–&nbsp;прогноз на победителя,&nbsp;
           <b>Р</b>
           &nbsp;–&nbsp;точно угаданные результаты,&nbsp;
-          <b>П</b>
-          &nbsp;–&nbsp;кол-во оставшихся пари,&nbsp;
           <b>ГР</b>
           &nbsp;–&nbsp;очки за групповой этап,&nbsp;
           <b>[1, ... ]</b>
           &nbsp;–&nbsp;день плейоффа,&nbsp;
           <b>П</b>
           &nbsp;–&nbsp;пари&nbsp;
-          <b>И</b>
-          &nbsp;–&nbsp;итого&nbsp;
+          <b>О</b>
+          &nbsp;–&nbsp;очки&nbsp;
         </Typography>
       ) : (
         ""

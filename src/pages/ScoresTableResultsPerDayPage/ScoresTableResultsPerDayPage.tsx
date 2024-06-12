@@ -6,6 +6,7 @@ import { Footer } from "../../components/Footer/Footer";
 import { Layout } from "../../components/Layout/Layout";
 import { Title } from "../../components/Title/Title";
 import { ScoresTableResultsPerDay } from "../../components/ScoresTableResultsPerDay/ScoresTableResultsPerDay";
+import { Loader } from "../../components/Loader/Loader";
 
 export const ScoresTableResultsPerDayPage = () => {
   const data = useFetchMainData();
@@ -13,11 +14,15 @@ export const ScoresTableResultsPerDayPage = () => {
   switch (data.type) {
     case "loading":
       return (
-        <Stack spacing={1}>
-          <Skeleton variant="circular" width={240} height={240} />
-          <Skeleton variant="rectangular" width={410} height={260} />
-          <Skeleton variant="rounded" width={410} height={260} />
-        </Stack>
+        <>
+          <Header />
+
+          <Layout>
+            <Loader />
+          </Layout>
+
+          <Footer />
+        </>
       );
     case "loaded":
       return (
@@ -25,7 +30,7 @@ export const ScoresTableResultsPerDayPage = () => {
           <Header />
 
           <Layout>
-            <Title title={`Игровой день ${data.data.misc.currentGameDay}`} />
+            <Title title={`Результаты за игровые дни`} />
             <ScoresTableResultsPerDay
               countries={data.data.countries}
               matches={data.data.matches}

@@ -6,6 +6,7 @@ import { Header } from "../../components/Header/Header";
 import { Footer } from "../../components/Footer/Footer";
 import { Layout } from "../../components/Layout/Layout";
 import { Title } from "../../components/Title/Title";
+import { Loader } from "../../components/Loader/Loader";
 
 export const ScoresTableGroupPage = () => {
   const data = useFetchMainData();
@@ -13,11 +14,15 @@ export const ScoresTableGroupPage = () => {
   switch (data.type) {
     case "loading":
       return (
-        <Stack spacing={1}>
-          <Skeleton variant="circular" width={240} height={240} />
-          <Skeleton variant="rectangular" width={410} height={260} />
-          <Skeleton variant="rounded" width={410} height={260} />
-        </Stack>
+        <>
+          <Header />
+
+          <Layout>
+            <Loader />
+          </Layout>
+
+          <Footer />
+        </>
       );
     case "loaded":
       return (

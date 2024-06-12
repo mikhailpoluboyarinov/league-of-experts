@@ -6,13 +6,24 @@ import { Header } from "../../components/Header/Header";
 import { Layout } from "../../components/Layout/Layout";
 import { Title } from "../../components/Title/Title";
 import { Footer } from "../../components/Footer/Footer";
+import { Loader } from "../../components/Loader/Loader";
 
 export const ScoresTablePlayoffPage = () => {
   const data = useFetchMainData();
 
   switch (data.type) {
     case "loading":
-      return <Typography>Loading</Typography>;
+      return (
+        <>
+          <Header />
+
+          <Layout>
+            <Loader />
+          </Layout>
+
+          <Footer />
+        </>
+      );
     case "loaded":
       return (
         <>

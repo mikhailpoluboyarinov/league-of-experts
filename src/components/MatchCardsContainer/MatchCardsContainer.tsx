@@ -1,4 +1,10 @@
-import { Grid, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { CurrentMatchCard } from "../CurrentMatchCard/CurrentMatchCard";
 import { Country } from "../../domains/Country";
 import { GameDay, Match } from "../../domains/Match";
@@ -7,6 +13,8 @@ import { Result } from "../../domains/Result";
 import { User } from "../../domains/User";
 import { useUpcomingMatchesAfterClosedForPrediction } from "../../hooks/useUpcomingMatchesAfterClosedForPrediction";
 import { UpcomingMatchCard } from "../UpcomingMatchCard/UpcomingMatchCard";
+import Zizu from "../../images/Zizu.jpg";
+import { LastMatchCard } from "../LastMatchCard/LastMatchCard";
 
 type Props = {
   countries: Country[];
@@ -47,17 +55,23 @@ export const MatchCardsContainer = (props: Props) => {
           Ближайшие матчи
         </Typography>
         <Grid container direction="column" spacing={2}>
-          {twoMatchesToRender.map((match) => (
+          {twoMatchesToRender.length !== 0 ? (
+            twoMatchesToRender.map((match) => (
+              <Grid item>
+                <UpcomingMatchCard
+                  hostTeamId={match.hostId}
+                  guestTeamId={match.guestId}
+                  description={match.description}
+                  isDoublePoints={match.isDoublePoints}
+                  countries={props.countries}
+                />
+              </Grid>
+            ))
+          ) : (
             <Grid item>
-              <UpcomingMatchCard
-                hostTeamId={match.hostId}
-                guestTeamId={match.guestId}
-                description={match.description}
-                isDoublePoints={match.isDoublePoints}
-                countries={props.countries}
-              />
+              <LastMatchCard />
             </Grid>
-          ))}
+          )}
         </Grid>
       </Grid>
     </Grid>
