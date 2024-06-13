@@ -1,13 +1,12 @@
 import { useFetchMainData } from "../../hooks/useFetchMainData";
 import { notReachable } from "../../utils/notReachable";
-import { ScoresTableTotal } from "../../components/ScoresTableTotal/ScoresTableTotal";
-import { Typography } from "@mui/material";
 import { Header } from "../../components/Header/Header";
 import { Footer } from "../../components/Footer/Footer";
 import { Layout } from "../../components/Layout/Layout";
 import { Title } from "../../components/Title/Title";
 import { MatchCardsContainer } from "../../components/MatchCardsContainer/MatchCardsContainer";
 import { Loader } from "../../components/Loader/Loader";
+import { Error } from "../../components/Error/Error";
 
 export const MatchCardsPage = () => {
   const data = useFetchMainData();
@@ -47,7 +46,11 @@ export const MatchCardsPage = () => {
         </>
       );
     case "error":
-      return <Typography>Error</Typography>;
+      return (
+        <>
+          <Error />
+        </>
+      );
     default:
       return notReachable(data);
   }

@@ -7,6 +7,7 @@ import { Layout } from "../../components/Layout/Layout";
 import { Title } from "../../components/Title/Title";
 import { Footer } from "../../components/Footer/Footer";
 import { Loader } from "../../components/Loader/Loader";
+import { Error } from "../../components/Error/Error";
 
 export const ScoresTablePlayoffPage = () => {
   const data = useFetchMainData();
@@ -45,7 +46,11 @@ export const ScoresTablePlayoffPage = () => {
         </>
       );
     case "error":
-      return <Typography>Error</Typography>;
+      return (
+        <>
+          <Error />
+        </>
+      );
     default:
       return notReachable(data);
   }

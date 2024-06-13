@@ -7,6 +7,7 @@ import { Layout } from "../../components/Layout/Layout";
 import { Title } from "../../components/Title/Title";
 import { ScoresTableResultsPerDay } from "../../components/ScoresTableResultsPerDay/ScoresTableResultsPerDay";
 import { Loader } from "../../components/Loader/Loader";
+import { Error } from "../../components/Error/Error";
 
 export const ScoresTableResultsPerDayPage = () => {
   const data = useFetchMainData();
@@ -45,7 +46,11 @@ export const ScoresTableResultsPerDayPage = () => {
         </>
       );
     case "error":
-      return <Typography>Error</Typography>;
+      return (
+        <>
+          <Error />
+        </>
+      );
     default:
       return notReachable(data);
   }
