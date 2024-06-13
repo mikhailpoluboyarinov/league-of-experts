@@ -16,13 +16,14 @@ export const Footer = () => {
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography variant="caption" style={{ marginRight: "10px" }}>
-            Наши соцсети:
+            Новости футбола:
           </Typography>
           <Link
-            href="#"
+            target="_blank"
+            href="https://t.me/morefoot"
             underline="none"
             color="white"
-            style={{ marginRight: "60px"}}
+            style={{ marginRight: "60px" }}
           >
             <Telegram />
           </Link>

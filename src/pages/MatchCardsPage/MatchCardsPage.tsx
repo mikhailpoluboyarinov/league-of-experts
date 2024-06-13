@@ -1,15 +1,14 @@
 import { useFetchMainData } from "../../hooks/useFetchMainData";
 import { notReachable } from "../../utils/notReachable";
-import { ScoresTableTotal } from "../../components/ScoresTableTotal/ScoresTableTotal";
-import { Typography } from "@mui/material";
 import { Header } from "../../components/Header/Header";
 import { Footer } from "../../components/Footer/Footer";
 import { Layout } from "../../components/Layout/Layout";
 import { Title } from "../../components/Title/Title";
+import { MatchCardsContainer } from "../../components/MatchCardsContainer/MatchCardsContainer";
 import { Loader } from "../../components/Loader/Loader";
 import { Error } from "../../components/Error/Error";
 
-export const ScoresTableTotalPage = () => {
+export const MatchCardsPage = () => {
   const data = useFetchMainData();
 
   switch (data.type) {
@@ -31,8 +30,9 @@ export const ScoresTableTotalPage = () => {
           <Header />
 
           <Layout>
-            <Title title="Общий зачет" />
-            <ScoresTableTotal
+            <Title title="Матчи" />
+
+            <MatchCardsContainer
               countries={data.data.countries}
               matches={data.data.matches}
               predictions={data.data.predictions}
