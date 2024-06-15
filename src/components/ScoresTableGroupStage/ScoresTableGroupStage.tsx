@@ -55,12 +55,12 @@ export const ScoresTableGroupStage = ({
     predictions,
   });
 
-  const sortedUsersWithScores = usersWithScores.sort(
+  const sortedUsersWithScores = usersWithScores.slice().sort(
     sortUsersByGameRulesGroupStage,
   );
 
   const usersWIthTotalScoreByPreviousGameDay = useUserWIthTotalScoreByGameDay({
-    usersWithScores: sortedUsersWithScores.map((userWithScore) => {
+    usersWithScores: usersWithScores.map((userWithScore) => {
       return {
         userId: userWithScore.id,
         scores: userWithScore.scoresByGroupGameDays,

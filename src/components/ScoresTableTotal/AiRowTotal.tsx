@@ -62,7 +62,7 @@ export const AiRowTotal = (props: Props) => {
         <TableCell />
         <TableCell />
         <TableCell />
-        <TableCell />
+        {/*<TableCell />*/}
         <TableCell />
       </TableRow>
       <TableRow
@@ -72,7 +72,7 @@ export const AiRowTotal = (props: Props) => {
         <TableCell align="center" style={{ padding: "4px", width: "5%" }}>
           -
         </TableCell>
-        <TableCell style={{ width: "5%" }} />
+        <TableCell style={{ width: "3%" }} />
         <TableCellNameAvatar
           id={aiWithScore.id}
           name={aiWithScore.name}
@@ -110,9 +110,11 @@ export const AiRowTotal = (props: Props) => {
             </TableCell>
           );
         })}
+        {/*
         <TableCell align="center" style={{ width: "5%" }}>
           {aiWithScore.pariScoresTotal}
         </TableCell>
+        */}
         <TableCell align="center" style={{ width: "7%" }}>
           {aiWithScore.totalScore}
         </TableCell>

@@ -57,12 +57,12 @@ export const ScoresTablePlayoffStage = ({
     predictions,
   });
 
-  const sortedUsersWithScores = usersWithScores.sort(
+  const sortedUsersWithScores = usersWithScores.slice().sort(
     sortUsersByGameRulesPlayoffStage,
   );
 
   const usersWIthTotalScoreByPreviousGameDay = useUserWIthTotalScoreByGameDay({
-    usersWithScores: sortedUsersWithScores.map((userWithScore) => {
+    usersWithScores: usersWithScores.map((userWithScore) => {
       return {
         userId: userWithScore.id,
         scores: userWithScore.scoresByPlayOffGameDays,
@@ -217,12 +217,14 @@ export const ScoresTablePlayoffStage = ({
                         {isMediumScreen ? index + 1 : `День ${index + 1}`}
                       </TableCell>
                     ))}
+                {/*
                 <TableCell
                   align="center"
                   style={{ ...TABLE_CELL_STYLE, color: CUSTOM_COLORS.orange }}
                 >
                   {isSmallScreen || isMediumScreen ? "П" : "Пари"}
                 </TableCell>
+                */}
                 <TableCell align="center" style={TABLE_CELL_STYLE}>
                   {isSmallScreen || isMediumScreen ? "О" : "Очки"}
                 </TableCell>
@@ -280,12 +282,14 @@ export const ScoresTablePlayoffStage = ({
                           </TableCell>
                         );
                       })}
+                    {/*
                     <TableCell
                       align="center"
                       style={{ color: CUSTOM_COLORS.orange }}
                     >
                       {user.pariPointsScore}
                     </TableCell>
+                    */}
                     <TableCell align="center">
                       {user.userPlayoffScore}
                     </TableCell>

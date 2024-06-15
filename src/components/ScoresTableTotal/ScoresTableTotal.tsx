@@ -51,7 +51,7 @@ export const ScoresTableTotal = ({
   predictions,
   currentGameDay,
 }: Props) => {
-  const usersWithScoresWithoutAi = useUsersWithScoresTotal({
+  const usersWithScores = useUsersWithScoresTotal({
     matches,
     results,
     users,
@@ -59,14 +59,14 @@ export const ScoresTableTotal = ({
   });
 
   const sortedUsersWithScores =
-    usersWithScoresWithoutAi.sort(sortUsersByGameRules);
+      usersWithScores.slice().sort(sortUsersByGameRules);
 
   const highestScoresPerDayPlayoff = useHighestScoresPerGameDay(
     sortedUsersWithScores.map((user) => user.scoresByPlayOffGameDays),
   );
 
   const usersWIthTotalScoreByPreviousGameDay = useUserWIthTotalScoreByGameDay({
-    usersWithScores: sortedUsersWithScores.map((userWithScore) => {
+    usersWithScores: usersWithScores.map((userWithScore) => {
       return {
         userId: userWithScore.id,
         scores: userWithScore.scoresByPlayOffGameDays,
@@ -237,7 +237,7 @@ export const ScoresTableTotal = ({
                 </TableCell>
                 <TableCell
                   align="center"
-                  style={{ ...TABLE_CELL_STYLE, width: "5%" }}
+                  style={{ ...TABLE_CELL_STYLE, width: "3%" }}
                 ></TableCell>
                 <TableCell style={{ ...TABLE_CELL_STYLE, width: "17%" }}>
                   {isMediumScreen ? "Э" : "Эксперт"}
@@ -272,101 +272,110 @@ export const ScoresTableTotal = ({
                       </TableCell>
                     );
                   })}
+
+                {
+                  /*
+                  <TableCell
+              align="center"
+              style={{
+                ...TABLE_CELL_STYLE,
+                color: CUSTOM_COLORS.orange,
+                width: "5%",
+              }}
+            >
+              {isMediumScreen ? "П" : "Пари"}
+            </TableCell>
+                   */
+                }
+            <TableCell
+              align="center"
+              style={{ ...TABLE_CELL_STYLE, width: "7%" }}
+            >
+              {isMediumScreen ? "О" : "Очки"}
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {sortedUsersWithScores.map((user, index) => {
+            const userPositionPreviousGameDay =
+              usersWIthTotalScoreByPreviousGameDay.findIndex(
+                (item) => item.userId === user.id,
+              );
+
+            return (
+              <TableRow
+                key={user.id}
+                style={{ backgroundColor: CUSTOM_COLORS.lightGrey }}
+              >
                 <TableCell
                   align="center"
                   style={{
-                    ...TABLE_CELL_STYLE,
-                    color: CUSTOM_COLORS.orange,
                     width: "5%",
+                    backgroundColor: getColorByPlace(
+                      sortedUsersWithScores.length,
+                      index + 1,
+                    ),
                   }}
                 >
-                  {isMediumScreen ? "П" : "Пари"}
+                  {index + 1}
                 </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ ...TABLE_CELL_STYLE, width: "7%" }}
-                >
-                  {isMediumScreen ? "О" : "Очки"}
+                <TableCellChangedPlace
+                  userPositionPreviousGameDay={userPositionPreviousGameDay}
+                  index={index}
+                />
+                <TableCellNameAvatar
+                  id={user.id}
+                  name={user.name}
+                  isWinner={user.isWinner}
+                  avatar={user.avatar}
+                  winnerCount={user.winnerCount}
+                />
+                <TableCell align="center" style={{ width: "8%" }}>
+                  <img
+                    width={30}
+                    height={30}
+                    alt="flag"
+                    src={getCountryFlagUrlById(
+                      countries,
+                      user.winnerPrediction,
+                    )}
+                  />
                 </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {sortedUsersWithScores.map((user, index) => {
-                const userPositionPreviousGameDay =
-                  usersWIthTotalScoreByPreviousGameDay.findIndex(
-                    (item) => item.userId === user.id,
-                  );
-
-                return (
-                  <TableRow
-                    key={user.id}
-                    style={{ backgroundColor: CUSTOM_COLORS.lightGrey }}
-                  >
+                <TableCell align="center" style={{ width: "8%" }}>
+                  {user.exactScoresNumber}
+                </TableCell>
+                <TableCell align="center" style={{ width: "8%" }}>
+                  {user.userGroupScore}
+                </TableCell>
+                {user.scoresByPlayOffGameDays.map((score, index) => {
+                  const isUserWithHighestScorePerDay =
+                    highestScoresPerDayPlayoff[index] &&
+                    highestScoresPerDayPlayoff[index] === score;
+                  return (
                     <TableCell
+                      key={index}
                       align="center"
                       style={{
-                        width: "5%",
-                        backgroundColor: getColorByPlace(
-                          sortedUsersWithScores.length,
-                          index + 1,
-                        ),
+                        width: "4%",
+                        backgroundColor: isUserWithHighestScorePerDay
+                          ? CUSTOM_COLORS.lightGreen
+                          : "inherit",
                       }}
                     >
-                      {index + 1}
+                      {score}
                     </TableCell>
-                    <TableCellChangedPlace
-                      userPositionPreviousGameDay={userPositionPreviousGameDay}
-                      index={index}
-                    />
-                    <TableCellNameAvatar
-                      id={user.id}
-                      name={user.name}
-                      isWinner={user.isWinner}
-                      avatar={user.avatar}
-                      winnerCount={user.winnerCount}
-                    />
-                    <TableCell align="center" style={{ width: "8%" }}>
-                      <img
-                        width={30}
-                        height={30}
-                        alt="flag"
-                        src={getCountryFlagUrlById(
-                          countries,
-                          user.winnerPrediction,
-                        )}
-                      />
-                    </TableCell>
-                    <TableCell align="center" style={{ width: "8%" }}>
-                      {user.exactScoresNumber}
-                    </TableCell>
-                    <TableCell align="center" style={{ width: "8%" }}>
-                      {user.userGroupScore}
-                    </TableCell>
-                    {user.scoresByPlayOffGameDays.map((score, index) => {
-                      const isUserWithHighestScorePerDay =
-                        highestScoresPerDayPlayoff[index] &&
-                        highestScoresPerDayPlayoff[index] === score;
-                      return (
-                        <TableCell
-                          key={index}
-                          align="center"
-                          style={{
-                            width: "4%",
-                            backgroundColor: isUserWithHighestScorePerDay
-                              ? CUSTOM_COLORS.lightGreen
-                              : "inherit",
-                          }}
-                        >
-                          {score}
-                        </TableCell>
-                      );
-                    })}
-                    <TableCell
-                      align="center"
-                      style={{ color: CUSTOM_COLORS.orange, width: "5%" }}
-                    >
-                      {user.pariPointsScore}
-                    </TableCell>
+                  );
+                })}
+                {
+                  /*
+                <TableCell
+                  align="center"
+                  style={{ color: CUSTOM_COLORS.orange, width: "5%" }}
+                >
+                  {user.pariPointsScore}
+                </TableCell>
+                   */
+                    }
                     <TableCell align="center" style={{ width: "7%" }}>
                       {user.totalScore}
                     </TableCell>
