@@ -162,7 +162,7 @@ export const useAiWithScoresTotal = ({
     winnerCount: aiUser.winnerCount,
     winnerPrediction: aiUser.winnerPrediction,
     doublePointsScore,
-    pariScoresTotal,
+    pariScoresTotal: Math.abs(pariScoresTotal),
     exactScoresNumber,
     exactScoresNumberGroupStage,
     exactScoresNumberPlayoffStage,
