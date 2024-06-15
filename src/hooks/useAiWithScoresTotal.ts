@@ -29,7 +29,7 @@ export type AiWithScoresTotal = {
   winnerCount: number;
   winnerPrediction: CountryId;
   doublePointsScore: number;
-  pariPointsScore: number;
+  pariScoresTotal: number;
   exactScoresNumber: number;
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;
@@ -53,13 +53,9 @@ export const useAiWithScoresTotal = ({
 
   const pariScoresTotal = useCalculatePariScores({ predictions, results })
 
-  console.log('pariScoresTotal', pariScoresTotal);
-
   let userTotalScore: number = 0;
   // Кол-во очков полученных за матчи с двойными очками (групповой этап)
   let doublePointsScore: number = 0;
-  // Кол-во очков полученных за pari
-  let pariPointsScore: number = 0;
   // Кол-во точно угаданных результатов
   let exactScoresNumber: number = 0;
   // Кол-во точно угаданных групповых результатов
@@ -166,13 +162,13 @@ export const useAiWithScoresTotal = ({
     winnerCount: aiUser.winnerCount,
     winnerPrediction: aiUser.winnerPrediction,
     doublePointsScore,
-    pariPointsScore,
+    pariScoresTotal,
     exactScoresNumber,
     exactScoresNumberGroupStage,
     exactScoresNumberPlayoffStage,
-    userGroupScore: userGroupScore + doublePointsScore + pariPointsScore,
-    userPlayoffScore: userPlayoffScore + pariPointsScore,
-    totalScore: userTotalScore + doublePointsScore + pariPointsScore,
+    userGroupScore: userGroupScore + doublePointsScore - pariScoresTotal,
+    userPlayoffScore: userPlayoffScore - pariScoresTotal,
+    totalScore: userTotalScore + doublePointsScore - pariScoresTotal,
     scoresByGroupGameDays,
     scoresByPlayOffGameDays,
   };

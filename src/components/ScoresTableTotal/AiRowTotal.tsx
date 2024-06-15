@@ -111,7 +111,7 @@ export const AiRowTotal = (props: Props) => {
           );
         })}
         <TableCell align="center" style={{ width: "5%" }}>
-          {aiWithScore.pariPointsScore}
+          {aiWithScore.pariScoresTotal}
         </TableCell>
         <TableCell align="center" style={{ width: "7%" }}>
           {aiWithScore.totalScore}
@@ -177,7 +177,7 @@ export const RowAi = ({
               <Typography variant="subtitle2" gutterBottom component="div">
                 Пари:
                 <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                  {data.pariPointsScore}
+                  {data.pariScoresTotal}
                 </span>
               </Typography>
               <Typography variant="subtitle2" gutterBottom component="div">
