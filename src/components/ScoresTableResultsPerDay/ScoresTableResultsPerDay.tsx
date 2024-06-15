@@ -214,6 +214,7 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                           >
                             {predictionData.prediction.hostScore}:
                             {predictionData.prediction.guestScore}
+                            {predictionData.prediction.isPari ? ' (ПАРИ)' : ''}
                           </TableCell>
                         );
                       }
