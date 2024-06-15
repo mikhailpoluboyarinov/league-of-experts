@@ -57,7 +57,9 @@ export const AiRowPlayoffStage = (props: Props) => {
         <TableCell />
         <TableCell />
         <TableCell />
+        {/*
         <TableCell />
+        */}
         <TableCell />
         <TableCell />
       </TableRow>
@@ -91,9 +93,11 @@ export const AiRowPlayoffStage = (props: Props) => {
             </TableCell>
           );
         })}
+        {/*
         <TableCell align="center" style={{ width: "5%" }}>
           {aiWithScore.pariScoresTotal}
         </TableCell>
+        */}
         <TableCell align="center" style={{ width: "7%" }}>
           {aiWithScore.userPlayoffScore}
         </TableCell>

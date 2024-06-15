@@ -74,7 +74,7 @@ export const AiRowGroupStage = (props: Props) => {
         <TableCell align="center" style={{ padding: "4px", width: "5%" }}>
           -
         </TableCell>
-        <TableCell style={{ width: "5%" }} />
+        <TableCell style={{ width: "3%" }} />
         <TableCellNameAvatar
           id={aiWithScore.id}
           name={aiWithScore.name}
