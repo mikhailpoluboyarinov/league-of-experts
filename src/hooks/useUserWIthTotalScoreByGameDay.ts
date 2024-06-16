@@ -6,6 +6,8 @@ type Params = {
   usersWithScores: Array<{
     userId: UserId;
     scores: number[];
+    doublePoints: number
+    pariPoints: number
     exactScoresNumber: number;
   }>;
   gameDay: GameDay;
@@ -14,6 +16,7 @@ type Params = {
 type Output = Array<{
   userId: UserId;
   totalScore: number;
+  exactScoresNumber: number;
 }>;
 
 export const useUserWIthTotalScoreByGameDay = ({
@@ -25,7 +28,8 @@ export const useUserWIthTotalScoreByGameDay = ({
       userId: userWithScores.userId,
       totalScore: userWithScores.scores
         .slice(0, gameDay)
-        .reduce((acc, item) => acc + item, 0),
+        .reduce((acc, item) => acc + item, 0) + userWithScores.doublePoints + userWithScores.pariPoints,
+      exactScoresNumber: userWithScores.exactScoresNumber
     };
   });
 
