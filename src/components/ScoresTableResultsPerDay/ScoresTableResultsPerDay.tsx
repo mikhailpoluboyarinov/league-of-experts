@@ -177,6 +177,8 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                       </TableCell>
                     );
                   }
+
+                  return null
                 })}
                 <TableCell align="center" style={TABLE_CELL_STYLE}>
                   {isSmallScreen ? "О" : "Очки"}

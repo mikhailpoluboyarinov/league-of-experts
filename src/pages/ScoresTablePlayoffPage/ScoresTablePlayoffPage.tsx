@@ -1,7 +1,6 @@
 import { useFetchMainData } from "../../hooks/useFetchMainData";
 import { notReachable } from "../../utils/notReachable";
 import { ScoresTablePlayoffStage } from "../../components/ScoresTablePlayoffStage/ScoresTablePlayoffStage";
-import { Typography } from "@mui/material";
 import { Header } from "../../components/Header/Header";
 import { Layout } from "../../components/Layout/Layout";
 import { Title } from "../../components/Title/Title";

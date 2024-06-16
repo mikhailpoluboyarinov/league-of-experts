@@ -1,6 +1,5 @@
 import { useFetchMainData } from "../../hooks/useFetchMainData";
 import { notReachable } from "../../utils/notReachable";
-import { Typography, Stack, Skeleton } from "@mui/material";
 import { Header } from "../../components/Header/Header";
 import { Footer } from "../../components/Footer/Footer";
 import { Layout } from "../../components/Layout/Layout";
