@@ -57,9 +57,7 @@ export const AiRowPlayoffStage = (props: Props) => {
         <TableCell />
         <TableCell />
         <TableCell />
-        {/*
         <TableCell />
-        */}
         <TableCell />
         <TableCell />
       </TableRow>
@@ -93,13 +91,11 @@ export const AiRowPlayoffStage = (props: Props) => {
             </TableCell>
           );
         })}
-        {/*
         <TableCell align="center" style={{ width: "5%" }}>
-          {aiWithScore.pariScoresTotal}
+          {aiWithScore.pariScoresPlayoff}
         </TableCell>
-        */}
         <TableCell align="center" style={{ width: "7%" }}>
-          {aiWithScore.userPlayoffScore}
+          {aiWithScore.playoffScore}
         </TableCell>
       </TableRow>
     </>
@@ -146,7 +142,7 @@ const RowAi = ({
           winnerCount={data.winnerCount}
         />
         <TableCell align="center" style={{ padding: "4px", width: "25%" }}>
-          {data.totalScore}
+          {data.playoffScore}
         </TableCell>
       </TableRow>
       <TableRow>
@@ -156,7 +152,7 @@ const RowAi = ({
               <Typography variant="subtitle2" gutterBottom component="div">
                 Пари:
                 <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                  {data.pariScoresTotal}
+                  {data.pariScoresPlayoff}
                 </span>
               </Typography>
             </Box>

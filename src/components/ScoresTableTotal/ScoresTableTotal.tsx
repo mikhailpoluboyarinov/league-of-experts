@@ -70,6 +70,8 @@ export const ScoresTableTotal = ({
       return {
         userId: userWithScore.id,
         scores: userWithScore.scoresByPlayOffGameDays,
+        doublePoints: userWithScore.doublePointsScore,
+        pariPoints: userWithScore.pariPointsScore,
         exactScoresNumber: userWithScore.exactScoresNumber,
       };
     }),

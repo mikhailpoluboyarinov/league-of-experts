@@ -95,7 +95,7 @@ export const AiRowTotal = (props: Props) => {
           {aiWithScore.exactScoresNumber}
         </TableCell>
         <TableCell align="center" style={{ width: "8%" }}>
-          {aiWithScore.userGroupScore}
+          {aiWithScore.groupScore}
         </TableCell>
         {aiWithScore.scoresByPlayOffGameDays.map((score, index) => {
           return (
@@ -173,7 +173,7 @@ export const RowAi = ({
               <Typography variant="subtitle2" gutterBottom component="div">
                 Очки за групповой этап:
                 <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                  {data.userGroupScore}
+                  {data.groupScore}
                 </span>
               </Typography>
               <Typography variant="subtitle2" gutterBottom component="div">

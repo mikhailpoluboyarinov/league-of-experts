@@ -29,14 +29,16 @@ export type AiWithScoresTotal = {
   winnerCount: number;
   winnerPrediction: CountryId;
   doublePointsScore: number;
+  pariScoresGroup: number;
+  pariScoresPlayoff: number;
   pariScoresTotal: number;
   exactScoresNumber: number;
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;
   scoresByGroupGameDays: number[];
   scoresByPlayOffGameDays: number[];
-  userGroupScore: number;
-  userPlayoffScore: number;
+  groupScore: number;
+  playoffScore: number;
 };
 
 export const useAiWithScoresTotal = ({
@@ -51,9 +53,12 @@ export const useAiWithScoresTotal = ({
     throw new Error('AiUser not found.');
   }
 
-  const pariScoresTotal = useCalculatePariScores({ predictions, results })
+  // Очки, которые набрали юзеры в паришках, не бот! (Очки бота = очки юзеров со знаком минус)
+  const aiPariScoresGroup = -1 * useCalculatePariScores({ predictions: predictions.filter(prediction => prediction.type === 'group'), results })
+  const aiPariScoresPlayoff = -1 * useCalculatePariScores({ predictions: predictions.filter(prediction => prediction.type === 'play_off'), results })
+  const aiPariScoresTotal = aiPariScoresGroup + aiPariScoresPlayoff
 
-  let userTotalScore: number = 0;
+  let aiTotalScore: number = 0;
   // Кол-во очков полученных за матчи с двойными очками (групповой этап)
   let doublePointsScore: number = 0;
   // Кол-во точно угаданных результатов
@@ -63,9 +68,9 @@ export const useAiWithScoresTotal = ({
   // Кол-во точно угаданных плейофф результатов
   let exactScoresNumberPlayoffStage: number = 0;
   // Итоговое кол-во очков за групповой этап
-  let userGroupScore: number = 0;
+  let aiGroupScore: number = 0;
   // Итоговое кол-во очков за плейофф этап
-  let userPlayoffScore: number = 0;
+  let aiPlayoffScore: number = 0;
   // Массив со значениями очков за игровые дни плейоффа, index - игровой день, значение - кол-во очков за игровой день
   const scoresByPlayOffGameDays = Array(GAME_DAYS_PLAYOFF).fill(0);
   // Массив со значениями очков за игровые дни группового этапа, index - игровой день, значение - кол-во очков за игровой день
@@ -141,16 +146,16 @@ export const useAiWithScoresTotal = ({
 
     // Если матч групповой, то записываем результат в переменную с итоговым кол-вом очков за групповой этап
     if (match.type === "group") {
-      userGroupScore += score;
+      aiGroupScore += score;
     }
 
     // Если матч плейофф, то записываем результат в переменную с итоговым кол-вом очков за плейофф этап
     if (match.type === "play_off") {
-      userPlayoffScore += score;
+      aiPlayoffScore += score;
     }
 
     // Обновляем итоговое кол-во очков за турнир
-    userTotalScore += score;
+    aiTotalScore += score;
   });
 
   return {
@@ -162,13 +167,15 @@ export const useAiWithScoresTotal = ({
     winnerCount: aiUser.winnerCount,
     winnerPrediction: aiUser.winnerPrediction,
     doublePointsScore,
-    pariScoresTotal: Math.abs(pariScoresTotal),
+    pariScoresGroup: aiPariScoresGroup,
+    pariScoresPlayoff: aiPariScoresPlayoff,
+    pariScoresTotal: aiPariScoresTotal,
     exactScoresNumber,
     exactScoresNumberGroupStage,
     exactScoresNumberPlayoffStage,
-    userGroupScore: userGroupScore + doublePointsScore - pariScoresTotal,
-    userPlayoffScore: userPlayoffScore - pariScoresTotal,
-    totalScore: userTotalScore + doublePointsScore - pariScoresTotal,
+    groupScore: aiGroupScore + doublePointsScore + aiPariScoresGroup,
+    playoffScore: aiPlayoffScore + aiPariScoresPlayoff,
+    totalScore: aiTotalScore + doublePointsScore + aiPariScoresTotal,
     scoresByGroupGameDays,
     scoresByPlayOffGameDays,
   };

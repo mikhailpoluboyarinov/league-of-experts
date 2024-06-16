@@ -66,7 +66,9 @@ export const ScoresTablePlayoffStage = ({
       return {
         userId: userWithScore.id,
         scores: userWithScore.scoresByPlayOffGameDays,
-        exactScoresNumber: userWithScore.exactScoresNumber,
+        pariPoints: userWithScore.pariPointsScorePlayoff,
+        doublePoints: 0,
+        exactScoresNumber: userWithScore.exactScoresNumberPlayoffStage,
       };
     }),
     gameDay: Math.min(
@@ -217,14 +219,12 @@ export const ScoresTablePlayoffStage = ({
                         {isMediumScreen ? index + 1 : `День ${index + 1}`}
                       </TableCell>
                     ))}
-                {/*
                 <TableCell
                   align="center"
                   style={{ ...TABLE_CELL_STYLE, color: CUSTOM_COLORS.orange }}
                 >
                   {isSmallScreen || isMediumScreen ? "П" : "Пари"}
                 </TableCell>
-                */}
                 <TableCell align="center" style={TABLE_CELL_STYLE}>
                   {isSmallScreen || isMediumScreen ? "О" : "Очки"}
                 </TableCell>
@@ -262,7 +262,7 @@ export const ScoresTablePlayoffStage = ({
                       winnerCount={user.winnerCount}
                     />
                     <TableCell align="center">
-                      {user.exactScoresNumber}
+                      {user.exactScoresNumberPlayoffStage}
                     </TableCell>
                     {isNotSmallScreen &&
                       user.scoresByPlayOffGameDays.map((score, index) => {
@@ -282,14 +282,12 @@ export const ScoresTablePlayoffStage = ({
                           </TableCell>
                         );
                       })}
-                    {/*
                     <TableCell
                       align="center"
                       style={{ color: CUSTOM_COLORS.orange }}
                     >
-                      {user.pariPointsScore}
+                      {user.pariPointsScorePlayoff}
                     </TableCell>
-                    */}
                     <TableCell align="center">
                       {user.userPlayoffScore}
                     </TableCell>

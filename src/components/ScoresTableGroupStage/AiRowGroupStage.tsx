@@ -101,10 +101,10 @@ export const AiRowGroupStage = (props: Props) => {
           {aiWithScore.doublePointsScore}
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
-          {aiWithScore.pariScoresTotal}
+          {aiWithScore.pariScoresGroup}
         </TableCell>
         <TableCell align="center" style={{ width: "7%" }}>
-          {aiWithScore.totalScore}
+          {aiWithScore.groupScore}
         </TableCell>
       </TableRow>
     </>
@@ -151,7 +151,7 @@ const RowAi = ({
           winnerCount={data.winnerCount}
         />
         <TableCell align="center" style={{ padding: "4px", width: "25%" }}>
-          {data.totalScore}
+          {data.groupScore}
         </TableCell>
       </TableRow>
       <TableRow>
@@ -161,7 +161,7 @@ const RowAi = ({
               <Typography variant="subtitle2" gutterBottom component="div">
                 Пари:
                 <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                  {data.pariScoresTotal}
+                  {data.pariScoresGroup}
                 </span>
               </Typography>
               <Typography variant="subtitle2" gutterBottom component="div">
