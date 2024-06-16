@@ -1,6 +1,6 @@
 import {calculatePredictionResult} from "../domains/GameRules/helpers/calculatePredictionResult";
 import {calculatePredictionResultScore} from "../domains/GameRules/helpers/calculatePredictionResultScore";
-import {Match, MatchId} from "../domains/Match";
+import { MatchId } from "../domains/Match";
 import {Prediction} from "../domains/Prediction";
 import {Result} from "../domains/Result";
 

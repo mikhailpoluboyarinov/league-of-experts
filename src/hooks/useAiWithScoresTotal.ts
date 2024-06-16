@@ -1,4 +1,4 @@
-import { Match, MatchId } from "../domains/Match";
+import { Match } from "../domains/Match";
 import { Prediction } from "../domains/Prediction";
 import { Result } from "../domains/Result";
 import { User, UserId } from "../domains/User";
@@ -9,7 +9,6 @@ import {
 import { calculatePredictionResult } from "../domains/GameRules/helpers/calculatePredictionResult";
 import { calculatePredictionResultScore } from "../domains/GameRules/helpers/calculatePredictionResultScore";
 import { CountryId } from "../domains/Country";
-import { calculatePariScore } from "../domains/GameRules/helpers/calculatePariScore";
 import {useCalculatePariScores} from "./useCalculatePariScores";
 
 type Params = {

@@ -5,7 +5,6 @@ import { ScoresTablePlayoffPage } from "../ScoresTablePlayoffPage/ScoresTablePla
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { GameRulesPage } from "../GameRulesPage/GameRulesPage";
 import { ScoresTableResultsPerDayPage } from "../ScoresTableResultsPerDayPage/ScoresTableResultsPerDayPage";
-import { MatchCardsPage } from "../MatchCardsPage/MatchCardsPage";
 
 export const Main = () => {
   return (

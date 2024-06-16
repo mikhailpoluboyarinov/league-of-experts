@@ -1,6 +1,5 @@
 import { CUSTOM_COLORS } from "../../styles/colors";
 import { ReactNode } from "react";
-import BG from "../../images/MainBg.jpg";
 
 interface LayoutProps {
   children: ReactNode;

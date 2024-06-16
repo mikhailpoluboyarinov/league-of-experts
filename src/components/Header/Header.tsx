@@ -19,7 +19,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 export const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 800px)");
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
