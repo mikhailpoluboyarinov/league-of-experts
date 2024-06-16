@@ -211,12 +211,12 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                                 ? getColorByPredictionResult(
                                     predictionData.predictionResult,
                                   )
-                                : "white",
+                                : "inherit",
                             }}
                           >
                             {predictionData.prediction.hostScore}:
                             {predictionData.prediction.guestScore}
-                            {predictionData.prediction.isPari ? ' (ПАРИ)' : ''}
+                            {predictionData.prediction.isPari ? " (ПАРИ)" : ""}
                           </TableCell>
                         );
                       }
