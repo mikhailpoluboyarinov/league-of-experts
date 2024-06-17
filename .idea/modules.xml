@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/loe.iml" filepath="$PROJECT_DIR$/.idea/loe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../loe_24_server/.idea/loe_24_server.iml" filepath="$PROJECT_DIR$/../loe_24_server/.idea/loe_24_server.iml" />
     </modules>
   </component>
 </project>

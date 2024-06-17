@@ -2,15 +2,19 @@ import {
   Avatar,
   Box,
   Card,
-  CardActionArea,
   CardContent,
   Grid,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { getCountryFlagUrl } from "../../domains/Country/helpers/getCountryFlagUrl";
 import { Country, CountryId } from "../../domains/Country";
 import { gradientBackground, shimmer } from "../../styles/gradients";
+import Markdown from "react-markdown";
+import { formatRelative } from "date-fns";
+import { ru } from "date-fns/locale";
+import { TimeStamp } from "../../domains/Date";
 
 type UpcomingMatchCardProps = {
   hostTeamId: CountryId;
@@ -18,6 +22,7 @@ type UpcomingMatchCardProps = {
   description: string;
   isDoublePoints: boolean;
   countries: Country[];
+  startTime: TimeStamp;
 };
 
 export const UpcomingMatchCard = ({
@@ -26,7 +31,9 @@ export const UpcomingMatchCard = ({
   description,
   isDoublePoints,
   countries,
+  startTime,
 }: UpcomingMatchCardProps) => {
+  const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const hostTeam = countries.find((country) => country.id === hostTeamId);
 
   const guestTeam = countries.find((country) => country.id === guestTeamId);
@@ -38,6 +45,7 @@ export const UpcomingMatchCard = ({
   return (
     <Card
       sx={{
+        position: "relative",
         borderRadius: "10px",
         background: "#fafdc4",
         ...(isDoublePoints && {
@@ -59,6 +67,13 @@ export const UpcomingMatchCard = ({
           >
             <StarIcon />
           </Box>
+        )}
+        {isSmallScreen ? (
+          <Typography gutterBottom variant="subtitle2">
+            {formatRelative(startTime * 1000, new Date(), { locale: ru })}
+          </Typography>
+        ) : (
+          ""
         )}
         <Grid
           container
@@ -83,14 +98,44 @@ export const UpcomingMatchCard = ({
               {hostTeam.nameRus}
             </Typography>
           </Grid>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            style={{ margin: "0 16px" }}
-          >
-            &mdash;
-          </Typography>
+          {isSmallScreen ? (
+            <>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                style={{ margin: "0 16px" }}
+              >
+                &mdash;
+              </Typography>
+            </>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                style={{ margin: "0 16px" }}
+              >
+                {formatRelative(startTime * 1000, new Date(), { locale: ru })}
+              </Typography>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                style={{ margin: "0 16px" }}
+              >
+                &mdash;
+              </Typography>
+            </div>
+          )}
+
           <Grid item container direction="column" alignItems="center" xs>
             <Avatar
               alt={"asd"}
@@ -121,7 +166,9 @@ export const UpcomingMatchCard = ({
             textAlign: "center",
           }}
         >
-          {description || "Здесь скоро появится анонс матча."}
+          <Markdown>
+            {description || "Здесь скоро появится анонс матча."}
+          </Markdown>
         </Typography>
       </CardContent>
     </Card>
