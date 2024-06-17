@@ -20,12 +20,14 @@ import { getCountryFlagUrl } from "../../domains/Country/helpers/getCountryFlagU
 import { gradientBackground, shimmer } from "../../styles/gradients";
 import StarIcon from "@mui/icons-material/Star";
 import { CUSTOM_COLORS } from "../../styles/colors";
+import { Result } from "../../domains/Result";
 
 type Props = {
   matches: Match[];
   countries: Country[];
   predictions: Prediction[];
   users: User[];
+  results: Result[];
 };
 
 export const CurrentMatchCard = (props: Props) => {
@@ -39,6 +41,10 @@ export const CurrentMatchCard = (props: Props) => {
       ]
     : props.matches[0];
 
+  const currentMatchResult = props.results.find(
+    (result) => result.matchId === currentMatch.id,
+  );
+
   const hostTeam = props.countries.find(
     (country) => country.id === currentMatch.hostId,
   );
@@ -51,6 +57,10 @@ export const CurrentMatchCard = (props: Props) => {
     (prediction) => prediction.matchId === currentMatch.id,
   );
 
+  const sortedCurrentMatchPredictions = currentMatchPredictions.sort(
+    (a, b) => Number(b.userId) - Number(a.userId),
+  );
+
   if (!hostTeam || !guestTeam) {
     return null;
   }
@@ -58,6 +68,7 @@ export const CurrentMatchCard = (props: Props) => {
   return (
     <Card
       sx={{
+        position: "relative",
         borderRadius: "10px",
         backgroundColor: CUSTOM_COLORS.lightGrey,
         minHeight: "300px",
@@ -104,11 +115,13 @@ export const CurrentMatchCard = (props: Props) => {
           </Grid>
           <Typography
             gutterBottom
-            variant="h5"
+            variant="h4"
             component="div"
             style={{ margin: "0 16px" }}
           >
-            &mdash;
+            {currentMatchResult
+              ? `${currentMatchResult.hostScore} - ${currentMatchResult.guestScore}`
+              : `-`}
           </Typography>
           <Grid item container direction="column" alignItems="center" xs>
             <Avatar
@@ -134,7 +147,7 @@ export const CurrentMatchCard = (props: Props) => {
         >
           <Table size="small" aria-label="simple table">
             <TableBody>
-              {currentMatchPredictions.map((prediction) => {
+              {sortedCurrentMatchPredictions.map((prediction, index) => {
                 const user = props.users.find(
                   (user) => user.id === prediction.userId,
                 );
@@ -143,9 +156,18 @@ export const CurrentMatchCard = (props: Props) => {
                   return null;
                 }
 
+                const isLastRow =
+                  index === sortedCurrentMatchPredictions.length - 1;
+
                 return (
-                  <TableRow>
-                    <TableCell style={{ width: "30%", textAlign: "center" }}>
+                  <TableRow
+                    style={{
+                      backgroundColor: isLastRow
+                        ? CUSTOM_COLORS.grey
+                        : "inherit",
+                    }}
+                  >
+                    <TableCell style={{ width: "30%", textAlign: "left" }}>
                       {user.name + " " + user.lastName}
                     </TableCell>
                     <TableCell style={{ width: "70%", textAlign: "center" }}>

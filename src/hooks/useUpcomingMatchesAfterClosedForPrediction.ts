@@ -10,5 +10,5 @@ export const useUpcomingMatchesAfterClosedForPrediction = (
   if (getLastMatchWithClosedForPrediction !== -1) {
     return matches.slice(getLastMatchWithClosedForPrediction + 1);
   }
-  return [];
+  return matches;
 };
