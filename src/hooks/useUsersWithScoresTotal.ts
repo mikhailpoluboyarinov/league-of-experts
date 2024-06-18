@@ -36,7 +36,10 @@ export type UserWithScoresTotal = {
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;
   scoresByGroupGameDays: number[];
+  pariScoresByGroupGameDays: number[];
+  doublePointsScoreByGroupGameDays: number[];
   scoresByPlayOffGameDays: number[];
+  pariScoresByPlayOffGameDays: number[];
   userGroupScore: number;
   userPlayoffScore: number;
 };
@@ -73,6 +76,12 @@ export const useUsersWithScoresTotal = ({
     const scoresByPlayOffGameDays = Array(GAME_DAYS_PLAYOFF).fill(0);
     // Массив со значениями очков за игровые дни группового этапа, index - игровой день, значение - кол-во очков за игровой день
     const scoresByGroupGameDays = Array(GAME_DAYS_GROUP).fill(0);
+    // Массив со значениями очков за пари за игровые дни группового этапа
+    const pariScoresByGroupGameDays = Array(GAME_DAYS_GROUP).fill(0);
+    // Массив со значениями очков за пари за игровые дни плей-офф
+    const pariScoresByPlayOffGameDays = Array(GAME_DAYS_PLAYOFF).fill(0);
+    // Массив со значениями очков за выставочные матчи за игровые дни группового этапа
+    const doublePointsScoreByGroupGameDays = Array(GAME_DAYS_GROUP).fill(0);
 
     // Получаем все прогнозы конкретного пользователя по его id ( мы внутри map!!!!!)
     const userPredictions = predictions.filter((prediction) => {
@@ -112,21 +121,23 @@ export const useUsersWithScoresTotal = ({
 
       if (match.isDoublePoints) {
         doublePointsScore += score;
+        doublePointsScoreByGroupGameDays[match.gameDay - 1] += score;
       }
 
       if (userPrediction.isPari) {
+        const pariScore = calculatePariScore({
+          userScore: score,
+          aiScore: aiScores[match.id],
+        });
+
         switch (match.type) {
           case "group":
-            pariPointsScoreGroup += calculatePariScore({
-              userScore: score,
-              aiScore: aiScores[match.id],
-            });
+            pariPointsScoreGroup += pariScore;
+            pariScoresByGroupGameDays[match.gameDay - 1] += pariScore;
             break
           case "play_off":
-            pariPointsScorePlayoff += calculatePariScore({
-              userScore: score,
-              aiScore: aiScores[match.id],
-            });
+            pariPointsScorePlayoff += pariScore;
+            pariScoresByPlayOffGameDays[match.gameDay - 1 - GAME_DAYS_GROUP] += pariScore;
             break
           default:
             notReachable(match)
@@ -194,6 +205,9 @@ export const useUsersWithScoresTotal = ({
       totalScore: userTotalScore + doublePointsScore + pariPointsScoreGroup + pariPointsScorePlayoff,
       scoresByGroupGameDays,
       scoresByPlayOffGameDays,
+      pariScoresByGroupGameDays,
+      pariScoresByPlayOffGameDays,
+      doublePointsScoreByGroupGameDays,
     };
   });
 

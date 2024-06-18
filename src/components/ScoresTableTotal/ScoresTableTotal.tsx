@@ -72,8 +72,8 @@ export const ScoresTableTotal = ({
       return {
         userId: userWithScore.id,
         scores: isGroupGameDay ? userWithScore.scoresByGroupGameDays : userWithScore.scoresByPlayOffGameDays,
-        doublePoints: userWithScore.doublePointsScore,
-        pariPoints: userWithScore.pariPointsScore,
+        doublePoints: userWithScore.doublePointsScoreByGroupGameDays,
+        pariPoints: isGroupGameDay ? userWithScore.pariScoresByGroupGameDays : userWithScore.pariScoresByPlayOffGameDays,
         exactScoresNumber: userWithScore.exactScoresNumber,
       };
     }),
