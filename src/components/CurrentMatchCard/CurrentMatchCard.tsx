@@ -28,33 +28,24 @@ type Props = {
   predictions: Prediction[];
   users: User[];
   results: Result[];
+  currentMatch: Match;
 };
 
 export const CurrentMatchCard = (props: Props) => {
-  const filteredMatchesByClosedPredictions = props.matches.filter(
-    (match) => match.isClosedForPrediction,
-  );
-
-  const currentMatch = filteredMatchesByClosedPredictions.length
-    ? filteredMatchesByClosedPredictions[
-        filteredMatchesByClosedPredictions.length - 1
-      ]
-    : props.matches[0];
-
   const currentMatchResult = props.results.find(
-    (result) => result.matchId === currentMatch.id,
+    (result) => result.matchId === props.currentMatch.id,
   );
 
   const hostTeam = props.countries.find(
-    (country) => country.id === currentMatch.hostId,
+    (country) => country.id === props.currentMatch.hostId,
   );
 
   const guestTeam = props.countries.find(
-    (country) => country.id === currentMatch.guestId,
+    (country) => country.id === props.currentMatch.guestId,
   );
 
   const currentMatchPredictions = props.predictions.filter(
-    (prediction) => prediction.matchId === currentMatch.id,
+    (prediction) => prediction.matchId === props.currentMatch.id,
   );
 
   const sortedCurrentMatchPredictions = currentMatchPredictions.sort(
@@ -72,14 +63,14 @@ export const CurrentMatchCard = (props: Props) => {
         borderRadius: "10px",
         backgroundColor: CUSTOM_COLORS.lightGrey,
         minHeight: "300px",
-        ...(currentMatch.isDoublePoints && {
+        ...(props.currentMatch.isDoublePoints && {
           animation: `${gradientBackground} 4s infinite alternate`,
           backgroundSize: "200% 200%",
         }),
       }}
     >
       <CardContent>
-        {currentMatch.isDoublePoints && (
+        {props.currentMatch.isDoublePoints && (
           <Box
             sx={{
               position: "absolute",
