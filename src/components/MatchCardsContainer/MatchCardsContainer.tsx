@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { CurrentMatchCard } from "../CurrentMatchCard/CurrentMatchCard";
 import { Country } from "../../domains/Country";
 import { GameDay, Match } from "../../domains/Match";
@@ -18,6 +18,40 @@ type Props = {
   currentGameDay: GameDay;
 };
 export const MatchCardsContainer = (props: Props) => {
+  // Фильтруем матчи по закрытым предсказаниям
+  const filteredMatchesByClosedPredictions = props.matches.filter(
+    (match) => match.isClosedForPrediction,
+  );
+
+  // Узнаем какой текущий матч
+  const currentMatch = filteredMatchesByClosedPredictions.length
+    ? filteredMatchesByClosedPredictions[
+        filteredMatchesByClosedPredictions.length - 1
+      ]
+    : props.matches[0];
+
+  //Проверяем два матча последних в закрытыми предсказаниям, если одинаковое стартовое время, то будет рисовать две карточки
+
+  const currentMatches =
+    filteredMatchesByClosedPredictions.length >= 2 &&
+    filteredMatchesByClosedPredictions[
+      filteredMatchesByClosedPredictions.length - 1
+    ].startTime ===
+      filteredMatchesByClosedPredictions[
+        filteredMatchesByClosedPredictions.length - 2
+      ].startTime
+      ? {
+          lastMatch:
+            filteredMatchesByClosedPredictions[
+              filteredMatchesByClosedPredictions.length - 1
+            ],
+          secondLastMatch:
+            filteredMatchesByClosedPredictions[
+              filteredMatchesByClosedPredictions.length - 2
+            ],
+        }
+      : null;
+
   // Записываем отфильтрованные матчи по закрытому предсказыванию в константу
   const filteredUpcomingMatches = useUpcomingMatchesAfterClosedForPrediction(
     props.matches,
@@ -32,18 +66,48 @@ export const MatchCardsContainer = (props: Props) => {
       spacing={2}
       style={{ paddingTop: "40px", paddingBottom: "40px" }}
     >
-      <Grid item xs={12} sm={6} md={6}>
-        <Typography variant="h5" style={{ paddingBottom: "10px" }}>
-          Текущий матч
-        </Typography>
-        <CurrentMatchCard
-          results={props.results}
-          matches={props.matches}
-          countries={props.countries}
-          predictions={props.predictions}
-          users={props.users}
-        />
-      </Grid>
+      {currentMatches ? (
+        <>
+          <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="h5" style={{ paddingBottom: "10px" }}>
+              Текущие матчи:
+            </Typography>
+
+            <Box mb={2}>
+              <CurrentMatchCard
+                currentMatch={currentMatches.lastMatch}
+                results={props.results}
+                matches={props.matches}
+                countries={props.countries}
+                predictions={props.predictions}
+                users={props.users}
+              />
+            </Box>
+            <CurrentMatchCard
+              currentMatch={currentMatches.secondLastMatch}
+              results={props.results}
+              matches={props.matches}
+              countries={props.countries}
+              predictions={props.predictions}
+              users={props.users}
+            />
+          </Grid>
+        </>
+      ) : (
+        <Grid item xs={12} sm={6} md={6}>
+          <Typography variant="h5" style={{ paddingBottom: "10px" }}>
+            Текущий матч
+          </Typography>
+          <CurrentMatchCard
+            currentMatch={currentMatch}
+            results={props.results}
+            matches={props.matches}
+            countries={props.countries}
+            predictions={props.predictions}
+            users={props.users}
+          />
+        </Grid>
+      )}
       <Grid item xs={12} sm={6} md={6}>
         <Typography variant="h5" style={{ paddingBottom: "10px" }}>
           Ближайшие матчи
