@@ -11,6 +11,8 @@ import {
   Paper,
   TableBody,
   Box,
+  styled,
+  useTheme,
 } from "@mui/material";
 import { Country } from "../../domains/Country";
 import { Match } from "../../domains/Match";
@@ -21,6 +23,7 @@ import { gradientBackground, shimmer } from "../../styles/gradients";
 import StarIcon from "@mui/icons-material/Star";
 import { CUSTOM_COLORS } from "../../styles/colors";
 import { Result } from "../../domains/Result";
+import { calculatePredictionPercentages } from "../../hooks/useCalculatePredictionPercentages";
 
 type Props = {
   matches: Match[];
@@ -32,6 +35,8 @@ type Props = {
 };
 
 export const CurrentMatchCard = (props: Props) => {
+  const theme = useTheme();
+
   const currentMatchResult = props.results.find(
     (result) => result.matchId === props.currentMatch.id,
   );
@@ -55,6 +60,37 @@ export const CurrentMatchCard = (props: Props) => {
   if (!hostTeam || !guestTeam) {
     return null;
   }
+
+  //Считаем проценты на победителя по предикшенам без AI на currentMatch
+
+  const currentMatchPercentagesWithoutAi = calculatePredictionPercentages(
+    sortedCurrentMatchPredictions,
+  );
+
+  //Описываем логику стилей прогресс бара
+
+  const ProgressBarContainer = styled("div")({
+    display: "flex",
+    height: "30px",
+    width: "100%",
+    backgroundColor: theme.palette.grey[300],
+    borderRadius: "5px",
+    overflow: "hidden",
+  });
+
+  const ProgressBarSegment = styled("div")<{
+    color: string;
+    width: number;
+  }>(({ color, width }) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: color,
+    width: width > 0 ? `${width}%` : "6%",
+    position: "relative",
+    color: "#fff",
+    fontWeight: "bold",
+  }));
 
   return (
     <Card
@@ -147,15 +183,28 @@ export const CurrentMatchCard = (props: Props) => {
                   return null;
                 }
 
+                //Проверяем предикшн осьминога (он всегда последний в списке) и рисуем ему цвет от его предикшена,
+                // относительно цветов, которые заданы в прогрессБаре предикшенов
+
                 const isLastRow =
                   index === sortedCurrentMatchPredictions.length - 1;
 
+                let lastRowColor = CUSTOM_COLORS.grey;
+                if (isLastRow) {
+                  if (prediction.hostScore > prediction.guestScore) {
+                    lastRowColor = CUSTOM_COLORS.lightBlue;
+                  } else if (prediction.hostScore === prediction.guestScore) {
+                    lastRowColor = CUSTOM_COLORS.purple;
+                  } else if (prediction.hostScore < prediction.guestScore) {
+                    lastRowColor = CUSTOM_COLORS.lightPink;
+                  }
+                }
+
                 return (
                   <TableRow
+                    key={user.id}
                     style={{
-                      backgroundColor: isLastRow
-                        ? CUSTOM_COLORS.grey
-                        : "inherit",
+                      backgroundColor: isLastRow ? lastRowColor : "inherit",
                     }}
                   >
                     <TableCell style={{ width: "30%", textAlign: "left" }}>
@@ -171,6 +220,40 @@ export const CurrentMatchCard = (props: Props) => {
           </Table>
         </TableContainer>
       </CardContent>
+      <Box sx={{ width: "100%", p: 2, padding: "0" }}>
+        <Typography variant="h6" align="center">
+          Предположения экспертов
+        </Typography>
+        <ProgressBarContainer>
+          <ProgressBarSegment
+            color={CUSTOM_COLORS.lightBlue}
+            width={currentMatchPercentagesWithoutAi.hostWinPercentage}
+          >
+            {currentMatchPercentagesWithoutAi.hostWinPercentage > 0
+              ? currentMatchPercentagesWithoutAi.hostWinPercentage.toFixed(1)
+              : 0}
+            %
+          </ProgressBarSegment>
+          <ProgressBarSegment
+            color={CUSTOM_COLORS.purple}
+            width={currentMatchPercentagesWithoutAi.drawPercentage}
+          >
+            {currentMatchPercentagesWithoutAi.drawPercentage > 0
+              ? currentMatchPercentagesWithoutAi.drawPercentage.toFixed(1)
+              : 0}
+            %
+          </ProgressBarSegment>
+          <ProgressBarSegment
+            color={CUSTOM_COLORS.lightPink}
+            width={currentMatchPercentagesWithoutAi.guestWinPercentage}
+          >
+            {currentMatchPercentagesWithoutAi.guestWinPercentage > 0
+              ? currentMatchPercentagesWithoutAi.guestWinPercentage.toFixed(1)
+              : 0}
+            %
+          </ProgressBarSegment>
+        </ProgressBarContainer>
+      </Box>
     </Card>
   );
 };

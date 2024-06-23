@@ -114,8 +114,8 @@ export const MatchCardsContainer = (props: Props) => {
         </Typography>
         <Grid container direction="column" spacing={2}>
           {twoMatchesToRender.length !== 0 ? (
-            twoMatchesToRender.map((match) => (
-              <Grid item>
+            twoMatchesToRender.map((match, index) => (
+              <Grid key={index} item>
                 <UpcomingMatchCard
                   hostTeamId={match.hostId}
                   guestTeamId={match.guestId}

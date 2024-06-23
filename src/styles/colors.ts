@@ -10,4 +10,6 @@ export const CUSTOM_COLORS = {
   grey: "#EBEBEB",
   green: "#93c37d",
   purple: "#b4a7d5",
+  lightBlue: "#6780e1",
+  lightPink: "#d795a7",
 };
