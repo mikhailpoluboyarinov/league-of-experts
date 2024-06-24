@@ -24,5 +24,8 @@ export const calculatePredictionPercentages = (predictions: Prediction[]) => {
     hostWinPercentage,
     guestWinPercentage,
     drawPercentage,
+    hostWins,
+    guestWins,
+    draw,
   };
 };

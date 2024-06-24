@@ -166,10 +166,14 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                 >
                   {isSmallScreen ? "" : "Эксперт"}
                 </TableCell>
-                {matchesData.map((item) => {
+                {matchesData.map((item, index) => {
                   if (item !== null) {
                     return (
-                      <TableCell align="center" style={TABLE_CELL_STYLE}>
+                      <TableCell
+                        key={index}
+                        align="center"
+                        style={TABLE_CELL_STYLE}
+                      >
                         {item.hostTeam.nameRus} - {item.guestTeam.nameRus}
                         {item.matchResult
                           ? ` (${item.matchResult.hostScore}:${item.matchResult.guestScore})`
@@ -178,7 +182,7 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                     );
                   }
 
-                  return null
+                  return null;
                 })}
                 <TableCell align="center" style={TABLE_CELL_STYLE}>
                   {isSmallScreen ? "О" : "Очки"}
@@ -192,6 +196,7 @@ export const ScoresTableResultsPerDay = (props: Props) => {
 
                 return (
                   <TableRow
+                    key={index}
                     style={{
                       backgroundColor: isLastRow
                         ? CUSTOM_COLORS.grey
@@ -199,30 +204,39 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                     }}
                   >
                     <TableCell>{userPredictionsData.userName}</TableCell>
-                    {userPredictionsData.predictions.map((predictionData) => {
-                      if (predictionData) {
-                        totalScore += predictionData.score;
+                    {userPredictionsData.predictions.map(
+                      (predictionData, index) => {
+                        if (predictionData) {
+                          totalScore += predictionData.score;
+
+                          return (
+                            <TableCell
+                              key={index}
+                              align="center"
+                              style={{
+                                backgroundColor: predictionData.predictionResult
+                                  ? getColorByPredictionResult(
+                                      predictionData.predictionResult,
+                                    )
+                                  : "inherit",
+                              }}
+                            >
+                              {predictionData.prediction.hostScore}:
+                              {predictionData.prediction.guestScore}
+                              {predictionData.prediction.isPari
+                                ? " (ПАРИ)"
+                                : ""}
+                            </TableCell>
+                          );
+                        }
 
                         return (
-                          <TableCell
-                            align="center"
-                            style={{
-                              backgroundColor: predictionData.predictionResult
-                                ? getColorByPredictionResult(
-                                    predictionData.predictionResult,
-                                  )
-                                : "inherit",
-                            }}
-                          >
-                            {predictionData.prediction.hostScore}:
-                            {predictionData.prediction.guestScore}
-                            {predictionData.prediction.isPari ? " (ПАРИ)" : ""}
+                          <TableCell key={index} align="center">
+                            -
                           </TableCell>
                         );
-                      }
-
-                      return <TableCell align="center">-</TableCell>;
-                    })}
+                      },
+                    )}
                     <TableCell align="center">{totalScore}</TableCell>
                   </TableRow>
                 );
