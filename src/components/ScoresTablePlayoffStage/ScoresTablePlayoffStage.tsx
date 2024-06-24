@@ -57,9 +57,9 @@ export const ScoresTablePlayoffStage = ({
     predictions,
   });
 
-  const sortedUsersWithScores = usersWithScores.slice().sort(
-    sortUsersByGameRulesPlayoffStage,
-  );
+  const sortedUsersWithScores = usersWithScores
+    .slice()
+    .sort(sortUsersByGameRulesPlayoffStage);
 
   const usersWIthTotalScoreByPreviousGameDay = useUserWIthTotalScoreByGameDay({
     usersWithScores: usersWithScores.map((userWithScore) => {
@@ -176,7 +176,7 @@ export const ScoresTablePlayoffStage = ({
             </TableHead>
             <TableBody>
               {sortedUsersWithScores.map((user, index) => (
-                <Row user={user} index={index} />
+                <Row key={index} user={user} index={index} />
               ))}
               <AiRowPlayoffStage
                 countries={countries}

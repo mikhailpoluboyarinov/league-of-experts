@@ -230,27 +230,24 @@ export const CurrentMatchCard = (props: Props) => {
             width={currentMatchPercentagesWithoutAi.hostWinPercentage}
           >
             {currentMatchPercentagesWithoutAi.hostWinPercentage > 0
-              ? currentMatchPercentagesWithoutAi.hostWinPercentage.toFixed(1)
+              ? currentMatchPercentagesWithoutAi.hostWins
               : 0}
-            %
           </ProgressBarSegment>
           <ProgressBarSegment
             color={CUSTOM_COLORS.purple}
             width={currentMatchPercentagesWithoutAi.drawPercentage}
           >
             {currentMatchPercentagesWithoutAi.drawPercentage > 0
-              ? currentMatchPercentagesWithoutAi.drawPercentage.toFixed(1)
+              ? currentMatchPercentagesWithoutAi.draw
               : 0}
-            %
           </ProgressBarSegment>
           <ProgressBarSegment
             color={CUSTOM_COLORS.lightPink}
             width={currentMatchPercentagesWithoutAi.guestWinPercentage}
           >
             {currentMatchPercentagesWithoutAi.guestWinPercentage > 0
-              ? currentMatchPercentagesWithoutAi.guestWinPercentage.toFixed(1)
+              ? currentMatchPercentagesWithoutAi.guestWins
               : 0}
-            %
           </ProgressBarSegment>
         </ProgressBarContainer>
       </Box>

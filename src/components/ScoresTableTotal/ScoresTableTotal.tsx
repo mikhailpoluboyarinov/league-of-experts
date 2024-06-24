@@ -58,28 +58,33 @@ export const ScoresTableTotal = ({
     predictions,
   });
 
-  const sortedUsersWithScores =
-      usersWithScores.slice().sort(sortUsersByGameRules);
+  const sortedUsersWithScores = usersWithScores
+    .slice()
+    .sort(sortUsersByGameRules);
 
   const highestScoresPerDayPlayoff = useHighestScoresPerGameDay(
     sortedUsersWithScores.map((user) => user.scoresByPlayOffGameDays),
   );
 
-  const isGroupGameDay = currentGameDay <= GAME_DAYS_GROUP
+  const isGroupGameDay = currentGameDay <= GAME_DAYS_GROUP;
 
   const usersWIthTotalScoreByPreviousGameDay = useUserWIthTotalScoreByGameDay({
     usersWithScores: usersWithScores.map((userWithScore) => {
       return {
         userId: userWithScore.id,
-        scores: isGroupGameDay ? userWithScore.scoresByGroupGameDays : userWithScore.scoresByPlayOffGameDays,
+        scores: isGroupGameDay
+          ? userWithScore.scoresByGroupGameDays
+          : userWithScore.scoresByPlayOffGameDays,
         doublePoints: userWithScore.doublePointsScoreByGroupGameDays,
-        pariPoints: isGroupGameDay ? userWithScore.pariScoresByGroupGameDays : userWithScore.pariScoresByPlayOffGameDays,
+        pariPoints: isGroupGameDay
+          ? userWithScore.pariScoresByGroupGameDays
+          : userWithScore.pariScoresByPlayOffGameDays,
         exactScoresNumber: userWithScore.exactScoresNumber,
       };
     }),
-    gameDay: isGroupGameDay ?
-        currentGameDay - 1 as GameDay :
-        currentGameDay - GAME_DAYS_GROUP - 1 as GameDay,
+    gameDay: isGroupGameDay
+      ? ((currentGameDay - 1) as GameDay)
+      : ((currentGameDay - GAME_DAYS_GROUP - 1) as GameDay),
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
@@ -209,7 +214,7 @@ export const ScoresTableTotal = ({
             </TableHead>
             <TableBody>
               {sortedUsersWithScores.map((user, index) => (
-                <Row user={user} index={index} />
+                <Row key={index} user={user} index={index} />
               ))}
               <AiRowTotal
                 countries={countries}
@@ -276,8 +281,7 @@ export const ScoresTableTotal = ({
                     );
                   })}
 
-                {
-                  /*
+                {/*
                   <TableCell
               align="center"
               style={{
@@ -288,97 +292,94 @@ export const ScoresTableTotal = ({
             >
               {isMediumScreen ? "П" : "Пари"}
             </TableCell>
-                   */
-                }
-            <TableCell
-              align="center"
-              style={{ ...TABLE_CELL_STYLE, width: "7%" }}
-            >
-              {isMediumScreen ? "О" : "Очки"}
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedUsersWithScores.map((user, index) => {
-            const userPositionPreviousGameDay =
-              usersWIthTotalScoreByPreviousGameDay.findIndex(
-                (item) => item.userId === user.id,
-              );
-
-            return (
-              <TableRow
-                key={user.id}
-                style={{ backgroundColor: CUSTOM_COLORS.lightGrey }}
-              >
+                   */}
                 <TableCell
                   align="center"
-                  style={{
-                    width: "5%",
-                    backgroundColor: getColorByPlace(
-                      sortedUsersWithScores.length,
-                      index + 1,
-                    ),
-                  }}
+                  style={{ ...TABLE_CELL_STYLE, width: "7%" }}
                 >
-                  {index + 1}
+                  {isMediumScreen ? "О" : "Очки"}
                 </TableCell>
-                <TableCellChangedPlace
-                  userPositionPreviousGameDay={userPositionPreviousGameDay}
-                  index={index}
-                />
-                <TableCellNameAvatar
-                  id={user.id}
-                  name={user.name}
-                  isWinner={user.isWinner}
-                  avatar={user.avatar}
-                  winnerCount={user.winnerCount}
-                />
-                <TableCell align="center" style={{ width: "8%" }}>
-                  <img
-                    width={30}
-                    height={30}
-                    alt="flag"
-                    src={getCountryFlagUrlById(
-                      countries,
-                      user.winnerPrediction,
-                    )}
-                  />
-                </TableCell>
-                <TableCell align="center" style={{ width: "8%" }}>
-                  {user.exactScoresNumber}
-                </TableCell>
-                <TableCell align="center" style={{ width: "8%" }}>
-                  {user.userGroupScore}
-                </TableCell>
-                {user.scoresByPlayOffGameDays.map((score, index) => {
-                  const isUserWithHighestScorePerDay =
-                    highestScoresPerDayPlayoff[index] &&
-                    highestScoresPerDayPlayoff[index] === score;
-                  return (
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {sortedUsersWithScores.map((user, index) => {
+                const userPositionPreviousGameDay =
+                  usersWIthTotalScoreByPreviousGameDay.findIndex(
+                    (item) => item.userId === user.id,
+                  );
+
+                return (
+                  <TableRow
+                    key={user.id}
+                    style={{ backgroundColor: CUSTOM_COLORS.lightGrey }}
+                  >
                     <TableCell
-                      key={index}
                       align="center"
                       style={{
-                        width: "4%",
-                        backgroundColor: isUserWithHighestScorePerDay
-                          ? CUSTOM_COLORS.lightGreen
-                          : "inherit",
+                        width: "5%",
+                        backgroundColor: getColorByPlace(
+                          sortedUsersWithScores.length,
+                          index + 1,
+                        ),
                       }}
                     >
-                      {score}
+                      {index + 1}
                     </TableCell>
-                  );
-                })}
-                {
-                  /*
+                    <TableCellChangedPlace
+                      userPositionPreviousGameDay={userPositionPreviousGameDay}
+                      index={index}
+                    />
+                    <TableCellNameAvatar
+                      id={user.id}
+                      name={user.name}
+                      isWinner={user.isWinner}
+                      avatar={user.avatar}
+                      winnerCount={user.winnerCount}
+                    />
+                    <TableCell align="center" style={{ width: "8%" }}>
+                      <img
+                        width={30}
+                        height={30}
+                        alt="flag"
+                        src={getCountryFlagUrlById(
+                          countries,
+                          user.winnerPrediction,
+                        )}
+                      />
+                    </TableCell>
+                    <TableCell align="center" style={{ width: "8%" }}>
+                      {user.exactScoresNumber}
+                    </TableCell>
+                    <TableCell align="center" style={{ width: "8%" }}>
+                      {user.userGroupScore}
+                    </TableCell>
+                    {user.scoresByPlayOffGameDays.map((score, index) => {
+                      const isUserWithHighestScorePerDay =
+                        highestScoresPerDayPlayoff[index] &&
+                        highestScoresPerDayPlayoff[index] === score;
+                      return (
+                        <TableCell
+                          key={index}
+                          align="center"
+                          style={{
+                            width: "4%",
+                            backgroundColor: isUserWithHighestScorePerDay
+                              ? CUSTOM_COLORS.lightGreen
+                              : "inherit",
+                          }}
+                        >
+                          {score}
+                        </TableCell>
+                      );
+                    })}
+                    {/*
                 <TableCell
                   align="center"
                   style={{ color: CUSTOM_COLORS.orange, width: "5%" }}
                 >
                   {user.pariPointsScore}
                 </TableCell>
-                   */
-                    }
+                   */}
                     <TableCell align="center" style={{ width: "7%" }}>
                       {user.totalScore}
                     </TableCell>
