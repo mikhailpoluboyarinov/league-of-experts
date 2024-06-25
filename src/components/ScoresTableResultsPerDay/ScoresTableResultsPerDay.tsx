@@ -4,6 +4,7 @@ import { Prediction } from "../../domains/Prediction";
 import { Result } from "../../domains/Result";
 import { User } from "../../domains/User";
 import {
+  Box,
   FormControl,
   InputLabel,
   MenuItem,
@@ -23,7 +24,7 @@ import { getColorByPredictionResult } from "../../domains/GameRules/helpers/getC
 import { calculatePredictionResultScore } from "../../domains/GameRules/helpers/calculatePredictionResultScore";
 import { useState } from "react";
 import { CUSTOM_COLORS } from "../../styles/colors";
-import CasinoIcon from "@mui/icons-material/Casino";
+import IconDice from "../../images/icon_casino2.svg";
 
 type Props = {
   countries: Country[];
@@ -174,10 +175,28 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                         align="center"
                         style={TABLE_CELL_STYLE}
                       >
-                        {item.hostTeam.nameRus} - {item.guestTeam.nameRus}
-                        {item.matchResult
-                          ? ` (${item.matchResult.hostScore}:${item.matchResult.guestScore})`
-                          : null}
+                        {isSmallScreen ? (
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
+                          >
+                            <span>{item.hostTeam.nameRus}</span>
+                            <span>-</span>
+                            <span>{item.guestTeam.nameRus}</span>
+                            {item.matchResult && (
+                              <span>{`(${item.matchResult.hostScore}:${item.matchResult.guestScore})`}</span>
+                            )}
+                          </div>
+                        ) : (
+                          <div>
+                            {item.hostTeam.nameRus} - {item.guestTeam.nameRus}
+                            {item.matchResult &&
+                              ` (${item.matchResult.hostScore}:${item.matchResult.guestScore})`}
+                          </div>
+                        )}
                       </TableCell>
                     );
                   }
