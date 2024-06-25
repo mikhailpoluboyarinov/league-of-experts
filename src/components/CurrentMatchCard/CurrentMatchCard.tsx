@@ -24,6 +24,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { CUSTOM_COLORS } from "../../styles/colors";
 import { Result } from "../../domains/Result";
 import { calculatePredictionPercentages } from "../../hooks/useCalculatePredictionPercentages";
+import IconDice from "../../images/icon_casino2.svg";
 
 type Props = {
   matches: Match[];
@@ -211,7 +212,8 @@ export const CurrentMatchCard = (props: Props) => {
                       {user.name + " " + user.lastName}
                     </TableCell>
                     <TableCell style={{ width: "70%", textAlign: "center" }}>
-                      {prediction.hostScore} : {prediction.guestScore}
+                      {prediction.hostScore} : {prediction.guestScore}{" "}
+                      {prediction.isPari ? " (ПАРИ)" : ""}
                     </TableCell>
                   </TableRow>
                 );

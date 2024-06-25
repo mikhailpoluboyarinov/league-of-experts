@@ -167,7 +167,7 @@ export const UpcomingMatchCard = ({
             padding: "10px",
             borderRadius: "10px",
             minHeight: "180px",
-            textAlign: "left",
+            textAlign: description ? "left" : "center",
           }}
         >
           <Markdown>
