@@ -157,6 +157,12 @@ export const ScoresTableTotal = ({
                   </span>
                 </Typography>
                 <Typography variant="subtitle2" gutterBottom component="div">
+                  Нагретые шары:
+                  <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
+                    {user.user.hotBallsPointsScore}
+                  </span>
+                </Typography>
+                <Typography variant="subtitle2" gutterBottom component="div">
                   Точно угаданных результатов:
                   <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
                     {user.user.exactScoresNumber}

@@ -22,6 +22,7 @@ export const fetchUsers = async (): Promise<User[]> => {
         winnerCount: user.winnerCount || 0,
         lastWinner: user.lastWinner,
         winnerPrediction: user.winnerPrediction,
+        hotBallsPrediction: user.hotBallsExactPrediction || 0,
         isAI: user.isAI,
       };
     });

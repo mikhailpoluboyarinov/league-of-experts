@@ -146,6 +146,12 @@ export const ScoresTableGroupStage = ({
                     {user.user.doublePointsScore}
                   </span>
                 </Typography>
+                <Typography variant="subtitle2" gutterBottom component="div">
+                  Нагретые шары:
+                  <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
+                    {user.user.hotBallsPointsScore}
+                  </span>
+                </Typography>
               </Box>
             </Collapse>
           </TableCell>
@@ -234,6 +240,12 @@ export const ScoresTableGroupStage = ({
                 >
                   {isSmallScreen || isMediumScreen ? "П" : "Пари"}
                 </TableCell>
+                <TableCell
+                  align="center"
+                  style={{ ...TABLE_CELL_STYLE, color: CUSTOM_COLORS.orange }}
+                >
+                  {isSmallScreen || isMediumScreen ? "Ш" : "Шары"}
+                </TableCell>
                 <TableCell align="center" style={TABLE_CELL_STYLE}>
                   {isMediumScreen ? "О" : "Очки"}
                 </TableCell>
@@ -307,6 +319,14 @@ export const ScoresTableGroupStage = ({
                     >
                       {user.pariPointsScore}
                     </TableCell>
+                    <TableCell
+                      align="center"
+                      style={{
+                        color: CUSTOM_COLORS.orange,
+                      }}
+                    >
+                      {user.hotBallsPointsScore}
+                    </TableCell>
                     <TableCell align="center">{user.userGroupScore}</TableCell>
                   </TableRow>
                 );
@@ -367,6 +387,8 @@ export const ScoresTableGroupStage = ({
           &nbsp;–&nbsp;двойные очки,&nbsp;
           <b>П</b>
           &nbsp;–&nbsp;очки за пари&nbsp;
+          <b>Ш</b>
+          &nbsp;–&nbsp;очки за нагретые шары&nbsp;
           <b>О</b>
           &nbsp;–&nbsp;очки&nbsp;
         </Typography>
