@@ -9,7 +9,7 @@ import {
 import { calculatePredictionResult } from "../domains/GameRules/helpers/calculatePredictionResult";
 import { calculatePredictionResultScore } from "../domains/GameRules/helpers/calculatePredictionResultScore";
 import { CountryId } from "../domains/Country";
-import {useCalculatePariScores} from "./useCalculatePariScores";
+import { useCalculatePariScores } from "./useCalculatePariScores";
 
 type Params = {
   matches: Match[];
@@ -31,6 +31,7 @@ export type AiWithScoresTotal = {
   pariScoresGroup: number;
   pariScoresPlayoff: number;
   pariScoresTotal: number;
+  hotBallsPointsScore: number;
   exactScoresNumber: number;
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;
@@ -45,17 +46,31 @@ export const useAiWithScoresTotal = ({
   results,
   users,
   predictions,
-}: Params): AiWithScoresTotal=> {
+}: Params): AiWithScoresTotal => {
   const aiUser = users.find((user) => user.isAI);
 
   if (!aiUser) {
-    throw new Error('AiUser not found.');
+    throw new Error("AiUser not found.");
   }
 
   // Очки, которые набрали юзеры в паришках, не бот! (Очки бота = очки юзеров со знаком минус)
-  const aiPariScoresGroup = -1 * useCalculatePariScores({ predictions: predictions.filter(prediction => prediction.type === 'group'), results })
-  const aiPariScoresPlayoff = -1 * useCalculatePariScores({ predictions: predictions.filter(prediction => prediction.type === 'play_off'), results })
-  const aiPariScoresTotal = aiPariScoresGroup + aiPariScoresPlayoff
+  const aiPariScoresGroup =
+    -1 *
+    useCalculatePariScores({
+      predictions: predictions.filter(
+        (prediction) => prediction.type === "group",
+      ),
+      results,
+    });
+  const aiPariScoresPlayoff =
+    -1 *
+    useCalculatePariScores({
+      predictions: predictions.filter(
+        (prediction) => prediction.type === "play_off",
+      ),
+      results,
+    });
+  const aiPariScoresTotal = aiPariScoresGroup + aiPariScoresPlayoff;
 
   let aiTotalScore: number = 0;
   // Кол-во очков полученных за матчи с двойными очками (групповой этап)
@@ -66,6 +81,8 @@ export const useAiWithScoresTotal = ({
   let exactScoresNumberGroupStage: number = 0;
   // Кол-во точно угаданных плейофф результатов
   let exactScoresNumberPlayoffStage: number = 0;
+  // Кол-во очков за hotBalls
+  let hotBallsPointsScore: number = 0;
   // Итоговое кол-во очков за групповой этап
   let aiGroupScore: number = 0;
   // Итоговое кол-во очков за плейофф этап
@@ -89,6 +106,11 @@ export const useAiWithScoresTotal = ({
 
     if (!resultMatch) {
       return;
+    }
+
+    // Если есть результат hotBalls, перезаписываем его
+    if (aiUser.hotBallsPrediction) {
+      hotBallsPointsScore = aiUser.hotBallsPrediction;
     }
 
     // Получаем данные матча,чтобы понять к какому игровому дню он относится
@@ -122,16 +144,16 @@ export const useAiWithScoresTotal = ({
 
     // Если пользователь угадал точный счет в грпповом этапе, обновляем кол-во точно угаданных групповых результатов
     if (
-        aiPredictionResult.type === "group" &&
-        aiPredictionResult.matchState.type === "exact_score"
+      aiPredictionResult.type === "group" &&
+      aiPredictionResult.matchState.type === "exact_score"
     ) {
       exactScoresNumberGroupStage += 1;
     }
 
     // Если пользователь угадал точный счет в плейофф этапе, обновляем кол-во точно угаданных плейофф результатов
     if (
-        aiPredictionResult.type === "play_off" &&
-        aiPredictionResult.matchState.type === "exact_score"
+      aiPredictionResult.type === "play_off" &&
+      aiPredictionResult.matchState.type === "exact_score"
     ) {
       exactScoresNumberPlayoffStage += 1;
     }
@@ -166,15 +188,24 @@ export const useAiWithScoresTotal = ({
     winnerCount: aiUser.winnerCount,
     winnerPrediction: aiUser.winnerPrediction,
     doublePointsScore,
+    hotBallsPointsScore: hotBallsPointsScore,
     pariScoresGroup: aiPariScoresGroup,
     pariScoresPlayoff: aiPariScoresPlayoff,
     pariScoresTotal: aiPariScoresTotal,
     exactScoresNumber,
     exactScoresNumberGroupStage,
     exactScoresNumberPlayoffStage,
-    groupScore: aiGroupScore + doublePointsScore + aiPariScoresGroup,
+    groupScore:
+      aiGroupScore +
+      doublePointsScore +
+      aiPariScoresGroup +
+      hotBallsPointsScore,
     playoffScore: aiPlayoffScore + aiPariScoresPlayoff,
-    totalScore: aiTotalScore + doublePointsScore + aiPariScoresTotal,
+    totalScore:
+      aiTotalScore +
+      doublePointsScore +
+      aiPariScoresTotal +
+      hotBallsPointsScore,
     scoresByGroupGameDays,
     scoresByPlayOffGameDays,
   };

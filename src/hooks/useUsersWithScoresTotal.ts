@@ -10,8 +10,8 @@ import { calculatePredictionResult } from "../domains/GameRules/helpers/calculat
 import { calculatePredictionResultScore } from "../domains/GameRules/helpers/calculatePredictionResultScore";
 import { CountryId } from "../domains/Country";
 import { calculatePariScore } from "../domains/GameRules/helpers/calculatePariScore";
-import {useAiScores} from "./useAiScores";
-import {notReachable} from "../utils/notReachable";
+import { useAiScores } from "./useAiScores";
+import { notReachable } from "../utils/notReachable";
 
 type Params = {
   matches: Match[];
@@ -32,6 +32,7 @@ export type UserWithScoresTotal = {
   pariPointsScoreGroup: number;
   pariPointsScorePlayoff: number;
   pariPointsScore: number;
+  hotBallsPointsScore: number;
   exactScoresNumber: number;
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;
@@ -50,7 +51,7 @@ export const useUsersWithScoresTotal = ({
   users,
   predictions,
 }: Params): UserWithScoresTotal[] => {
-  const aiScores = useAiScores({ predictions, results })
+  const aiScores = useAiScores({ predictions, results });
   const filteredUsers = users.filter((user) => !user.isAI);
 
   // Пробегаем по всем юзерам и возвращаем модель с посчитанными очками
@@ -62,6 +63,8 @@ export const useUsersWithScoresTotal = ({
     // Кол-во очков полученных за pari
     let pariPointsScoreGroup: number = 0;
     let pariPointsScorePlayoff: number = 0;
+    // Кол-во очков за hotBalls
+    let hotBallsPointsScore: number = 0;
     // Кол-во точно угаданных результатов
     let exactScoresNumber: number = 0;
     // Кол-во точно угаданных групповых результатов
@@ -134,14 +137,20 @@ export const useUsersWithScoresTotal = ({
           case "group":
             pariPointsScoreGroup += pariScore;
             pariScoresByGroupGameDays[match.gameDay - 1] += pariScore;
-            break
+            break;
           case "play_off":
             pariPointsScorePlayoff += pariScore;
-            pariScoresByPlayOffGameDays[match.gameDay - 1 - GAME_DAYS_GROUP] += pariScore;
-            break
+            pariScoresByPlayOffGameDays[match.gameDay - 1 - GAME_DAYS_GROUP] +=
+              pariScore;
+            break;
           default:
-            notReachable(match)
+            notReachable(match);
         }
+      }
+
+      // Если есть результат hotBalls, перезаписываем его
+      if (user.hotBallsPrediction) {
+        hotBallsPointsScore = user.hotBallsPrediction;
       }
 
       // Если пользователь угадал точный счет, обновляем кол-во точно угаданных результатов
@@ -197,12 +206,22 @@ export const useUsersWithScoresTotal = ({
       pariPointsScoreGroup,
       pariPointsScorePlayoff,
       pariPointsScore: pariPointsScoreGroup + pariPointsScorePlayoff,
+      hotBallsPointsScore: hotBallsPointsScore,
       exactScoresNumber,
       exactScoresNumberGroupStage,
       exactScoresNumberPlayoffStage,
-      userGroupScore: userGroupScore + doublePointsScore + pariPointsScoreGroup,
+      userGroupScore:
+        userGroupScore +
+        doublePointsScore +
+        pariPointsScoreGroup +
+        hotBallsPointsScore,
       userPlayoffScore: userPlayoffScore + pariPointsScorePlayoff,
-      totalScore: userTotalScore + doublePointsScore + pariPointsScoreGroup + pariPointsScorePlayoff,
+      totalScore:
+        userTotalScore +
+        doublePointsScore +
+        pariPointsScoreGroup +
+        pariPointsScorePlayoff +
+        hotBallsPointsScore,
       scoresByGroupGameDays,
       scoresByPlayOffGameDays,
       pariScoresByGroupGameDays,

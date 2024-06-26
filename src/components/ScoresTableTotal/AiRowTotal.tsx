@@ -183,6 +183,12 @@ export const RowAi = ({
                 </span>
               </Typography>
               <Typography variant="subtitle2" gutterBottom component="div">
+                Нагретые шары:
+                <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
+                  {data.hotBallsPointsScore}
+                </span>
+              </Typography>
+              <Typography variant="subtitle2" gutterBottom component="div">
                 Точно угаданных результатов:
                 <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
                   {data.exactScoresNumber}

@@ -66,6 +66,7 @@ export const AiRowGroupStage = (props: Props) => {
         <TableCell />
         <TableCell />
         <TableCell />
+        <TableCell />
       </TableRow>
       <TableRow
         key={aiWithScore.id}
@@ -102,6 +103,9 @@ export const AiRowGroupStage = (props: Props) => {
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
           {aiWithScore.pariScoresGroup}
+        </TableCell>
+        <TableCell align="center" style={{ width: "5%" }}>
+          {aiWithScore.hotBallsPointsScore}
         </TableCell>
         <TableCell align="center" style={{ width: "7%" }}>
           {aiWithScore.groupScore}
@@ -168,6 +172,12 @@ const RowAi = ({
                 Двойные очки:
                 <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
                   {data.doublePointsScore}
+                </span>
+              </Typography>
+              <Typography variant="subtitle2" gutterBottom component="div">
+                Нагретые шары:
+                <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
+                  {data.hotBallsPointsScore}
                 </span>
               </Typography>
             </Box>
