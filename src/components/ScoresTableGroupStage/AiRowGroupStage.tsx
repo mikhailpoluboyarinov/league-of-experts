@@ -105,7 +105,7 @@ export const AiRowGroupStage = (props: Props) => {
           {aiWithScore.pariScoresGroup}
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
-          {aiWithScore.hotBallsPointsScore}
+          {aiWithScore.hotBallPointsScore}
         </TableCell>
         <TableCell align="center" style={{ width: "7%" }}>
           {aiWithScore.groupScore}
@@ -177,7 +177,7 @@ const RowAi = ({
               <Typography variant="subtitle2" gutterBottom component="div">
                 Нагретые шары:
                 <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                  {data.hotBallsPointsScore}
+                  {data.hotBallPointsScore}
                 </span>
               </Typography>
             </Box>
