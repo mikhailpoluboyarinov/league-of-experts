@@ -149,7 +149,7 @@ export const ScoresTableGroupStage = ({
                 <Typography variant="subtitle2" gutterBottom component="div">
                   Нагретые шары:
                   <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                    {user.user.hotBallsPointsScore}
+                    {user.user.hotBallPointsScore}
                   </span>
                 </Typography>
               </Box>
@@ -325,7 +325,7 @@ export const ScoresTableGroupStage = ({
                         color: CUSTOM_COLORS.orange,
                       }}
                     >
-                      {user.hotBallsPointsScore}
+                      {user.hotBallPointsScore}
                     </TableCell>
                     <TableCell align="center">{user.userGroupScore}</TableCell>
                   </TableRow>

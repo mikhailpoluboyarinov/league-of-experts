@@ -159,7 +159,7 @@ export const ScoresTableTotal = ({
                 <Typography variant="subtitle2" gutterBottom component="div">
                   Нагретые шары:
                   <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                    {user.user.hotBallsPointsScore}
+                    {user.user.hotBallPointsScore}
                   </span>
                 </Typography>
                 <Typography variant="subtitle2" gutterBottom component="div">

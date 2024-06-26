@@ -185,7 +185,7 @@ export const RowAi = ({
               <Typography variant="subtitle2" gutterBottom component="div">
                 Нагретые шары:
                 <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                  {data.hotBallsPointsScore}
+                  {data.hotBallPointsScore}
                 </span>
               </Typography>
               <Typography variant="subtitle2" gutterBottom component="div">

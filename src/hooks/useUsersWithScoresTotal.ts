@@ -32,7 +32,7 @@ export type UserWithScoresTotal = {
   pariPointsScoreGroup: number;
   pariPointsScorePlayoff: number;
   pariPointsScore: number;
-  hotBallsPointsScore: number;
+  hotBallPointsScore: number;
   exactScoresNumber: number;
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;
@@ -64,7 +64,7 @@ export const useUsersWithScoresTotal = ({
     let pariPointsScoreGroup: number = 0;
     let pariPointsScorePlayoff: number = 0;
     // Кол-во очков за hotBalls
-    let hotBallsPointsScore: number = 0;
+    let hotBallPointsScoreTotal: number = 0;
     // Кол-во точно угаданных результатов
     let exactScoresNumber: number = 0;
     // Кол-во точно угаданных групповых результатов
@@ -149,8 +149,8 @@ export const useUsersWithScoresTotal = ({
       }
 
       // Если есть результат hotBalls, перезаписываем его
-      if (user.hotBallsPrediction) {
-        hotBallsPointsScore = user.hotBallsPrediction;
+      if (user.hotBallPoints) {
+        hotBallPointsScoreTotal = user.hotBallPoints;
       }
 
       // Если пользователь угадал точный счет, обновляем кол-во точно угаданных результатов
@@ -206,7 +206,7 @@ export const useUsersWithScoresTotal = ({
       pariPointsScoreGroup,
       pariPointsScorePlayoff,
       pariPointsScore: pariPointsScoreGroup + pariPointsScorePlayoff,
-      hotBallsPointsScore: hotBallsPointsScore,
+      hotBallPointsScore: hotBallPointsScoreTotal,
       exactScoresNumber,
       exactScoresNumberGroupStage,
       exactScoresNumberPlayoffStage,
@@ -214,14 +214,14 @@ export const useUsersWithScoresTotal = ({
         userGroupScore +
         doublePointsScore +
         pariPointsScoreGroup +
-        hotBallsPointsScore,
+        hotBallPointsScoreTotal,
       userPlayoffScore: userPlayoffScore + pariPointsScorePlayoff,
       totalScore:
         userTotalScore +
         doublePointsScore +
         pariPointsScoreGroup +
         pariPointsScorePlayoff +
-        hotBallsPointsScore,
+        hotBallPointsScoreTotal,
       scoresByGroupGameDays,
       scoresByPlayOffGameDays,
       pariScoresByGroupGameDays,
