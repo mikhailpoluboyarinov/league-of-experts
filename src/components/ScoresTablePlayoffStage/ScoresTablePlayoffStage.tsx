@@ -132,7 +132,7 @@ export const ScoresTablePlayoffStage = ({
             winnerCount={user.user.winnerCount}
           />
           <TableCell align="center" style={{ width: "25%" }}>
-            {user.user.totalScore}
+            {user.user.userPlayoffScore}
           </TableCell>
         </TableRow>
         <TableRow>
@@ -142,7 +142,7 @@ export const ScoresTablePlayoffStage = ({
                 <Typography variant="subtitle2" gutterBottom component="div">
                   Пари:
                   <span style={{ marginLeft: "15px", fontWeight: "bold" }}>
-                    {user.user.pariPointsScore}
+                    {user.user.pariPointsScorePlayoff}
                   </span>
                 </Typography>
               </Box>
