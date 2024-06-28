@@ -42,9 +42,9 @@ export const UpcomingMatchCard = ({
     return null;
   }
 
-  const formattedDescription = description
-    .replace(/\n\n/g, "\n\n")
-    .replace(/\n/g, "  \n");
+  // const formattedDescription = description
+  //   .replace(/\n\n/g, "\n\n")
+  //   .replace(/\n/g, "  \n");
 
   return (
     <Card
@@ -171,7 +171,7 @@ export const UpcomingMatchCard = ({
           }}
         >
           <Markdown>
-            {formattedDescription || "Здесь скоро появится анонс матча."}
+            {description || "Здесь скоро появится анонс матча."}
           </Markdown>
         </Typography>
       </CardContent>
