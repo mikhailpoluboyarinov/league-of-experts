@@ -25,6 +25,7 @@ import { calculatePredictionResultScore } from "../../domains/GameRules/helpers/
 import { useState } from "react";
 import { CUSTOM_COLORS } from "../../styles/colors";
 import IconDice from "../../images/icon_casino2.svg";
+import {notReachable} from "../../utils/notReachable";
 
 type Props = {
   countries: Country[];
@@ -245,6 +246,29 @@ export const ScoresTableResultsPerDay = (props: Props) => {
                               {predictionData.prediction.isPari
                                 ? " (ПАРИ)"
                                 : ""}
+                              {(() => {
+                                switch (predictionData.prediction.type){
+                                  case "group":
+                                    return null
+                                  case "play_off":
+                                    switch (predictionData.prediction.extra){
+                                      case "no_extra":
+                                        return null
+                                      case "host_extra":
+                                        return " (ДОП.ХОЗ)"
+                                      case "guest_extra":
+                                        return " (ДОП.ГОСТИ)"
+                                      case "host_penalty":
+                                        return " (ПЕН.ХОЗ)"
+                                      case "guest_penalty":
+                                        return " (ПЕН.ГОСТИ)"
+                                      default:
+                                        return null
+                                    }
+                                  default:
+                                    return notReachable(predictionData.prediction)
+                                }
+                              })()}
                             </TableCell>
                           );
                         }

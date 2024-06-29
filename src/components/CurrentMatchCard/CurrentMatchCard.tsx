@@ -24,7 +24,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { CUSTOM_COLORS } from "../../styles/colors";
 import { Result } from "../../domains/Result";
 import { calculatePredictionPercentages } from "../../hooks/useCalculatePredictionPercentages";
-import IconDice from "../../images/icon_casino2.svg";
+import { notReachable } from "../../utils/notReachable";
 
 type Props = {
   matches: Match[];
@@ -214,6 +214,29 @@ export const CurrentMatchCard = (props: Props) => {
                     <TableCell style={{ width: "70%", textAlign: "center" }}>
                       {prediction.hostScore} : {prediction.guestScore}{" "}
                       {prediction.isPari ? " (ПАРИ)" : ""}
+                      {(() => {
+                        switch (prediction.type){
+                          case "group":
+                            return null
+                          case "play_off":
+                            switch (prediction.extra){
+                              case "no_extra":
+                                return null
+                              case "host_extra":
+                                return " (ДОП.ХОЗ)"
+                              case "guest_extra":
+                                return " (ДОП.ГОСТИ)"
+                              case "host_penalty":
+                                return " (ПЕН.ХОЗ)"
+                              case "guest_penalty":
+                                return " (ПЕН.ГОСТИ)"
+                              default:
+                                return null
+                            }
+                          default:
+                            return notReachable(prediction)
+                        }
+                      })()}
                     </TableCell>
                   </TableRow>
                 );
