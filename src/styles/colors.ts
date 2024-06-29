@@ -9,7 +9,9 @@ export const CUSTOM_COLORS = {
   lightGrey: "#f6f6f6",
   grey: "#EBEBEB",
   green: "#93c37d",
+  extraGreen: "#67a64a",
   purple: "#b4a7d5",
+  extraPurple: "#855ee7",
   lightBlue: "#6780e1",
   lightPink: "#d795a7",
 };

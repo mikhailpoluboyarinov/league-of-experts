@@ -67,23 +67,24 @@ export const ScoresTableTotal = ({
   );
 
   const isGroupGameDay = currentGameDay <= GAME_DAYS_GROUP;
+  const isFirstPlayOffGameDay = (currentGameDay - GAME_DAYS_GROUP) === 1;
 
   const usersWIthTotalScoreByPreviousGameDay = useUserWIthTotalScoreByGameDay({
     usersWithScores: usersWithScores.map((userWithScore) => {
       return {
         userId: userWithScore.id,
-        scores: isGroupGameDay
+        scores: isGroupGameDay || isFirstPlayOffGameDay
           ? userWithScore.scoresByGroupGameDays
           : userWithScore.scoresByPlayOffGameDays,
         doublePoints: userWithScore.doublePointsScoreByGroupGameDays,
-        groupScores: userWithScore.userGroupScore,
-        pariPoints: isGroupGameDay
+        groupScores: isGroupGameDay || isFirstPlayOffGameDay ? 0 : userWithScore.userGroupScore,
+        pariPoints: isGroupGameDay || isFirstPlayOffGameDay
           ? userWithScore.pariScoresByGroupGameDays
           : userWithScore.pariScoresByPlayOffGameDays,
         exactScoresNumber: userWithScore.exactScoresNumber,
       };
     }),
-    gameDay: isGroupGameDay
+    gameDay: isGroupGameDay || isFirstPlayOffGameDay
       ? ((currentGameDay - 1) as GameDay)
       : ((currentGameDay - GAME_DAYS_GROUP) as GameDay),
   });
