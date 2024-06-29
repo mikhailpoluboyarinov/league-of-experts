@@ -9,9 +9,10 @@ import {
 import { calculatePredictionResult } from "../domains/GameRules/helpers/calculatePredictionResult";
 import { calculatePredictionResultScore } from "../domains/GameRules/helpers/calculatePredictionResultScore";
 import { CountryId } from "../domains/Country";
-import { calculatePariScore } from "../domains/GameRules/helpers/calculatePariScore";
+import { calculatePariScoreGroup } from "../domains/GameRules/helpers/calculatePariScoreGroup";
 import { useAiScores } from "./useAiScores";
 import { notReachable } from "../utils/notReachable";
+import {calculatePariScorePlayOff} from "../domains/GameRules/helpers/calculatePariScorePlayOff";
 
 type Params = {
   matches: Match[];
@@ -128,20 +129,26 @@ export const useUsersWithScoresTotal = ({
       }
 
       if (userPrediction.isPari) {
-        const pariScore = calculatePariScore({
-          userScore: score,
-          aiScore: aiScores[match.id],
-        });
 
         switch (match.type) {
           case "group":
-            pariPointsScoreGroup += pariScore;
-            pariScoresByGroupGameDays[match.gameDay - 1] += pariScore;
+            const pariScoreGroup = calculatePariScoreGroup({
+              userScore: score,
+              aiScore: aiScores[match.id],
+            });
+
+            pariPointsScoreGroup += pariScoreGroup;
+            pariScoresByGroupGameDays[match.gameDay - 1] += pariScoreGroup;
             break;
           case "play_off":
-            pariPointsScorePlayoff += pariScore;
+            const pariScorePlayOff = calculatePariScorePlayOff({
+              userScore: score,
+              aiScore: aiScores[match.id],
+            });
+
+            pariPointsScorePlayoff += pariScorePlayOff;
             pariScoresByPlayOffGameDays[match.gameDay - 1 - GAME_DAYS_GROUP] +=
-              pariScore;
+                pariScorePlayOff;
             break;
           default:
             notReachable(match);
