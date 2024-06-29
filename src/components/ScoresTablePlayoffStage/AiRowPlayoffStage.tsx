@@ -76,7 +76,9 @@ export const AiRowPlayoffStage = (props: Props) => {
           avatar={aiWithScore.avatar}
           winnerCount={aiWithScore.winnerCount}
         />
-        <TableCell align="center">{aiWithScore.exactScoresNumber}</TableCell>
+        <TableCell align="center">
+          {aiWithScore.exactScoresNumberPlayoffStage}
+        </TableCell>
         {aiWithScore.scoresByPlayOffGameDays.map((score, index) => {
           return (
             <TableCell

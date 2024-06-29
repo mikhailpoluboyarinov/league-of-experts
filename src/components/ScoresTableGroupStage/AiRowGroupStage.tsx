@@ -83,7 +83,9 @@ export const AiRowGroupStage = (props: Props) => {
           avatar={aiWithScore.avatar}
           winnerCount={aiWithScore.winnerCount}
         />
-        <TableCell align="center">{aiWithScore.exactScoresNumber}</TableCell>
+        <TableCell align="center">
+          {aiWithScore.exactScoresNumberGroupStage}
+        </TableCell>
         {aiWithScore.scoresByGroupGameDays.map((score, index) => {
           return (
             <TableCell
