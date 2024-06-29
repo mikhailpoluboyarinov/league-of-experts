@@ -64,6 +64,7 @@ export const ScoresTableGroupStage = ({
       return {
         userId: userWithScore.id,
         scores: userWithScore.scoresByGroupGameDays,
+        groupScores: 0,
         pariPoints: userWithScore.pariScoresByGroupGameDays,
         doublePoints: userWithScore.doublePointsScoreByGroupGameDays,
         exactScoresNumber: userWithScore.exactScoresNumber,

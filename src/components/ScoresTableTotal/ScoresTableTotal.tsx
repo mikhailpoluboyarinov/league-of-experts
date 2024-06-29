@@ -76,6 +76,7 @@ export const ScoresTableTotal = ({
           ? userWithScore.scoresByGroupGameDays
           : userWithScore.scoresByPlayOffGameDays,
         doublePoints: userWithScore.doublePointsScoreByGroupGameDays,
+        groupScores: userWithScore.userGroupScore,
         pariPoints: isGroupGameDay
           ? userWithScore.pariScoresByGroupGameDays
           : userWithScore.pariScoresByPlayOffGameDays,
@@ -84,7 +85,7 @@ export const ScoresTableTotal = ({
     }),
     gameDay: isGroupGameDay
       ? ((currentGameDay - 1) as GameDay)
-      : ((currentGameDay - GAME_DAYS_GROUP - 1) as GameDay),
+      : ((currentGameDay - GAME_DAYS_GROUP) as GameDay),
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
