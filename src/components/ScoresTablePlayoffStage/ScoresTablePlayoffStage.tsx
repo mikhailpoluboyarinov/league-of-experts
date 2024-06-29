@@ -66,6 +66,7 @@ export const ScoresTablePlayoffStage = ({
       return {
         userId: userWithScore.id,
         scores: userWithScore.scoresByPlayOffGameDays,
+        groupScores: 0,
         pariPoints: userWithScore.pariScoresByPlayOffGameDays,
         doublePoints: [],
         exactScoresNumber: userWithScore.exactScoresNumberPlayoffStage,
