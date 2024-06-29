@@ -6,6 +6,7 @@ type Params = {
   usersWithScores: Array<{
     userId: UserId;
     scores: number[];
+    groupScores: number;
     pariPoints: number[];
     doublePoints: number[]
     exactScoresNumber: number;
@@ -38,7 +39,7 @@ export const useUserWIthTotalScoreByGameDay = ({
 
     return {
       userId: userWithScores.userId,
-      totalScore: score + pariScore + doublePoints,
+      totalScore: userWithScores.groupScores + score + pariScore + doublePoints,
       exactScoresNumber: userWithScores.exactScoresNumber
     };
   });
