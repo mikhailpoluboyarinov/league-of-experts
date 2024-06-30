@@ -72,7 +72,7 @@ export const ScoresTablePlayoffStage = ({
         exactScoresNumber: userWithScore.exactScoresNumberPlayoffStage,
       };
     }),
-    gameDay: currentGameDay - GAME_DAYS_GROUP as GameDay,
+    gameDay: currentGameDay - GAME_DAYS_GROUP - 1 as GameDay,
   });
 
   const highestScoresPerDayPlayoff = useHighestScoresPerGameDay(
