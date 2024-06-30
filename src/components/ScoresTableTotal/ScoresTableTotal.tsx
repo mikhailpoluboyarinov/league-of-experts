@@ -86,7 +86,7 @@ export const ScoresTableTotal = ({
     }),
     gameDay: isGroupGameDay || isFirstPlayOffGameDay
       ? ((currentGameDay - 1) as GameDay)
-      : ((currentGameDay - GAME_DAYS_GROUP) as GameDay),
+      : ((currentGameDay - GAME_DAYS_GROUP - 1) as GameDay),
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
