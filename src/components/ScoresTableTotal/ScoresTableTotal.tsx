@@ -76,7 +76,7 @@ export const ScoresTableTotal = ({
         scores: isGroupGameDay || isFirstPlayOffGameDay
           ? userWithScore.scoresByGroupGameDays
           : userWithScore.scoresByPlayOffGameDays,
-        doublePoints: userWithScore.doublePointsScoreByGroupGameDays,
+        doublePoints: [],
         groupScores: isGroupGameDay || isFirstPlayOffGameDay ? 0 : userWithScore.userGroupScore,
         pariPoints: isGroupGameDay || isFirstPlayOffGameDay
           ? userWithScore.pariScoresByGroupGameDays
