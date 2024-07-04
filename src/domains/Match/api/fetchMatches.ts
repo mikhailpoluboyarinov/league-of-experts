@@ -3,31 +3,34 @@ import axios from "axios";
 import { API_HOST } from "../../../constants";
 
 export const fetchMatches = async (): Promise<Match[]> => {
-  const matchesDto = await axios.get(API_HOST + "api/matches");
-
-  if (!Array.isArray(matchesDto.data)) {
-    throw new Error(
-      "Ошибка валидации данных матчей: ожидаем массив, пришел не массив.",
-    );
-  }
-
   try {
-    return matchesDto.data.map((match) => {
-      return {
-        type: match.type,
-        id: match.id,
-        hostId: match.hostId,
-        guestId: match.guestId,
-        startTime: match.startTime,
-        gameDay: match.gameDay,
-        isClosedForPrediction: match.isClosedForPrediction,
-        isDoublePoints: match.isDoublePoints,
-        description: match.description,
-      };
-    });
-  } catch (e) {
-    throw new Error(
-      "Ошибка валидации данных матча: матч не соответствует типу.",
-    );
+    const response = await axios.get(API_HOST + "api/matches");
+
+    if (response.status !== 200) {
+      throw new Error(`Ошибка запроса: ${response.statusText}`);
+    }
+
+    const matchesDto = response.data;
+
+    if (!Array.isArray(matchesDto)) {
+      throw new Error(
+        "Ошибка валидации данных стран: ожидаем массив, пришел не массив.",
+      );
+    }
+
+    return matchesDto.map((match) => ({
+      type: match.type,
+      id: match.id,
+      hostId: match.hostId,
+      guestId: match.guestId,
+      startTime: match.startTime,
+      gameDay: match.gameDay,
+      isClosedForPrediction: match.isClosedForPrediction,
+      isDoublePoints: match.isDoublePoints,
+      description: match.description,
+    }));
+  } catch (error) {
+    console.error("Ошибка при получении данных матчей:", error);
+    throw error;
   }
 };
