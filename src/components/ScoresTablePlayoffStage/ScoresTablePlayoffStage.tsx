@@ -72,7 +72,8 @@ export const ScoresTablePlayoffStage = ({
         exactScoresNumber: userWithScore.exactScoresNumberPlayoffStage,
       };
     }),
-    gameDay: currentGameDay - GAME_DAYS_GROUP - 1 as GameDay,
+    gameDay: (currentGameDay - GAME_DAYS_GROUP - 1) as GameDay,
+    key: `${currentGameDay} - 1`,
   });
 
   const highestScoresPerDayPlayoff = useHighestScoresPerGameDay(
@@ -236,7 +237,7 @@ export const ScoresTablePlayoffStage = ({
                   );
 
                 return (
-                  <TableRow>
+                  <TableRow key={index}>
                     <TableCell
                       align="center"
                       style={{
@@ -269,6 +270,7 @@ export const ScoresTablePlayoffStage = ({
                           highestScoresPerDayPlayoff[index] === score;
                         return (
                           <TableCell
+                            key={index}
                             align="center"
                             style={{
                               backgroundColor: isUserWithHighestScorePerDay

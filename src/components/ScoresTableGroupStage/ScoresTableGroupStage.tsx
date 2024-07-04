@@ -71,6 +71,7 @@ export const ScoresTableGroupStage = ({
       };
     }),
     gameDay: Math.min(currentGameDay - 1, GAME_DAYS_GROUP) as GameDay,
+    key: `${currentGameDay}`,
   });
 
   const highestScoresPerDayGroup = useHighestScoresPerGameDay(
@@ -260,7 +261,7 @@ export const ScoresTableGroupStage = ({
                   );
 
                 return (
-                  <TableRow>
+                  <TableRow key={index}>
                     <TableCell
                       align="center"
                       style={{
@@ -293,6 +294,7 @@ export const ScoresTableGroupStage = ({
                           highestScoresPerDayGroup[index] === score;
                         return (
                           <TableCell
+                            key={index}
                             align="center"
                             style={{
                               backgroundColor: isUserWithHighestScorePerDay
