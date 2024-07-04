@@ -3,32 +3,35 @@ import axios from "axios";
 import { API_HOST } from "../../../constants";
 
 export const fetchUsers = async (): Promise<User[]> => {
-  const usersDto = await axios.get(API_HOST + "api/users");
-
-  if (!Array.isArray(usersDto.data)) {
-    throw new Error(
-      "Ошибка валидации данных юзеров: ожидаем массив, пришел не массив.",
-    );
-  }
-
   try {
-    return usersDto.data.map((user) => {
-      return {
-        id: user.id,
-        chatId: user.chatId,
-        name: user.firstName,
-        lastName: user.lastName,
-        photoUrl: "",
-        winnerCount: user.winnerCount || 0,
-        lastWinner: user.lastWinner,
-        winnerPrediction: user.winnerPrediction,
-        hotBallPoints: user.hotBallPoints || 0,
-        isAI: user.isAI,
-      };
-    });
-  } catch (e) {
-    throw new Error(
-      "Ошибка валидации данных юзера: матч не соответствует типу.",
-    );
+    const response = await axios.get(API_HOST + "api/users");
+
+    if (response.status !== 200) {
+      throw new Error(`Ошибка запроса: ${response.statusText}`);
+    }
+
+    const usersDto = response.data;
+
+    if (!Array.isArray(usersDto)) {
+      throw new Error(
+        "Ошибка валидации данных юзеров: ожидаем массив, пришел не массив.",
+      );
+    }
+
+    return usersDto.map((user) => ({
+      id: user.id,
+      chatId: user.chatId,
+      name: user.firstName,
+      lastName: user.lastName,
+      photoUrl: "",
+      winnerCount: user.winnerCount || 0,
+      lastWinner: user.lastWinner,
+      winnerPrediction: user.winnerPrediction,
+      hotBallPoints: user.hotBallPoints || 0,
+      isAI: user.isAI,
+    }));
+  } catch (error) {
+    console.error("Ошибка при получении данных юзеров:", error);
+    throw error;
   }
 };

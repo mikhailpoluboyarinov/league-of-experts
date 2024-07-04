@@ -4,16 +4,22 @@ import { API_HOST } from "../../../constants";
 import { notReachable } from "../../../utils/notReachable";
 
 export const fetchPredictions = async (): Promise<Prediction[]> => {
-  const predictionsDto = await axios.get(API_HOST + "api/predictions");
-
-  if (!Array.isArray(predictionsDto.data)) {
-    throw new Error(
-      "Ошибка валидации данных прогноз: ожидаем массив, пришел не массив.",
-    );
-  }
-
   try {
-    return predictionsDto.data.map((prediction) => {
+    const response = await axios.get(API_HOST + "api/predictions");
+
+    if (response.status !== 200) {
+      throw new Error(`Ошибка запроса: ${response.statusText}`);
+    }
+
+    const predictionsDto = response.data;
+
+    if (!Array.isArray(predictionsDto)) {
+      throw new Error(
+        "Ошибка валидации данных прогноз: ожидаем массив, пришел не массив.",
+      );
+    }
+
+    return predictionsDto.map((prediction) => {
       switch (prediction.type) {
         case "group":
           return {
@@ -42,9 +48,8 @@ export const fetchPredictions = async (): Promise<Prediction[]> => {
           return notReachable(prediction as never);
       }
     });
-  } catch (e) {
-    throw new Error(
-      "Ошибка валидации данных стран: прогноз не соответствует типу.",
-    );
+  } catch (error) {
+    console.error("Ошибка при получении данных предикшенов:", error);
+    throw error;
   }
 };
