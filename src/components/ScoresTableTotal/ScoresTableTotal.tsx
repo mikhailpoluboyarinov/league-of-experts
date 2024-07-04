@@ -67,26 +67,33 @@ export const ScoresTableTotal = ({
   );
 
   const isGroupGameDay = currentGameDay <= GAME_DAYS_GROUP;
-  const isFirstPlayOffGameDay = (currentGameDay - GAME_DAYS_GROUP) === 1;
+  const isFirstPlayOffGameDay = currentGameDay - GAME_DAYS_GROUP === 1;
 
   const usersWIthTotalScoreByPreviousGameDay = useUserWIthTotalScoreByGameDay({
     usersWithScores: usersWithScores.map((userWithScore) => {
       return {
         userId: userWithScore.id,
-        scores: isGroupGameDay || isFirstPlayOffGameDay
-          ? userWithScore.scoresByGroupGameDays
-          : userWithScore.scoresByPlayOffGameDays,
+        scores:
+          isGroupGameDay || isFirstPlayOffGameDay
+            ? userWithScore.scoresByGroupGameDays
+            : userWithScore.scoresByPlayOffGameDays,
         doublePoints: [],
-        groupScores: isGroupGameDay || isFirstPlayOffGameDay ? 0 : userWithScore.userGroupScore,
-        pariPoints: isGroupGameDay || isFirstPlayOffGameDay
-          ? userWithScore.pariScoresByGroupGameDays
-          : userWithScore.pariScoresByPlayOffGameDays,
+        groupScores:
+          isGroupGameDay || isFirstPlayOffGameDay
+            ? 0
+            : userWithScore.userGroupScore,
+        pariPoints:
+          isGroupGameDay || isFirstPlayOffGameDay
+            ? userWithScore.pariScoresByGroupGameDays
+            : userWithScore.pariScoresByPlayOffGameDays,
         exactScoresNumber: userWithScore.exactScoresNumber,
       };
     }),
-    gameDay: isGroupGameDay || isFirstPlayOffGameDay
-      ? ((currentGameDay - 1) as GameDay)
-      : ((currentGameDay - GAME_DAYS_GROUP - 1) as GameDay),
+    gameDay:
+      isGroupGameDay || isFirstPlayOffGameDay
+        ? ((currentGameDay - 1) as GameDay)
+        : ((currentGameDay - GAME_DAYS_GROUP - 1) as GameDay),
+    key: `${currentGameDay}-${isGroupGameDay}-${isFirstPlayOffGameDay}`,
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
@@ -281,6 +288,7 @@ export const ScoresTableTotal = ({
                   .map((item, index) => {
                     return (
                       <TableCell
+                        key={index}
                         align="center"
                         style={{ ...TABLE_CELL_STYLE, width: "4%" }}
                       >
