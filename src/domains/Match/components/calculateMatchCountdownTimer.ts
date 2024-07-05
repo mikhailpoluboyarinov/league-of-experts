@@ -19,6 +19,10 @@ export const calculateMatchCountdownTimer = (startTimeMatch: number) => {
   if (days > 0) {
     return null;
   } else {
-    return `${hours} : ${minutes} : ${seconds}`;
+    const formattedHours = String(hours).padStart(2, "0");
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(seconds).padStart(2, "0");
+
+    return `${formattedHours} : ${formattedMinutes} : ${formattedSeconds}`;
   }
 };
