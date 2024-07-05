@@ -20,6 +20,32 @@ export const TableCellNameAvatar: FC<TableCellNameAvatarProps> = ({
   avatar,
   winnerCount,
 }) => {
+  const starsPositions = [
+    [{ left: "-4px", top: "0px" }],
+    [
+      { left: "-4px", top: "4px" },
+      { right: "4px", top: "0px" },
+    ],
+    [
+      { left: "-4px", top: "4px" },
+      { right: "4px", top: "0px" },
+      { left: "12px", top: `-8px` },
+    ],
+    [
+      { left: "-4px", top: "4px" },
+      { right: "4px", top: "0px" },
+      { left: "12px", top: "-8px" },
+      { left: "-8px", top: "16px" },
+    ],
+    [
+      { left: "-4px", top: "4px" },
+      { right: "4px", top: "0px" },
+      { left: "12px", top: "-8px" },
+      { left: "-8px", top: "16px" },
+      { right: "2px", top: "18px" },
+    ],
+  ];
+
   const stars = Array(Math.min(winnerCount, 5))
     .fill(null)
     .map((_, index) => (
@@ -29,8 +55,7 @@ export const TableCellNameAvatar: FC<TableCellNameAvatarProps> = ({
           color: CUSTOM_COLORS.gold,
           fontSize: "medium",
           position: "absolute",
-          top: `${index * 4}px`,
-          left: "-4px",
+          ...starsPositions[index][index],
           zIndex: "1",
         }}
       />
