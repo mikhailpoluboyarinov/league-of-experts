@@ -15,6 +15,8 @@ import Markdown from "react-markdown";
 import { formatRelative } from "date-fns";
 import { ru } from "date-fns/locale";
 import { TimeStamp } from "../../domains/Date";
+import { calculateMatchCountdownTimer } from "../../domains/Match/components/calculateMatchCountdownTimer";
+import { useEffect, useState } from "react";
 
 type UpcomingMatchCardProps = {
   hostTeamId: CountryId;
@@ -33,6 +35,24 @@ export const UpcomingMatchCard = ({
   countries,
   startTime,
 }: UpcomingMatchCardProps) => {
+  const [matchTimer, setMatchTimer] = useState<string | null>(null);
+
+  useEffect(() => {
+    const updateMatchTimer = () => {
+      const countdown = calculateMatchCountdownTimer(startTime);
+      setMatchTimer(countdown);
+    };
+
+    // Устанавливаем интервал для обновления таймера каждую секунду
+    const interval = setInterval(updateMatchTimer, 1000);
+
+    // Первоначальное обновление таймера сразу после рендера компонента
+    updateMatchTimer();
+
+    // Очищаем интервал
+    return () => clearInterval(interval);
+  }, [startTime]);
+
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const hostTeam = countries.find((country) => country.id === hostTeamId);
 
@@ -74,7 +94,15 @@ export const UpcomingMatchCard = ({
         )}
         {isSmallScreen ? (
           <Typography gutterBottom variant="subtitle2">
-            {formatRelative(startTime * 1000, new Date(), { locale: ru })}
+            {matchTimer !== null ? (
+              <div>{matchTimer}</div>
+            ) : (
+              <div>
+                {formatRelative(new Date(startTime * 1000), new Date(), {
+                  locale: ru,
+                })}
+              </div>
+            )}
           </Typography>
         ) : (
           ""
@@ -127,7 +155,15 @@ export const UpcomingMatchCard = ({
                 component="div"
                 style={{ margin: "0 16px" }}
               >
-                {formatRelative(startTime * 1000, new Date(), { locale: ru })}
+                {matchTimer !== null ? (
+                  <div>{matchTimer}</div>
+                ) : (
+                  <div>
+                    {formatRelative(new Date(startTime * 1000), new Date(), {
+                      locale: ru,
+                    })}
+                  </div>
+                )}
               </Typography>
               <Typography
                 gutterBottom
