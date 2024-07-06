@@ -13,6 +13,7 @@ import {
   Box,
   styled,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { Country } from "../../domains/Country";
 import { Match } from "../../domains/Match";
@@ -37,6 +38,7 @@ type Props = {
 
 export const CurrentMatchCard = (props: Props) => {
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery("(max-width: 650px)");
 
   const currentMatchResult = props.results.find(
     (result) => result.matchId === props.currentMatch.id,
@@ -134,7 +136,7 @@ export const CurrentMatchCard = (props: Props) => {
             />
             <Typography
               gutterBottom
-              variant="h5"
+              variant={isSmallScreen ? "h6" : "h5"}
               component="div"
               style={{ fontWeight: "bold" }}
             >
@@ -159,7 +161,7 @@ export const CurrentMatchCard = (props: Props) => {
             />
             <Typography
               gutterBottom
-              variant="h5"
+              variant={isSmallScreen ? "h6" : "h5"}
               component="div"
               style={{ fontWeight: "bold" }}
             >
@@ -215,26 +217,26 @@ export const CurrentMatchCard = (props: Props) => {
                       {prediction.hostScore} : {prediction.guestScore}{" "}
                       {prediction.isPari ? " (ПАРИ)" : ""}
                       {(() => {
-                        switch (prediction.type){
+                        switch (prediction.type) {
                           case "group":
-                            return null
+                            return null;
                           case "play_off":
-                            switch (prediction.extra){
+                            switch (prediction.extra) {
                               case "no_extra":
-                                return null
+                                return null;
                               case "host_extra":
-                                return " (ДОП.ХОЗ)"
+                                return " (ДОП.ХОЗ)";
                               case "guest_extra":
-                                return " (ДОП.ГОСТИ)"
+                                return " (ДОП.ГОСТИ)";
                               case "host_penalty":
-                                return " (ПЕН.ХОЗ)"
+                                return " (ПЕН.ХОЗ)";
                               case "guest_penalty":
-                                return " (ПЕН.ГОСТИ)"
+                                return " (ПЕН.ГОСТИ)";
                               default:
-                                return null
+                                return null;
                             }
                           default:
-                            return notReachable(prediction)
+                            return notReachable(prediction);
                         }
                       })()}
                     </TableCell>

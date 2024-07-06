@@ -121,7 +121,7 @@ export const UpcomingMatchCard = ({
             />
             <Typography
               gutterBottom
-              variant="h5"
+              variant={isSmallScreen ? "h6" : "h5"}
               component="div"
               style={{
                 fontWeight: "bold",
@@ -184,7 +184,7 @@ export const UpcomingMatchCard = ({
             />
             <Typography
               gutterBottom
-              variant="h5"
+              variant={isSmallScreen ? "h6" : "h5"}
               component="div"
               style={{
                 fontWeight: "bold",
