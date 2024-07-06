@@ -129,7 +129,7 @@ export const ScoresTableGroupStage = ({
             winnerCount={user.user.winnerCount}
           />
           <TableCell align="center" style={{ width: "25%" }}>
-            {user.user.totalScore}
+            {user.user.userGroupScore}
           </TableCell>
         </TableRow>
         <TableRow>
