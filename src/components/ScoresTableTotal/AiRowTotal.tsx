@@ -62,6 +62,7 @@ export const AiRowTotal = (props: Props) => {
         <TableCell />
         <TableCell />
         <TableCell />
+        <TableCell />
         {/*<TableCell />*/}
         <TableCell />
       </TableRow>
@@ -115,6 +116,9 @@ export const AiRowTotal = (props: Props) => {
           {aiWithScore.pariScoresTotal}
         </TableCell>
         */}
+        <TableCell align="center" style={{ width: "7%", color: CUSTOM_COLORS.orange }}>
+          {aiWithScore.winnerPointsScore}
+        </TableCell>
         <TableCell align="center" style={{ width: "7%" }}>
           {aiWithScore.totalScore}
         </TableCell>

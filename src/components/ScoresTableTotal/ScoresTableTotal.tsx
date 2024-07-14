@@ -311,6 +311,12 @@ export const ScoresTableTotal = ({
                    */}
                 <TableCell
                   align="center"
+                  style={{ ...TABLE_CELL_STYLE, color: CUSTOM_COLORS.orange }}
+                >
+                  {isMediumScreen ? "ПП" : "ПП"}
+                </TableCell>
+                <TableCell
+                  align="center"
                   style={{ ...TABLE_CELL_STYLE, width: "7%" }}
                 >
                   {isMediumScreen ? "О" : "Очки"}
@@ -396,6 +402,9 @@ export const ScoresTableTotal = ({
                   {user.pariPointsScore}
                 </TableCell>
                    */}
+                    <TableCell align="center" style={{ color: CUSTOM_COLORS.orange }}>
+                      {user.winnerPointsScore}
+                    </TableCell>
                     <TableCell align="center" style={{ width: "7%" }}>
                       {user.totalScore}
                     </TableCell>
