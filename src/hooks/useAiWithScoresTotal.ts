@@ -32,6 +32,7 @@ export type AiWithScoresTotal = {
   pariScoresPlayoff: number;
   pariScoresTotal: number;
   hotBallPointsScore: number;
+  winnerPointsScore: number;
   exactScoresNumber: number;
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;
@@ -83,6 +84,7 @@ export const useAiWithScoresTotal = ({
   let exactScoresNumberPlayoffStage: number = 0;
   // Кол-во очков за hotBalls
   let hotBallPointsScoreTotal: number = 0;
+  let winnerPointsScoreTotal: number = 0;
   // Итоговое кол-во очков за групповой этап
   let aiGroupScore: number = 0;
   // Итоговое кол-во очков за плейофф этап
@@ -111,6 +113,10 @@ export const useAiWithScoresTotal = ({
     // Если есть результат hotBalls, перезаписываем его
     if (aiUser.hotBallPoints) {
       hotBallPointsScoreTotal = aiUser.hotBallPoints;
+    }
+
+    if (aiUser.winnerPoints) {
+      winnerPointsScoreTotal = aiUser.winnerPoints;
     }
 
     // Получаем данные матча,чтобы понять к какому игровому дню он относится
@@ -189,6 +195,7 @@ export const useAiWithScoresTotal = ({
     winnerPrediction: aiUser.winnerPrediction,
     doublePointsScore,
     hotBallPointsScore: hotBallPointsScoreTotal,
+    winnerPointsScore: winnerPointsScoreTotal,
     pariScoresGroup: aiPariScoresGroup,
     pariScoresPlayoff: aiPariScoresPlayoff,
     pariScoresTotal: aiPariScoresTotal,
@@ -205,6 +212,7 @@ export const useAiWithScoresTotal = ({
       aiTotalScore +
       doublePointsScore +
       aiPariScoresTotal +
+      winnerPointsScoreTotal +
       hotBallPointsScoreTotal,
     scoresByGroupGameDays,
     scoresByPlayOffGameDays,

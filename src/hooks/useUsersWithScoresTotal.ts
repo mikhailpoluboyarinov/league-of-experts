@@ -34,6 +34,7 @@ export type UserWithScoresTotal = {
   pariPointsScorePlayoff: number;
   pariPointsScore: number;
   hotBallPointsScore: number;
+  winnerPointsScore: number;
   exactScoresNumber: number;
   exactScoresNumberGroupStage: number;
   exactScoresNumberPlayoffStage: number;
@@ -66,6 +67,8 @@ export const useUsersWithScoresTotal = ({
     let pariPointsScorePlayoff: number = 0;
     // Кол-во очков за hotBalls
     let hotBallPointsScoreTotal: number = 0;
+    // Кол-во очков за прогноз на победителя
+    let winnerPointsScoreTotal: number = 0;
     // Кол-во точно угаданных результатов
     let exactScoresNumber: number = 0;
     // Кол-во точно угаданных групповых результатов
@@ -160,6 +163,11 @@ export const useUsersWithScoresTotal = ({
         hotBallPointsScoreTotal = user.hotBallPoints;
       }
 
+      // Записываем очки за прогноз на победителя
+      if (user.winnerPoints) {
+        winnerPointsScoreTotal = user.winnerPoints;
+      }
+
       // Если пользователь угадал точный счет, обновляем кол-во точно угаданных результатов
       if (userPredictionResult.matchState.type === "exact_score") {
         exactScoresNumber += 1;
@@ -214,6 +222,7 @@ export const useUsersWithScoresTotal = ({
       pariPointsScorePlayoff,
       pariPointsScore: pariPointsScoreGroup + pariPointsScorePlayoff,
       hotBallPointsScore: hotBallPointsScoreTotal,
+      winnerPointsScore: winnerPointsScoreTotal,
       exactScoresNumber,
       exactScoresNumberGroupStage,
       exactScoresNumberPlayoffStage,
@@ -228,7 +237,8 @@ export const useUsersWithScoresTotal = ({
         doublePointsScore +
         pariPointsScoreGroup +
         pariPointsScorePlayoff +
-        hotBallPointsScoreTotal,
+        hotBallPointsScoreTotal +
+        winnerPointsScoreTotal,
       scoresByGroupGameDays,
       scoresByPlayOffGameDays,
       pariScoresByGroupGameDays,
