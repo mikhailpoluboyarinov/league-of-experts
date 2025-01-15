@@ -6,4 +6,3 @@
   And of course the most important thing is to identify the strongest football
   forecaster).
 
-> The beginning of the project creation 01.04.24
