@@ -60,14 +60,7 @@ export const TableCellNameAvatar: FC<TableCellNameAvatarProps> = ({
         }}
       />
     ));
-
-  let photoUrl = "";
-
-  try {
-    photoUrl = require(`../../images/${id}.jpg`);
-  } catch (error) {
-    photoUrl = require(`../../images/unknownUser.jpg`);
-  }
+  const photoUrl = avatar || "";
 
   return (
     <>

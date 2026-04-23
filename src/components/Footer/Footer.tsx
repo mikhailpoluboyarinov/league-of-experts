@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { CUSTOM_COLORS } from "../../styles/colors";
 import { Telegram } from "@mui/icons-material";
-import { ReactComponent as YaMusic } from "../../images/icon_YaMusic.svg";
+import yaMusicIcon from "../../images/icon_YaMusic.svg";
 
 export const Footer = () => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
@@ -43,7 +43,7 @@ export const Footer = () => {
             underline="none"
             style={{ marginRight: isSmallScreen ? `15px` : `60px` }}
           >
-            <YaMusic style={{ width: "24px", height: "24px" }} />
+            <img src={yaMusicIcon} alt="Yandex Music" style={{ width: "24px", height: "24px" }} />
           </Link>
         </Box>
       </Toolbar>

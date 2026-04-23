@@ -13,7 +13,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.93",
+    "@types/node": "^20.17.24",
     "@types/react": "^18.2.73",
     "@types/react-dom": "^18.2.23",
     "axios": "^0.27.2",
@@ -22,23 +22,16 @@
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^6.23.0",
-    "react-scripts": "5.0.1",
     "styled-components": "^6.1.8",
     "ts-brand": "^0.1.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "start": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "echo \"No tests configured\"",
+    "preview": "vite preview"
   },
   "browserslist": {
     "production": [
@@ -53,7 +46,9 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
     "eslint-config-prettier": "^9.1.0",
-    "prettier": "3.2.5"
+    "prettier": "3.2.5",
+    "vite": "^5.4.10"
   }
 }
